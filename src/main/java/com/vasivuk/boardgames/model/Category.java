@@ -1,6 +1,8 @@
 package com.vasivuk.boardgames.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 @Entity
@@ -10,6 +12,9 @@ public class Category {
     @GeneratedValue
     @Id
     private Long id;
+
+    @NotBlank(message = "Name is mandatory")
+    @Size(min = 1, max = 30)
     private String name;
 
     @ManyToMany(mappedBy = "categories")
@@ -18,10 +23,8 @@ public class Category {
     public Category() {
     }
 
-    public Category(Long id, String name, Set<Product> products) {
-        this.id = id;
+    public Category(String name) {
         this.name = name;
-        this.products = products;
     }
 
     public Long getId() {
@@ -53,7 +56,6 @@ public class Category {
         return "Category{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", products=" + products +
                 '}';
     }
 }
