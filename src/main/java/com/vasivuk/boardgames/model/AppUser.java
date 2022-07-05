@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "users")
 @NoArgsConstructor
 @Data
-public class User {
+public class AppUser {
 
     @GeneratedValue
     @Id
@@ -21,9 +21,12 @@ public class User {
     private String email;
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
     private List<Order> orders;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
     private List<Review> reviews;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private UserAuthorizationLevel authorizationLevel;
 }

@@ -39,7 +39,7 @@ public class Review {
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_review"))
-    private User user;
+    private AppUser appUser;
 
     /**
      * Proizvod nad kojim se piše recenzija

@@ -1,6 +1,6 @@
 package com.vasivuk.boardgames.controller;
 
-import com.vasivuk.boardgames.model.User;
+import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,18 +25,18 @@ public class UserController {
     }
 
     @PostMapping("/api/user")
-    public User createUser(@RequestBody User user) {
-        return service.createUser(user);
+    public AppUser createUser(@RequestBody AppUser appUser) {
+        return service.createUser(appUser);
     }
 
     @PostMapping("/api/login")
-    public User login(@RequestBody User user) {
-        return service.login(user);
+    public AppUser login(@RequestBody AppUser appUser) {
+        return service.login(appUser);
     }
 
     @PostMapping("/api/logout")
-    public void logout(@RequestBody User user) {
-        service.logout(user);
+    public void logout(@RequestBody AppUser appUser) {
+        service.logout(appUser);
     }
 
 }

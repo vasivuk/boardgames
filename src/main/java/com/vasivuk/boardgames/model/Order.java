@@ -24,7 +24,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", foreignKey = @ForeignKey(name = "fk_user_order"))
-    private User user;
+    private AppUser appUser;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "order")
     private List<OrderItem> orderItems;

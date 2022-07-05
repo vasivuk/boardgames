@@ -1,11 +1,11 @@
 package com.vasivuk.boardgames.service;
 
-import com.vasivuk.boardgames.model.User;
+import com.vasivuk.boardgames.model.AppUser;
 
 public interface IUserService {
-    User createUser(User user);
+    AppUser createUser(AppUser appUser);
 
-    User login(User user);
+    AppUser login(AppUser appUser);
 
-    void logout(User user);
+    void logout(AppUser appUser);
 }
