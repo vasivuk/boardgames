@@ -47,12 +47,10 @@ public class MyAuthorizationFilter extends OncePerRequestFilter {
                 try {
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String email = decodedJWT.getSubject();
-                    String[] authorities =decodedJWT.getClaim("authorities").asArray(String.class);
-
+                    String authority = decodedJWT.getClaim("authority").asString();
                     Collection<SimpleGrantedAuthority> grantedAuthorities = new ArrayList<>();
-                    stream(authorities).forEach(authority -> {
-                        grantedAuthorities.add(new SimpleGrantedAuthority(authority));
-                    });
+                    grantedAuthorities.add(new SimpleGrantedAuthority(authority));
+
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(email, null, grantedAuthorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
@@ -66,6 +64,8 @@ public class MyAuthorizationFilter extends OncePerRequestFilter {
                     response.setContentType(APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), error);
                 }
+            } else {
+                filterChain.doFilter(request, response);
             }
         }
     }

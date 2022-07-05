@@ -1,14 +1,17 @@
 package com.vasivuk.boardgames.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class AppUser {
 
@@ -21,12 +24,19 @@ public class AppUser {
     private String email;
     private String password;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
-    private List<Order> orders;
+    public AppUser(String firstName, String lastName, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+    }
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
-    private List<Review> reviews;
+    private List<Order> orders = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
+    private List<Review> reviews = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private UserAuthorizationLevel authorizationLevel;
+    private UserRole userRole;
 }

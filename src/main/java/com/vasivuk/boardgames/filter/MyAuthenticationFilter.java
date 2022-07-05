@@ -80,7 +80,7 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
     }
 
     /**
-     * Kreira token za pristup websajtu.
+     * Kreira token za pristup vebsajtu.
      * @param user
      * @param algorithm
      * @return
@@ -89,7 +89,7 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION))
-                .withClaim("authority", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim("authority", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).get(0))
                 .sign(algorithm);
     }
 
