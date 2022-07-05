@@ -21,4 +21,6 @@ public class ProductController {
         return service.findAllProducts();
     }
 
+    //TODO: Other product routes, search
+
 }

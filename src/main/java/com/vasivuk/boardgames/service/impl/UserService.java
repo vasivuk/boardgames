@@ -48,11 +48,6 @@ public class UserService implements IUserService, UserDetailsService {
     }
 
     @Override
-    public void logout(AppUser appUser) {
-
-    }
-
-    @Override
     public AppUser getUser(String email) {
         log.info("Fetching user {}", email);
         return userRepository.findByEmail(email);
