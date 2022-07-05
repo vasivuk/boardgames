@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService implements ICategoryService {
@@ -19,12 +20,31 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
+    public List<Category> findAllCategories() {
+        return repository.findAll();
+    }
+
+    @Override
+    public List<Category> findCategoriesByCriteria(Category category) {
+        return null;
+    }
+
+    @Override
     public void createCategory(Category category) {
         repository.save(category);
     }
 
     @Override
-    public List<Category> findAll() {
-        return repository.findAll();
+    public void updateCategory(Category category) {
+        Optional<Category> optionalCategory = repository.findById(category.getId());
+        if(optionalCategory.isPresent()) {
+            optionalCategory.get().setName(category.getName());
+        }
     }
+
+    @Override
+    public void deleteCategory(Category category) {
+        repository.delete(category);
+    }
+
 }
