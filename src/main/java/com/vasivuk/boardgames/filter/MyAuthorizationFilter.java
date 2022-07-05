@@ -22,7 +22,6 @@ import java.util.*;
 import static com.vasivuk.boardgames.configuration.Constants.BEARER;
 import static com.vasivuk.boardgames.configuration.Constants.SECRET;
 import static com.vasivuk.boardgames.configuration.Routes.*;
-import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
@@ -34,7 +33,9 @@ public class MyAuthorizationFilter extends OncePerRequestFilter {
         List<String> allowedRoutes = Arrays.asList(
                 LOGIN,
                 REGISTER,
-                REFRESH_TOKEN
+                REFRESH_TOKEN,
+                PRODUCT_COMMON,
+                CATEGORY_COMMON
         );
         if (allowedRoutes.contains(request.getServletPath())) {
             filterChain.doFilter(request, response);

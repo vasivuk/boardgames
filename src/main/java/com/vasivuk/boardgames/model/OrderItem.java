@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Data
 public class OrderItem {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private int quantity;

@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class Order {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     @Column

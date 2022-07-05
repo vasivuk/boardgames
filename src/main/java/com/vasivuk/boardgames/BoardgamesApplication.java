@@ -27,22 +27,22 @@ public class BoardgamesApplication {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Bean
-	public CommandLineRunner run(UserService userService) throws Exception {
-		return args -> {
-			userService.saveRole(new UserRole(null, Roles.ROLE_ADMIN));
-			userService.saveRole(new UserRole(null, Roles.ROLE_USER));
-
-			userService.saveUser(new AppUser("John", "Travolta", "john@gmail.com", "1234"));
-			userService.saveUser(new AppUser("Will", "Smith", "will@gmail.com", "1234"));
-			userService.saveUser(new AppUser("Jim", "Carry", "jim@gmail.com", "1234"));
-			userService.saveUser(new AppUser("Arnold",  "Schwarzenegger", "arnold@gmail.com", "1234"));
-
-			userService.assignRoleToUser("john@gmail.com", Roles.ROLE_USER);
-			userService.assignRoleToUser("will@gmail.com", Roles.ROLE_ADMIN);
-			userService.assignRoleToUser("jim@gmail.com", Roles.ROLE_USER);
-			userService.assignRoleToUser("arnold@gmail.com", Roles.ROLE_USER);
-
-		};
-	}
+//	@Bean
+//	public CommandLineRunner run(UserService userService) throws Exception {
+//		return args -> {
+//			userService.saveRole(new UserRole(null, Roles.ROLE_ADMIN));
+//			userService.saveRole(new UserRole(null, Roles.ROLE_USER));
+//
+//			userService.saveUser(new AppUser("John", "Travolta", "john@gmail.com", "1234"));
+//			userService.saveUser(new AppUser("Will", "Smith", "will@gmail.com", "1234"));
+//			userService.saveUser(new AppUser("Jim", "Carry", "jim@gmail.com", "1234"));
+//			userService.saveUser(new AppUser("Arnold",  "Schwarzenegger", "arnold@gmail.com", "1234"));
+//
+//			userService.assignRoleToUser("john@gmail.com", Roles.ROLE_USER);
+//			userService.assignRoleToUser("will@gmail.com", Roles.ROLE_ADMIN);
+//			userService.assignRoleToUser("jim@gmail.com", Roles.ROLE_USER);
+//			userService.assignRoleToUser("arnold@gmail.com", Roles.ROLE_USER);
+//
+//		};
+//	}
 }

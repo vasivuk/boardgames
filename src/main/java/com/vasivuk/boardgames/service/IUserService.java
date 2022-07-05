@@ -8,8 +8,6 @@ import java.util.List;
 public interface IUserService {
     AppUser saveUser(AppUser appUser);
 
-    AppUser login(AppUser appUser);
-
     void logout(AppUser appUser);
 
     UserRole saveRole(UserRole level);

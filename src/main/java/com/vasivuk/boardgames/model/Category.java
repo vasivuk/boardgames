@@ -1,5 +1,6 @@
 package com.vasivuk.boardgames.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,7 +18,7 @@ import java.util.Set;
 @Data
 public class Category {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
 
@@ -24,7 +26,7 @@ public class Category {
     @Size(min = 1, max = 30)
     private String name;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "categories")
-    private Set<Product> products;
-
+    private List<Product> products;
 }

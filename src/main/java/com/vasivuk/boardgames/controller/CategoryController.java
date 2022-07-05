@@ -2,7 +2,7 @@ package com.vasivuk.boardgames.controller;
 
 import com.vasivuk.boardgames.model.Category;
 import com.vasivuk.boardgames.service.impl.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -14,7 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.vasivuk.boardgames.configuration.Routes.*;
+
 @RestController
+@RequiredArgsConstructor
 public class CategoryController {
     /*
     -GetAllCategories(List<Category>)
@@ -26,17 +29,17 @@ public class CategoryController {
      */
     private final CategoryService service;
 
-    @Autowired
-    public CategoryController(CategoryService service) {
-        this.service = service;
-    }
-
-    @GetMapping("/api/category")
+    @GetMapping(CATEGORY_COMMON)
     List<Category> getAllCategories() {
         return service.findAllCategories();
     }
 
-    @PostMapping("/api/category")
+//    @GetMapping(CATEGORY_COMMON)
+//    Category findCategories(@RequestParam String search) {
+//        return null;
+//    }
+
+    @PostMapping(CATEGORY_COMMON+CREATE)
     ResponseEntity<String> createCategory(@RequestBody @Valid Category category) {
         service.createCategory(category);
         return ResponseEntity.ok("Category is valid");

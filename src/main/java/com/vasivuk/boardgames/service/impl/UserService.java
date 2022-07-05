@@ -1,5 +1,6 @@
 package com.vasivuk.boardgames.service.impl;
 
+import com.vasivuk.boardgames.configuration.Roles;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.UserRole;
 import com.vasivuk.boardgames.repository.UserRepository;
@@ -32,16 +33,18 @@ public class UserService implements IUserService, UserDetailsService {
 
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Kreira novi korisnički nalog. Postavlja ulogu u sistemu na "User". Čuva nalog u bazi.
+     * @param appUser korisnik
+     * @return vraća sačuvanog korisnika
+     */
     @Override
     public AppUser saveUser(AppUser appUser) {
         appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
+        UserRole role = roleRepository.findByName(Roles.ROLE_USER);
+        appUser.setUserRole(role);
+        log.info("Saving user {} " + appUser.getEmail());
         return userRepository.save(appUser);
-    }
-
-
-    @Override
-    public AppUser login(AppUser appUser) {
-        return null;
     }
 
     @Override
@@ -63,6 +66,7 @@ public class UserService implements IUserService, UserDetailsService {
 
     @Override
     public UserRole saveRole(UserRole role) {
+        log.info("Saving role {}.", role.getName());
         return roleRepository.save(role);
     }
 

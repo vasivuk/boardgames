@@ -1,5 +1,6 @@
 package com.vasivuk.boardgames.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @Data
 public class AppUser {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private String firstName;
@@ -31,9 +32,11 @@ public class AppUser {
         this.password = password;
     }
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
     private List<Order> orders = new ArrayList<>();
 
+    @JsonManagedReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "appUser")
     private List<Review> reviews = new ArrayList<>();
 

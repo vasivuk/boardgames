@@ -1,5 +1,7 @@
 package com.vasivuk.boardgames.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +16,7 @@ import java.util.Set;
 @Data
 public class Product {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
     private String name;
@@ -25,10 +27,12 @@ public class Product {
     private double complexity;
     private double rating;
 
+    @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<Review> reviews;
 
-    @ManyToMany
+    @JsonManagedReference
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Category> categories;
 
 }
