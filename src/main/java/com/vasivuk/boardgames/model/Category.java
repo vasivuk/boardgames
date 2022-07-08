@@ -1,6 +1,5 @@
 package com.vasivuk.boardgames.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,8 +7,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "categories")
@@ -18,15 +15,24 @@ import java.util.Set;
 @Data
 public class Category {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
+    @SequenceGenerator(
+            name = "sequence_category",
+            sequenceName = "sequence_category",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence_category"
+    )
+    private Long categoryId;
 
     @NotBlank(message = "Name is mandatory")
     @Size(min = 1, max = 30)
+    @Column(unique = true)
     private String name;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "categories")
-    private List<Product> products;
+    @Size(max = 1000)
+    private String description;
+
 }

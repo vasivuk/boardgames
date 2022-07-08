@@ -2,7 +2,6 @@ package com.vasivuk.boardgames.security;
 
 import com.vasivuk.boardgames.filter.MyAuthenticationFilter;
 import com.vasivuk.boardgames.filter.MyAuthorizationFilter;
-import com.vasivuk.boardgames.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         myAuthenticationFilter.setFilterProcessesUrl(LOGIN);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().mvcMatchers(LOGIN, REFRESH_TOKEN, REGISTER, PRODUCT_COMMON, CATEGORY_COMMON).permitAll();
+        http.authorizeRequests().mvcMatchers(ALLOWED_ROUTES).permitAll();
         http.authorizeRequests().mvcMatchers(HttpMethod.POST,"/api/products").hasAuthority("ADMIN_AUTH");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(myAuthenticationFilter);

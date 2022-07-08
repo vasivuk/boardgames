@@ -1,18 +1,15 @@
 package com.vasivuk.boardgames.controller;
 
+import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
+import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.Category;
-import com.vasivuk.boardgames.service.impl.CategoryService;
+import com.vasivuk.boardgames.service.CategoryService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.vasivuk.boardgames.configuration.Routes.*;
 
@@ -27,36 +24,21 @@ public class CategoryController {
     -UpdateCategory(Category)
     -DeleteCategory(Category)
      */
-    private final CategoryService service;
+    private final CategoryService categoryService;
 
     @GetMapping(CATEGORY_COMMON)
-    List<Category> getAllCategories() {
-        return service.findAllCategories();
+    public List<Category> fetchCategories() {
+        return categoryService.findAllCategories();
     }
 
-//    @GetMapping(CATEGORY_COMMON)
-//    Category findCategories(@RequestParam String search) {
-//        return null;
-//    }
-
-    //TODO: Category search
-
-    @PostMapping(CATEGORY_COMMON+CREATE)
-    ResponseEntity<String> createCategory(@RequestBody @Valid Category category) {
-        service.createCategory(category);
-        return ResponseEntity.ok("Category is valid");
+    @GetMapping(CATEGORY_COMMON + NAME)
+    public List<Category> fetchCategoriesByName(@RequestParam("search") String categoryName) throws EntityNotFoundException {
+        return categoryService.fetchCategoriesByName(categoryName);
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
+    @PostMapping(CATEGORY_COMMON + CREATE)
+    public Category createCategory(@RequestBody @Valid Category category) throws EntityAlreadyExistsException {
+        return categoryService.createCategory(category);
     }
+
 }

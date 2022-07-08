@@ -1,19 +1,10 @@
 package com.vasivuk.boardgames;
 
-import com.vasivuk.boardgames.configuration.Roles;
-import com.vasivuk.boardgames.model.AppUser;
-import com.vasivuk.boardgames.model.Category;
-import com.vasivuk.boardgames.model.UserRole;
-import com.vasivuk.boardgames.repository.CategoryRepository;
-import com.vasivuk.boardgames.service.impl.UserService;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import java.util.ArrayList;
 
 @SpringBootApplication
 public class BoardgamesApplication {

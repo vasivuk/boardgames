@@ -21,6 +21,16 @@ public class Routes {
     public static final String ORDER_COMMON = "/api/users/{id}/orders";
 
 
-    public static final String SPECIFIC = "/{id}";
+    public static final String ID = "/{id}";
     public static final String CREATE = "/create";
+    public static final String NAME = "/name";
+
+    public static final String[] ALLOWED_ROUTES = {
+            LOGIN,
+            REFRESH_TOKEN,
+            REGISTER,
+            PRODUCT_COMMON,
+            CATEGORY_COMMON,
+            CATEGORY_COMMON+NAME
+    };
 }

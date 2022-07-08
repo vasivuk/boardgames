@@ -6,8 +6,10 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vasivuk.boardgames.configuration.Constants;
+import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.model.AppUser;
-import com.vasivuk.boardgames.service.impl.UserService;
+import com.vasivuk.boardgames.model.dto.AppUserDTO;
+import com.vasivuk.boardgames.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.util.MimeTypeUtils;
@@ -37,21 +39,16 @@ public class UserController {
     -Logout(User)
     -EditUserData(User)
      */
-    private final UserService service;
+    private final UserServiceImpl service;
 
     @GetMapping("/api/users")
     public List<AppUser> getUsers() {
         return service.getUsers();
     }
 
-    @PostMapping("/api/user")
-    public AppUser createUser(@RequestBody AppUser appUser) {
+    @PostMapping("/api/register")
+    public AppUser createUser(@RequestBody AppUserDTO appUser) throws EntityAlreadyExistsException {
         return service.saveUser(appUser);
-    }
-
-    @PostMapping("/api/logout")
-    public void logout(@RequestBody AppUser appUser) {
-        service.logout(appUser);
     }
 
     @GetMapping("/api/token/refresh")

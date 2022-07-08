@@ -1,12 +1,14 @@
 package com.vasivuk.boardgames.service;
 
+import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.UserRole;
+import com.vasivuk.boardgames.model.dto.AppUserDTO;
 
 import java.util.List;
 
-public interface IUserService {
-    AppUser saveUser(AppUser appUser);
+public interface UserService {
+    AppUser saveUser(AppUserDTO appUser) throws EntityAlreadyExistsException;
 
     UserRole saveRole(UserRole level);
 

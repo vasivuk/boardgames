@@ -1,4 +1,4 @@
 package com.vasivuk.boardgames.service;
 
-public interface IOrderItemService {
+public interface OrderService {
 }

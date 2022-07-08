@@ -1,10 +1,9 @@
 package com.vasivuk.boardgames.controller;
 
 import com.vasivuk.boardgames.model.Product;
-import com.vasivuk.boardgames.service.impl.ProductService;
+import com.vasivuk.boardgames.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,13 +13,26 @@ import static com.vasivuk.boardgames.configuration.Routes.*;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductService service;
+    private final ProductServiceImpl service;
 
     @GetMapping(PRODUCT_COMMON)
-    private List<Product> getAllProducts() {
+    public List<Product> getAllProducts() {
         return service.findAllProducts();
     }
 
-    //TODO: Other product routes, search
+    @PostMapping(PRODUCT_COMMON+CREATE)
+    public Product createProduct(@RequestBody Product product) {
+        return service.saveProduct(product);
+    }
+
+    @PutMapping(PRODUCT_COMMON)
+    public Product updateProduct(@RequestBody Product product) {
+        return service.updateProduct(product);
+    }
+
+    @DeleteMapping(PRODUCT_COMMON+ID)
+    public void deleteProduct(@PathVariable Long id) {
+        service.deleteProduct(id);
+    }
 
 }
