@@ -17,13 +17,13 @@ public class Category {
 
     @Id
     @SequenceGenerator(
-            name = "sequence_category",
-            sequenceName = "sequence_category",
+            name = "category_sequence",
+            sequenceName = "category_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "sequence_category"
+            generator = "category_sequence"
     )
     private Long categoryId;
 

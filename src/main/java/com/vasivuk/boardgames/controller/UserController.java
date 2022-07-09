@@ -68,7 +68,7 @@ public class UserController {
                 String access_token = JWT.create()
                         .withSubject(user.getEmail())
                         .withExpiresAt(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_EXPIRATION))
-                        .withClaim("authority", user.getUserRole().getName())
+                        .withClaim("authority", user.getUserRole())
                         .sign(algorithm);
 
                 Map<String, String> tokens = new HashMap<>();

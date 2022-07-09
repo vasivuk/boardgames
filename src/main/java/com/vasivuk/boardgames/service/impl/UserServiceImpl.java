@@ -1,12 +1,10 @@
 package com.vasivuk.boardgames.service.impl;
 
-import com.vasivuk.boardgames.configuration.Roles;
+import com.vasivuk.boardgames.configuration.UserRole;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.model.AppUser;
-import com.vasivuk.boardgames.model.UserRole;
 import com.vasivuk.boardgames.model.dto.AppUserDTO;
 import com.vasivuk.boardgames.repository.UserRepository;
-import com.vasivuk.boardgames.repository.UserRoleRepository;
 import com.vasivuk.boardgames.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +29,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
-    private final UserRoleRepository roleRepository;
 
     private final PasswordEncoder passwordEncoder;
 
@@ -51,7 +48,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userToSave.setLastName(appUser.getLastName());
         userToSave.setEmail(appUser.getEmail());
         userToSave.setPassword(passwordEncoder.encode(appUser.getPassword()));
-        userToSave.setUserRole(new UserRole(1L, Roles.ROLE_USER));
+        userToSave.setUserRole(UserRole.USER);
         log.info("Saving user {} " + userToSave.getEmail());
 
         return userRepository.save(userToSave);
@@ -70,17 +67,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserRole saveRole(UserRole role) {
-        log.info("Saving role {}.", role.getName());
-        return roleRepository.save(role);
-    }
-
-    @Override
-    public void assignRoleToUser(String email, String roleName) {
+    public void assignAdminRoleToUser(String email) {
         AppUser user = userRepository.findByEmail(email).get();
-        UserRole role = roleRepository.findByName(roleName);
-        log.info("Assigning role: {} to user: {}", role.getName(), user.getEmail());
-        user.setUserRole(role);
+        user.setUserRole(UserRole.ADMIN);
     }
 
     /**
@@ -100,7 +89,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             log.info("User with email: {} found in database", email);
             authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(user.getUserRole().getName()));
+            authorities.add(new SimpleGrantedAuthority(user.getUserRole()));
         }
         return new User(user.getEmail(), user.getPassword(), authorities);
     }

@@ -1,13 +1,10 @@
 package com.vasivuk.boardgames.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -16,9 +13,17 @@ import java.util.Set;
 @Data
 public class Product {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long id;
+    @SequenceGenerator(
+            name = "product_sequence",
+            sequenceName = "product_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "product_sequence"
+    )
+    private Long productId;
     private String name;
     private BigDecimal price;
     private String description;
@@ -27,12 +32,18 @@ public class Product {
     private double complexity;
     private double rating;
 
-    @JsonBackReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
-    private List<Review> reviews;
-
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "product_categories",
+            joinColumns = @JoinColumn(
+                    name = "product_id",
+                    referencedColumnName = "productId"
+            ),
+            inverseJoinColumns = @JoinColumn(
+                    name = "category_id",
+                    referencedColumnName = "categoryId"
+            )
+    )
     private Set<Category> categories;
 
 }
