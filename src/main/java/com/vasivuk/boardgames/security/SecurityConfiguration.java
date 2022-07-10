@@ -39,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         myAuthenticationFilter.setFilterProcessesUrl(LOGIN);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        http.authorizeRequests().mvcMatchers(ALLOWED_ROUTES).permitAll();
+        http.authorizeRequests().mvcMatchers(HttpMethod.GET, PUBLIC_ROUTES).permitAll();
         http.authorizeRequests().mvcMatchers(HttpMethod.POST,"/api/products").hasAuthority("ADMIN_AUTH");
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(myAuthenticationFilter);

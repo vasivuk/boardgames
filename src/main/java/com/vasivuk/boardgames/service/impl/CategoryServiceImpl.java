@@ -30,32 +30,28 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> findCategoriesByCriteria(Category category) {
-        return null;
-    }
-
-    @Override
     public Category createCategory(Category newCategory) throws EntityAlreadyExistsException {
         Optional<Category> category = repository.findByNameIgnoreCase(newCategory.getName());
         if (category.isPresent()) {
-            throw new EntityAlreadyExistsException(String.format("Category with name: {} already exists.", newCategory.getName()));
+            throw new EntityAlreadyExistsException("Category with name: " + newCategory.getName() + " already exists");
         }
         return repository.save(newCategory);
     }
 
     @Override
-    public Category updateCategory(Category category) throws EntityNotFoundException{
-        Optional<Category> optionalCategory = repository.findById(category.getCategoryId());
-        if (!optionalCategory.isPresent()) {
-            throw new EntityNotFoundException("Category not found!");
+    public Category updateCategory(Long id, Category category) throws EntityNotFoundException{
+        Optional<Category> optionalCategory = repository.findById(id);
+        if (optionalCategory.isEmpty()) {
+            throw new EntityNotFoundException("Category with name: " + category.getName() + " not found");
         }
         optionalCategory.get().setName(category.getName());
+        optionalCategory.get().setDescription(category.getName());
         return optionalCategory.get();
     }
 
     @Override
-    public void deleteCategory(Category category) {
-        repository.delete(category);
+    public void deleteCategory(Long categoryId) {
+        repository.deleteById(categoryId);
     }
 
     @Override
@@ -65,6 +61,15 @@ public class CategoryServiceImpl implements CategoryService {
             throw new EntityNotFoundException("No categories containing: " + categoryName);
         }
         return repository.findByNameContainingIgnoreCase(categoryName);
+    }
+
+    @Override
+    public Category findCategoryById(Long id) throws EntityNotFoundException {
+        Optional<Category> category = repository.findById(id);
+        if(category.isEmpty()) {
+            throw new EntityNotFoundException("Category with id: " + id + " not found");
+        }
+        return category.get();
     }
 
 }

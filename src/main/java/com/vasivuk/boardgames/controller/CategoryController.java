@@ -16,12 +16,12 @@ import static com.vasivuk.boardgames.configuration.Routes.*;
 @RequiredArgsConstructor
 public class CategoryController {
     /*
-    -GetAllCategories(List<Category>)
-    -FindCategories(Category, List<Category>)
-    -LoadCategory(Category)
-    -CreateCategory(Category)
-    -UpdateCategory(Category)
-    -DeleteCategory(Category)
+        -GetAllCategories(List<Category>)
+        -FindCategories(Category, List<Category>)
+        -LoadCategory(Category)
+        -CreateCategory(Category)
+        -UpdateCategory(Category)
+        -DeleteCategory(Category)
      */
     private final CategoryService categoryService;
 
@@ -33,6 +33,21 @@ public class CategoryController {
     @GetMapping(CATEGORY_COMMON + NAME)
     public List<Category> fetchCategoriesByName(@RequestParam("search") String categoryName) throws EntityNotFoundException {
         return categoryService.fetchCategoriesByName(categoryName);
+    }
+
+    @GetMapping(CATEGORY_COMMON + ID)
+    public Category findCategoryById(@PathVariable("id") Long id) throws EntityNotFoundException{
+        return categoryService.findCategoryById(id);
+    }
+
+    @DeleteMapping(CATEGORY_COMMON + ID)
+    public void deleteCategory(@PathVariable("id") Long categoryId) {
+        categoryService.deleteCategory(categoryId);
+    }
+
+    @PutMapping(CATEGORY_COMMON + ID)
+    public Category updateCategory(@PathVariable("id") Long categoryId , @RequestBody Category category) throws EntityNotFoundException {
+        return categoryService.updateCategory(categoryId, category);
     }
 
     @PostMapping(CATEGORY_COMMON + CREATE)

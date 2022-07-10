@@ -2,6 +2,7 @@ package com.vasivuk.boardgames.service.impl;
 
 import com.vasivuk.boardgames.configuration.UserRole;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
+import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.dto.AppUserDTO;
 import com.vasivuk.boardgames.repository.UserRepository;
@@ -49,15 +50,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userToSave.setEmail(appUser.getEmail());
         userToSave.setPassword(passwordEncoder.encode(appUser.getPassword()));
         userToSave.setUserRole(UserRole.USER);
-        log.info("Saving user {} " + userToSave.getEmail());
+        log.info("Saving user {} ", userToSave.getEmail());
 
         return userRepository.save(userToSave);
     }
 
     @Override
-    public AppUser getUser(String email) {
+    public AppUser findUserByEmail(String email) throws EntityNotFoundException {
+        Optional<AppUser> optUser = userRepository.findByEmail(email);
+        if(optUser.isEmpty()) {
+            throw new EntityNotFoundException("User with email: " + email + " doesn't exist");
+        }
         log.info("Fetching user {}", email);
-        return userRepository.findByEmail(email).get();
+        return optUser.get();
     }
 
     @Override
@@ -67,9 +72,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void assignAdminRoleToUser(String email) {
-        AppUser user = userRepository.findByEmail(email).get();
-        user.setUserRole(UserRole.ADMIN);
+    public void assignAdminRoleToUser(String email) throws EntityNotFoundException {
+        Optional<AppUser> optUser = userRepository.findByEmail(email);
+        if(optUser.isEmpty()) {
+            throw new EntityNotFoundException("User with email: " + email + " doesn't exist");
+        }
+        optUser.get().setUserRole(UserRole.ADMIN);
     }
 
     /**
@@ -81,16 +89,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
      */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        AppUser user = userRepository.findByEmail(email).get();
+        Optional<AppUser> user = userRepository.findByEmail(email);
         Collection<SimpleGrantedAuthority> authorities;
-        if (user == null) {
+        if (user.isEmpty()) {
             log.error("User not found in database");
             throw new UsernameNotFoundException("User not found in database");
         } else {
             log.info("User with email: {} found in database", email);
             authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(user.getUserRole()));
+            authorities.add(new SimpleGrantedAuthority(user.get().getUserRole()));
         }
-        return new User(user.getEmail(), user.getPassword(), authorities);
+        return new User(user.get().getEmail(), user.get().getPassword(), authorities);
     }
 }

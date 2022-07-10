@@ -9,7 +9,7 @@ import com.vasivuk.boardgames.configuration.Constants;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.dto.AppUserDTO;
-import com.vasivuk.boardgames.service.impl.UserServiceImpl;
+import com.vasivuk.boardgames.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.util.MimeTypeUtils;
@@ -39,7 +39,7 @@ public class UserController {
     -Logout(User)
     -EditUserData(User)
      */
-    private final UserServiceImpl service;
+    private final UserService service;
 
     @GetMapping("/api/users")
     public List<AppUser> getUsers() {
@@ -63,7 +63,7 @@ public class UserController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(refresh_token);
                 String username = decodedJWT.getSubject();
-                AppUser user = service.getUser(username);
+                AppUser user = service.findUserByEmail(username);
 
                 String access_token = JWT.create()
                         .withSubject(user.getEmail())

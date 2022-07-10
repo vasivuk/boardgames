@@ -10,15 +10,13 @@ public interface CategoryService {
 
     List<Category> findAllCategories();
 
-    List<Category> findCategoriesByCriteria(Category category);
-
     Category createCategory(Category category) throws EntityAlreadyExistsException;
 
-    Category updateCategory(Category category) throws EntityNotFoundException;
+    Category updateCategory(Long id, Category category) throws EntityNotFoundException;
 
-    void deleteCategory(Category category);
+    void deleteCategory(Long categoryId);
 
     List<Category> fetchCategoriesByName(String categoryName) throws EntityNotFoundException;
 
-
+    Category findCategoryById(Long id) throws EntityNotFoundException;
 }

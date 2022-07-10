@@ -2,6 +2,7 @@ package com.vasivuk.boardgames.model;
 
 import com.vasivuk.boardgames.configuration.UserRole;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class AppUser {
 
     @Id
@@ -37,8 +39,7 @@ public class AppUser {
     private String email;
     private String password;
     private String userRole;
-
-    @Autowired
+    
     public AppUser(String firstName, String lastName, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;

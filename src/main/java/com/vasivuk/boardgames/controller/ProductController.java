@@ -1,5 +1,7 @@
 package com.vasivuk.boardgames.controller;
 
+import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
+import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.Product;
 import com.vasivuk.boardgames.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +22,23 @@ public class ProductController {
         return service.findAllProducts();
     }
 
-    @PostMapping(PRODUCT_COMMON+CREATE)
-    public Product createProduct(@RequestBody Product product) {
+    @GetMapping(PRODUCT_COMMON + ID)
+    public Product findProductById(@PathVariable("id") Long productId) throws EntityNotFoundException {
+        return service.findProductById(productId);
+    }
+
+    @PostMapping(PRODUCT_COMMON + CREATE)
+    public Product createProduct(@RequestBody Product product) throws EntityAlreadyExistsException {
         return service.saveProduct(product);
     }
 
-    @PutMapping(PRODUCT_COMMON)
-    public Product updateProduct(@RequestBody Product product) {
-        return service.updateProduct(product);
+    @PutMapping(PRODUCT_COMMON + ID)
+    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) throws EntityNotFoundException {
+        return service.updateProduct(id, product);
     }
 
-    @DeleteMapping(PRODUCT_COMMON+ID)
-    public void deleteProduct(@PathVariable Long id) {
+    @DeleteMapping(PRODUCT_COMMON + ID)
+    public void deleteProduct(@PathVariable Long id) throws EntityNotFoundException {
         service.deleteProduct(id);
     }
 
