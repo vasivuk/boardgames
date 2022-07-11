@@ -10,9 +10,11 @@ import java.util.List;
 public interface UserService {
     AppUser saveUser(AppUserDTO appUser) throws EntityAlreadyExistsException;
 
-    void assignAdminRoleToUser(String email) throws EntityNotFoundException;
+    void assignAdminRoleToUser(Long id) throws EntityNotFoundException;
 
     AppUser findUserByEmail(String email) throws EntityNotFoundException;
 
     List<AppUser> getUsers();
+
+    AppUser findUserById(Long id) throws EntityNotFoundException;
 }

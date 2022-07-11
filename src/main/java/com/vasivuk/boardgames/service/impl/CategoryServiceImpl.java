@@ -39,14 +39,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Long id, Category category) throws EntityNotFoundException{
+    public Category updateCategory(Long id, Category category) throws EntityNotFoundException, EntityAlreadyExistsException {
         Optional<Category> optionalCategory = repository.findById(id);
         if (optionalCategory.isEmpty()) {
             throw new EntityNotFoundException("Category with name: " + category.getName() + " not found");
         }
+        Optional<Category> categoryWithThatName = repository.findByNameIgnoreCase(category.getName());
+        if (categoryWithThatName.isPresent() && !categoryWithThatName.get().getName().equals(optionalCategory.get().getName())) {
+            throw new EntityAlreadyExistsException("Category with name: " + category.getName() + " already exists");
+        }
         optionalCategory.get().setName(category.getName());
-        optionalCategory.get().setDescription(category.getName());
-        return optionalCategory.get();
+        optionalCategory.get().setDescription(category.getDescription());
+
+        return repository.save(optionalCategory.get());
     }
 
     @Override

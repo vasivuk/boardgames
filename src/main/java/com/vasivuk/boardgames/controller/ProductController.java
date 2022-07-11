@@ -7,6 +7,7 @@ import com.vasivuk.boardgames.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.vasivuk.boardgames.configuration.Routes.*;
@@ -28,12 +29,12 @@ public class ProductController {
     }
 
     @PostMapping(PRODUCT_COMMON + CREATE)
-    public Product createProduct(@RequestBody Product product) throws EntityAlreadyExistsException {
+    public Product createProduct(@Valid @RequestBody Product product) throws EntityAlreadyExistsException {
         return service.saveProduct(product);
     }
 
     @PutMapping(PRODUCT_COMMON + ID)
-    public Product updateProduct(@PathVariable("id") Long id, @RequestBody Product product) throws EntityNotFoundException {
+    public Product updateProduct(@PathVariable("id") Long id, @Valid  @RequestBody Product product) throws EntityNotFoundException, EntityAlreadyExistsException {
         return service.updateProduct(id, product);
     }
 

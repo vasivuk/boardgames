@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.Set;
 
@@ -23,25 +24,30 @@ public class Product {
             strategy = GenerationType.SEQUENCE,
             generator = "product_sequence"
     )
-    private Long productId;
+    private Long id;
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 40)
     private String name;
+    @Positive
     private BigDecimal price;
+    @Size(max = 1000)
     private String description;
+    @Positive
     private int gameTime;
     private String numberOfPlayers;
+    @Min(0) @Max(5)
     private double complexity;
+    @Min(0) @Max(5)
     private double rating;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "product_categories",
             joinColumns = @JoinColumn(
-                    name = "product_id",
-                    referencedColumnName = "productId"
+                    name = "product_id"
             ),
             inverseJoinColumns = @JoinColumn(
-                    name = "category_id",
-                    referencedColumnName = "categoryId"
+                    name = "category_id"
             )
     )
     private Set<Category> categories;

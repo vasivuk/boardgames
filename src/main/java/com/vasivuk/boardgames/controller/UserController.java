@@ -7,25 +7,25 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vasivuk.boardgames.configuration.Constants;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
+import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.dto.AppUserDTO;
 import com.vasivuk.boardgames.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.util.MimeTypeUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.vasivuk.boardgames.configuration.Routes.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
@@ -46,8 +46,13 @@ public class UserController {
         return service.getUsers();
     }
 
+    @GetMapping(USER_COMMON + ID)
+    public AppUser findUserById(@PathVariable("id") Long id) throws EntityNotFoundException {
+        return service.findUserById(id);
+    }
+
     @PostMapping("/api/register")
-    public AppUser createUser(@RequestBody AppUserDTO appUser) throws EntityAlreadyExistsException {
+    public AppUser createUser(@RequestBody @Valid AppUserDTO appUser) throws EntityAlreadyExistsException {
         return service.saveUser(appUser);
     }
 
@@ -86,6 +91,11 @@ public class UserController {
         } else {
             throw new RuntimeException("Refresh token is missing");
         }
+    }
+
+    @GetMapping(USER_COMMON + ID + ASSIGN_ADMIN)
+    public void assignAdminRole(@PathVariable Long id) throws EntityNotFoundException {
+        service.assignAdminRoleToUser(id);
     }
 
 }

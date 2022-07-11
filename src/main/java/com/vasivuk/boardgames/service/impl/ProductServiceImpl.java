@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +41,14 @@ public class ProductServiceImpl implements ProductService {
         return repository.save(newProduct);
     }
 
-    public Product updateProduct(Long id, Product product) throws EntityNotFoundException {
+    public Product updateProduct(Long id, Product product) throws EntityNotFoundException, EntityAlreadyExistsException {
         Optional<Product> oldProduct = repository.findById(id);
         if (oldProduct.isEmpty()) {
             throw new EntityNotFoundException("Product doesn't exist.");
+        }
+        Optional<Product> productWithThatName = repository.findByNameIgnoreCase(product.getName());
+        if (productWithThatName.isPresent() && !productWithThatName.get().getName().equals(oldProduct.get().getName())) {
+            throw new EntityAlreadyExistsException("Product with name: " + product.getName() + " already exists.");
         }
         oldProduct.get().setName(product.getName());
         oldProduct.get().setComplexity(product.getComplexity());

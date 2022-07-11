@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Slf4j
@@ -43,6 +44,7 @@ class UserServiceTest {
 
         AppUser userInDatabase = AppUser.builder()
                 .email("filip@gmail.com")
+                .userId(1L)
                 .firstName("Filip")
                 .lastName("Filipovic")
                 .password("1234")
@@ -59,6 +61,10 @@ class UserServiceTest {
         Mockito.when(userRepository.findByEmail(userInDatabase.getEmail())).thenReturn(Optional.of(userInDatabase));
         //Get users
         Mockito.when(userRepository.findAll()).thenReturn(usersInDatabase);
+        //Find by Id : doesn't exist
+        Mockito.when(userRepository.findById(2L)).thenReturn(Optional.empty());
+        //Find by Id: exists
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(userInDatabase));
     }
 
     @Test
@@ -86,14 +92,14 @@ class UserServiceTest {
 
     @Test
     void testAssignAdminRoleToUser() throws EntityNotFoundException {
-        userService.assignAdminRoleToUser("filip@gmail.com");
-        if (userRepository.findByEmail("filip@gmail.com").isPresent())
-            assertEquals(userRepository.findByEmail("filip@gmail.com").get().getUserRole(), "ADMIN");
+        userService.assignAdminRoleToUser(1L);
+        if (userRepository.findById(1L).isPresent())
+            assertEquals(userRepository.findById(1L).get().getUserRole(), "ADMIN");
     }
 
     @Test
     void testAssignAdminRoleToUser_UserNotFound() {
-        assertThrows(EntityNotFoundException.class, () -> userService.assignAdminRoleToUser("mare@gmail.com"));
+        assertThrows(EntityNotFoundException.class, () -> userService.assignAdminRoleToUser(2L));
     }
 
     @Test

@@ -46,7 +46,8 @@ public class CategoryController {
     }
 
     @PutMapping(CATEGORY_COMMON + ID)
-    public Category updateCategory(@PathVariable("id") Long categoryId , @RequestBody Category category) throws EntityNotFoundException {
+    public Category updateCategory(@PathVariable("id") Long categoryId , @Valid @RequestBody Category category)
+            throws EntityNotFoundException, EntityAlreadyExistsException {
         return categoryService.updateCategory(categoryId, category);
     }
 

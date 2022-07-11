@@ -9,6 +9,7 @@ public class Routes {
 
     //User
     public static final String USER_COMMON = "/api/users";
+    public static final String ASSIGN_ADMIN = "/assignAdmin";
 
     //Category
     public static final String CATEGORY_COMMON = "/api/categories";
@@ -33,5 +34,14 @@ public class Routes {
             CATEGORY_COMMON,
             CATEGORY_COMMON + NAME,
             CATEGORY_COMMON + ID
+    };
+
+    public static final String[] ADMIN_POST_PUT_DELETE_ROUTES = {
+            CATEGORY_COMMON + CREATE,
+            CATEGORY_COMMON + NAME,
+            CATEGORY_COMMON + ID,
+            PRODUCT_COMMON + CREATE,
+            PRODUCT_COMMON + NAME,
+            PRODUCT_COMMON + ID
     };
 }

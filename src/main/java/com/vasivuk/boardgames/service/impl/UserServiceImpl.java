@@ -72,10 +72,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void assignAdminRoleToUser(String email) throws EntityNotFoundException {
-        Optional<AppUser> optUser = userRepository.findByEmail(email);
+    public AppUser findUserById(Long id) throws EntityNotFoundException {
+        Optional<AppUser> optUser = userRepository.findById(id);
         if(optUser.isEmpty()) {
-            throw new EntityNotFoundException("User with email: " + email + " doesn't exist");
+            throw new EntityNotFoundException("User with id: " + id + " doesn't exist");
+        }
+        return optUser.get();
+    }
+
+    @Override
+    public void assignAdminRoleToUser(Long id) throws EntityNotFoundException {
+        Optional<AppUser> optUser = userRepository.findById(id);
+        if(optUser.isEmpty()) {
+            throw new EntityNotFoundException("User with id: " + id + " doesn't exist");
         }
         optUser.get().setUserRole(UserRole.ADMIN);
     }

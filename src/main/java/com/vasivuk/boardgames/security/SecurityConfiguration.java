@@ -1,5 +1,6 @@
 package com.vasivuk.boardgames.security;
 
+import com.vasivuk.boardgames.configuration.UserRole;
 import com.vasivuk.boardgames.filter.MyAuthenticationFilter;
 import com.vasivuk.boardgames.filter.MyAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +40,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         myAuthenticationFilter.setFilterProcessesUrl(LOGIN);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        //Public routes
         http.authorizeRequests().mvcMatchers(HttpMethod.GET, PUBLIC_ROUTES).permitAll();
-        http.authorizeRequests().mvcMatchers(HttpMethod.POST,"/api/products").hasAuthority("ADMIN_AUTH");
+        http.authorizeRequests().mvcMatchers(REGISTER, REFRESH_TOKEN).permitAll();
+        //Admin only routes
+        http.authorizeRequests().mvcMatchers(HttpMethod.POST, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
+        http.authorizeRequests().mvcMatchers(HttpMethod.PUT, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
+        http.authorizeRequests().mvcMatchers(HttpMethod.DELETE, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
+        http.authorizeRequests().mvcMatchers(USER_COMMON + ID + ASSIGN_ADMIN).hasAuthority(UserRole.ADMIN);
+        //Logged User routes
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(myAuthenticationFilter);
         http.addFilterBefore(new MyAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

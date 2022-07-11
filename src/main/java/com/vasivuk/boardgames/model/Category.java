@@ -25,10 +25,10 @@ public class Category {
             strategy = GenerationType.SEQUENCE,
             generator = "category_sequence"
     )
-    private Long categoryId;
+    private Long id;
 
     @NotBlank(message = "Name is mandatory")
-    @Size(min = 1, max = 30)
+    @Size(max = 30)
     @Column(unique = true)
     private String name;
 
