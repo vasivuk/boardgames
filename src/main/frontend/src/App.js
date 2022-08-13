@@ -4,7 +4,9 @@ import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
 import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 import Navbar from "./components/Navbar";
+import ProductForm from "./components/ProductForm";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/product" element={<ProductForm />} />
       </Routes>
       <Footer />
     </BrowserRouter>

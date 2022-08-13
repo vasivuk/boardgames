@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.vasivuk.boardgames.configuration.Routes.*;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
 public class ProductController {

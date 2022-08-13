@@ -1,10 +1,13 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import UserService from "../services/UserService";
 import Button from "./Button";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
   });
@@ -16,9 +19,9 @@ const LoginForm = () => {
     setUser({ ...user, [e.target.name]: value });
   };
 
-  const login = (e) => {
+  const saveUser = (e) => {
     e.preventDefault();
-    UserService.login(user)
+    UserService.saveUser(user)
       .then((response) => {
         console.log(response.data);
         navigate("/");
@@ -30,14 +33,44 @@ const LoginForm = () => {
 
   return (
     <div className="w-full h-screen flex justify-center items-start mt-10">
-      {/* Login form */}
+      {/* Register form */}
       <div className="flex max-w-2xl shadow border-b mx-auto bg-primary-standard text-color_text-light rounded-md">
         <div className="px-8 py-8">
           <div className="font-thin text-2xl tracking-wider">
-            <h1>Login</h1>
+            <h1>Register</h1>
           </div>
 
-          <div className="items-center justify-center h-14 w-full my-4">
+          <div className="h-14 w-full my-4">
+            <label
+              htmlFor=""
+              className="block text-color_text-light text-sm font-normal"
+            >
+              First Name
+            </label>
+            <input
+              type="text"
+              name="firstName"
+              onChange={(e) => handleChange(e)}
+              className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
+            ></input>
+          </div>
+
+          <div className="h-14 w-full my-4">
+            <label
+              htmlFor=""
+              className="block text-color_text-light text-sm font-normal"
+            >
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastName"
+              onChange={(e) => handleChange(e)}
+              className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
+            ></input>
+          </div>
+
+          <div className="h-14 w-full my-4">
             <label
               htmlFor=""
               className="block text-color_text-light text-sm font-normal"
@@ -68,10 +101,7 @@ const LoginForm = () => {
           </div>
 
           <div className="h-14 w-full my-4 pt-4 space-x-4">
-            <Button text="Login" operation={login} />
-            <Link to={"/register"} className="hover:text-yellow-400">
-              Create new account?
-            </Link>
+            <Button text={"Create Account"} operation={saveUser} />
           </div>
         </div>
       </div>
@@ -79,4 +109,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
