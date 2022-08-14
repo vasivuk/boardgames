@@ -3,10 +3,12 @@ import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Home from "./components/Home";
-import LoginForm from "./components/LoginForm";
-import RegisterForm from "./components/RegisterForm";
+import LoginPage from "./components/LoginPage";
+import RegisterPage from "./components/RegisterPage";
 import Navbar from "./components/Navbar";
-import ProductForm from "./components/ProductForm";
+import ProductForm from "./components/ProductPage";
+import ProductsList from "./components/ProductsList";
+import CategoriesList from "./components/CategoriesList";
 
 function App() {
   return (
@@ -15,9 +17,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
-        <Route path="/product" element={<ProductForm />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/boardgames/:id/:title" element={<ProductForm />} />
+        <Route path="/boardgames" element={<ProductsList />} />
+        <Route path="/categories" element={<CategoriesList />} />
       </Routes>
       <Footer />
     </BrowserRouter>

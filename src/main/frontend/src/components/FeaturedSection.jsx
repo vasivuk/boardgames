@@ -1,11 +1,10 @@
 import React from "react";
-import BoardgameCard from "./BoardgameCard";
+import ProductCard from "./ProductCard";
 import data from "../test-data/BoardgameData";
 
 const FeaturedSection = () => {
-  console.log(data);
   const featuredBoardgames = data.map((boardgame) => (
-    <BoardgameCard product={boardgame} key={boardgame.id} />
+    <ProductCard product={boardgame} key={boardgame.id} />
   ));
   return (
     <div className="w-full">

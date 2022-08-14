@@ -28,6 +28,9 @@ public class Product {
     @NotBlank(message = "Name is mandatory")
     @Size(max = 40)
     private String name;
+    @Size(max = 20)
+    private String slug;
+    private String imageUrl;
     @Positive
     private BigDecimal price;
     @Size(max = 1000)

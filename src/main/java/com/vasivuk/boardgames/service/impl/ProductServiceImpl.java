@@ -57,6 +57,8 @@ public class ProductServiceImpl implements ProductService {
         oldProduct.get().setGameTime(product.getGameTime());
         oldProduct.get().setNumberOfPlayers(product.getNumberOfPlayers());
         oldProduct.get().setRating(product.getRating());
+        oldProduct.get().setImageUrl(product.getImageUrl());
+        oldProduct.get().setSlug((product.getSlug()));
 
         return repository.save(oldProduct.get());
     }
