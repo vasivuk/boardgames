@@ -7,7 +7,10 @@ class UserService {
     return axios.post(BOARDGAMES_API_BASE_URL + "/register", user);
   }
   login(user) {
-    return axios.post(BOARDGAMES_API_BASE_URL + "/login", user);
+    const params = new URLSearchParams();
+    params.append("email", user.email);
+    params.append("password", user.password);
+    return axios.post(BOARDGAMES_API_BASE_URL + "/login", params);
   }
 }
 
