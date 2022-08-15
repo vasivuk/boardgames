@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import UserService from "../services/UserService";
@@ -14,6 +14,10 @@ const RegisterForm = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    setErrorMessage("");
+  }, [user.email, user.firstName, user.lastName, user.password]);
 
   const handleChange = (e) => {
     const value = e.target.value;

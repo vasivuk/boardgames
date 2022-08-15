@@ -2,7 +2,7 @@ import React from "react";
 import FeaturedSection from "./FeaturedSection";
 import HeroSection from "./HeroSection";
 
-const Home = () => {
+const HomePage = () => {
   return (
     <>
       <HeroSection />
@@ -11,4 +11,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;
