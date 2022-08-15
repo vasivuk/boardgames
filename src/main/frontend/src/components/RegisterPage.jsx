@@ -20,7 +20,7 @@ const RegisterForm = () => {
     setUser({ ...user, [e.target.name]: value });
   };
 
-  const saveUser = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (
       user.firstName === "" ||
@@ -138,7 +138,7 @@ const RegisterForm = () => {
                   user.email === "" ||
                   user.password === ""
                 }
-                onClick={saveUser}
+                onClick={handleSubmit}
                 className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-6 enabled:hover:bg-secondary-dark disabled:opacity-50"
               >
                 Create Account
