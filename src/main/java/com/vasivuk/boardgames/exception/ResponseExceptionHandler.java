@@ -37,7 +37,7 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EntityAlreadyExistsException.class)
     public ResponseEntity<ErrorMessage> entityAlreadyExistsException(EntityAlreadyExistsException exception, WebRequest request) {
-        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, "Entity already exists", exception.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
+        ErrorMessage message = new ErrorMessage(HttpStatus.CONFLICT, "Entity already exists", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
     }
 }
