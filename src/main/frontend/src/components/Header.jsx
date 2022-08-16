@@ -1,8 +1,11 @@
 import React from "react";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Header = () => {
+  const { auth } = useAuth();
+
   return (
     <div className="bg-primary-dark flex justify-between px-10 py-6">
       {/* Logo */}
@@ -28,13 +31,23 @@ const Header = () => {
       </div>
       {/* Login Button */}
       <div className="w-1/4 flex justify-end items-center ">
-        <Link
-          to={"/login"}
-          className="text-color_text-light flex items-center space-x-2 hover:text-yellow-400"
-        >
-          <FaUser />
-          <p>Login</p>
-        </Link>
+        {auth?.accessToken ? (
+          <Link
+            to={"/logout"}
+            className="text-color_text-light flex items-center space-x-2 hover:text-yellow-400"
+          >
+            <FaUser />
+            <p>Log Out</p>
+          </Link>
+        ) : (
+          <Link
+            to={"/login"}
+            className="text-color_text-light flex items-center space-x-2 hover:text-yellow-400"
+          >
+            <FaUser />
+            <p>Log In</p>
+          </Link>
+        )}
       </div>
     </div>
   );

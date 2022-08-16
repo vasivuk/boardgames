@@ -1,13 +1,11 @@
-import axios from "axios";
-
-const BOARDGAMES_API_BASE_URL = "http://127.0.0.1:8080/api/products";
+import axios from "../api/axios";
 
 class ProductService {
   getAllProducts() {
-    return axios.get(BOARDGAMES_API_BASE_URL);
+    return axios.get("/products");
   }
   getProductById(id) {
-    return axios.get(BOARDGAMES_API_BASE_URL + `/${id}`);
+    return axios.get(`products/${id}`);
   }
 }
 

@@ -1,7 +1,9 @@
 import React from "react";
+import useRefreshToken from "../hooks/useRefreshToken";
 
 const CategoriesList = () => {
-  return <div>CategoriesList</div>;
+  const refresh = useRefreshToken();
+  return <button onClick={() => refresh()}>Refresh</button>;
 };
 
 export default CategoriesList;

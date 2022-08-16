@@ -1,12 +1,16 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../context/AuthProvider";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import UserService from "../services/UserService";
-import Button from "./Button";
 import ErrorMessage from "./ErrorMessage";
 
 const LoginForm = () => {
   const { setAuth } = useContext(AuthContext);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -17,8 +21,6 @@ const LoginForm = () => {
   useEffect(() => {
     setErrorMessage("");
   }, [user.email, user.password]);
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -35,7 +37,7 @@ const LoginForm = () => {
         const pass = user.password;
         setAuth({ email, pass, accessToken });
         setUser({ email: "", password: "" });
-        // navigate("/");
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error);

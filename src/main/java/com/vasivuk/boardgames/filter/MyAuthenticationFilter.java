@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -50,10 +51,8 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
 
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        log.info("Username: {}", email);
-        log.info("Password: {}", password);
-        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password);
 
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(email, password);
         return authenticationManager.authenticate(authToken);
     }
 
@@ -71,13 +70,18 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
         User user = (User)authResult.getPrincipal();
         Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET.getBytes());
 
-        String access_token = createAccessToken(user, algorithm);
-        String refresh_token = createRefreshToken(user, algorithm);
+        String accessToken = createAccessToken(user, algorithm);
+        String refreshToken = createRefreshToken(user, algorithm);
 
         Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", access_token);
-        tokens.put("refresh_token", refresh_token);
+        tokens.put("access_token", accessToken);
+
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        Cookie refreshTokenCookie = new Cookie("refresh-token", refreshToken);
+
+        refreshTokenCookie.setHttpOnly(true);
+
+        response.addCookie(refreshTokenCookie);
 
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }
