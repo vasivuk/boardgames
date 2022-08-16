@@ -46,6 +46,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //Public routes
         http.authorizeRequests().mvcMatchers(HttpMethod.GET, PUBLIC_ROUTES).permitAll();
         http.authorizeRequests().mvcMatchers(REGISTER, REFRESH_TOKEN).permitAll();
+
+        //For TESTING
+        http.authorizeRequests().mvcMatchers("/**").permitAll();
         //Admin only routes
         http.authorizeRequests().mvcMatchers(HttpMethod.POST, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
         http.authorizeRequests().mvcMatchers(HttpMethod.PUT, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);

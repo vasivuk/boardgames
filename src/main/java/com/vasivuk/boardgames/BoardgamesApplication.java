@@ -29,6 +29,7 @@ public class BoardgamesApplication {
 				registry.addMapping("/api/login").allowedOrigins("http://localhost:3000");
 				registry.addMapping("/api/token/refresh").allowedOrigins("http://localhost:3000")
 						.exposedHeaders("Access-Control-Allow-Origin").allowCredentials(true);
+				registry.addMapping(("/api/**")).allowedOrigins(("http://localhost:3000"));
 			}
 		};
 	}
