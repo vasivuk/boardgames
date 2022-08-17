@@ -3,6 +3,7 @@ package com.vasivuk.boardgames.service;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.Product;
+import com.vasivuk.boardgames.model.dto.ProductDTO;
 
 import java.util.List;
 
@@ -26,7 +27,7 @@ public interface ProductService {
      * @param product novi proizvod
      * @return sačuvani proizvod
      */
-    Product saveProduct(Product product) throws EntityAlreadyExistsException;
+    Product saveProduct(ProductDTO product) throws EntityAlreadyExistsException;
 
     /**
      * Ažurira proizvod u bazi podataka

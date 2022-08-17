@@ -3,13 +3,12 @@ package com.vasivuk.boardgames.service.impl;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.Product;
+import com.vasivuk.boardgames.model.dto.ProductDTO;
 import com.vasivuk.boardgames.repository.ProductRepository;
 import com.vasivuk.boardgames.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,12 +32,24 @@ public class ProductServiceImpl implements ProductService {
         return product.get();
     }
 
-    public Product saveProduct(Product newProduct) throws EntityAlreadyExistsException {
+    public Product saveProduct(ProductDTO newProduct) throws EntityAlreadyExistsException {
         Optional<Product> product = repository.findByNameIgnoreCase(newProduct.getName());
         if (product.isPresent()) {
             throw new EntityAlreadyExistsException("Product with name: " + newProduct.getName() + " already exists");
         }
-        return repository.save(newProduct);
+        Product productToSave = Product.builder()
+                .name(newProduct.getName())
+                .description(newProduct.getDescription())
+                .complexity(newProduct.getComplexity())
+                .imageUrl(newProduct.getImageUrl())
+                .gameTime(newProduct.getGameTime())
+                .numberOfPlayers(newProduct.getNumberOfPlayers())
+                .rating(newProduct.getRating())
+                .price(newProduct.getPrice())
+                .categories(newProduct.getCategories())
+                .build();
+        productToSave.setSlug(newProduct.getName().toLowerCase().replace(" ", "-"));
+        return repository.save(productToSave);
     }
 
     public Product updateProduct(Long id, Product product) throws EntityNotFoundException, EntityAlreadyExistsException {

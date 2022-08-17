@@ -3,6 +3,7 @@ package com.vasivuk.boardgames.controller;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.Product;
+import com.vasivuk.boardgames.model.dto.ProductDTO;
 import com.vasivuk.boardgames.service.impl.ProductServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping(PRODUCT_COMMON + CREATE)
-    public Product createProduct(@Valid @RequestBody Product product) throws EntityAlreadyExistsException {
+    public Product createProduct(@Valid @RequestBody ProductDTO product) throws EntityAlreadyExistsException {
         return service.saveProduct(product);
     }
 

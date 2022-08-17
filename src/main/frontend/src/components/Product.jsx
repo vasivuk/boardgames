@@ -5,7 +5,7 @@ const Product = ({ product }) => {
     <div className="p-5">
       <h1 className="p-5 text-2xl font-extrabold border-b">{product.name}</h1>
       <div className="flex flex-row gap-5 p-5">
-        <img src={product.imageUrl} alt="" className="w-96" />
+        <img src={product.imageUrl} alt="" className="w-96 max-h-fit" />
         <table className="table-auto border w-full">
           <thead className="p-10 text-xl bg-primary-standard">
             <tr>

@@ -24,7 +24,7 @@ const NewCategoryForm = () => {
   function handleSubmit(e) {
     e.preventDefault();
     if (category.name === "" || category.description === "") {
-      setErrorMessage("Invalid user data, a field is empty");
+      setErrorMessage("Invalid product data, a field is empty");
       return;
     }
 

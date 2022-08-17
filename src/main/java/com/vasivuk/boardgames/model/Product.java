@@ -1,5 +1,7 @@
 package com.vasivuk.boardgames.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,7 +13,9 @@ import java.util.Set;
 @Entity
 @Table(name = "products")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 public class Product {
 
     @Id

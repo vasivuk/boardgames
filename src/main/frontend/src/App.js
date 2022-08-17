@@ -9,6 +9,8 @@ import CategoriesList from "./components/CategoriesList";
 import Layout from "./components/Layout";
 import Page404 from "./components/Page404";
 import RequireAuth from "./components/RequireAuth";
+import NewProductForm from "./components/NewProductForm";
+import NewCategoryForm from "./components/NewCategoryForm";
 
 function App() {
   return (
@@ -18,12 +20,13 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        <Route path="/boardgames/create" element={<NewProductForm />} />
 
         <Route path="/boardgames" element={<ProductsList />} />
         <Route path="/boardgames/:id/:title" element={<ProductForm />} />
-        <Route element={<RequireAuth />}>
-          <Route path="/categories" element={<CategoriesList />} />
-        </Route>
+        <Route path="/categories" element={<CategoriesList />} />
+        <Route path="/categories/create" element={<NewCategoryForm />} />
+        <Route element={<RequireAuth />}></Route>
 
         {/* Protected routes */}
 
