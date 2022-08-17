@@ -1,9 +1,18 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import useRefreshToken from "../hooks/useRefreshToken";
+import CategoryService from "../services/CategoryService";
 
 const CategoriesList = () => {
-  const refresh = useRefreshToken();
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    CategoryService.getAllCategories().then((response) => {
+      console.log(response?.data);
+      setCategories(response?.data);
+    });
+  }, []);
 
   return (
     <div className="p-10">
@@ -13,7 +22,34 @@ const CategoriesList = () => {
         </button>
       </Link>
       <br />
-      <button onClick={() => refresh()}>Refresh</button>;
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="py-3 px-6">
+              Category name
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Description
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {categories.map((category) => (
+            <tr
+              key={category.id}
+              className="bg-white border-b dark:bg-gray-900 dark:border-gray-700"
+            >
+              <th
+                scope="row"
+                className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {category.name}
+              </th>
+              <td className="py-4 px-6">{category.description}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

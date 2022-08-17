@@ -1,9 +1,12 @@
 import React from "react";
+import { FiEdit } from "react-icons/fi";
 
 const Product = ({ product }) => {
   return (
     <div className="p-5">
+      <div></div>
       <h1 className="p-5 text-2xl font-extrabold border-b">{product.name}</h1>
+      <FiEdit />
       <div className="flex flex-row gap-5 p-5">
         <img src={product.imageUrl} alt="" className="w-96 max-h-fit" />
         <table className="table-auto border w-full">

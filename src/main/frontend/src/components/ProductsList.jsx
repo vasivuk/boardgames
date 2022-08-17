@@ -23,14 +23,14 @@ const ProductsList = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-center text-xl">Boardgames</h1>
+    <div className="flex flex-col items-center">
+      <h1 className="text-center text-xl py-5">Boardgames</h1>
       <Link to={"./create"}>
         <button className="px-6 py-2 bg-primary-standard text-secondary-standard rounded-md">
           Add New Product
         </button>
       </Link>
-      <div className="flex flex-row flex-wrap justify-center p-10 gap-5">
+      <div className="flex flex-row flex-wrap justify-start p-10 gap-5 mx-14">
         {!loading &&
           products.map((product) => (
             <ProductCard key={product.id} product={product} />

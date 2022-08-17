@@ -3,6 +3,8 @@ import ProductService from "../services/ProductService";
 import ErrorMessage from "./ErrorMessage";
 import FormInput from "./FormInput";
 import genericIcon from "../images/generic-boardgame-icon.png";
+import CategoryService from "../services/CategoryService";
+import CategoriesModal from "./CategoriesModal";
 
 const NewProductForm = () => {
   const [product, setProduct] = useState({
@@ -18,6 +20,17 @@ const NewProductForm = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
+
+  const [categories, setCategories] = useState([]);
+
+  const [addedCategories, setAddedCategories] = useState([]);
+
+  useEffect(() => {
+    CategoryService.getAllCategories().then((response) => {
+      console.log(response?.data);
+      setCategories(response?.data);
+    });
+  }, []);
 
   useEffect(() => {
     setErrorMessage("");
@@ -91,6 +104,12 @@ const NewProductForm = () => {
                   placeholder="https://randomImage.jpg"
                   value={product.imageUrl}
                 />
+                <div>
+                  <div className="flex my-3 py-2 justify-between items-center border-b border-primary-dark">
+                    <h3 className="">Categories</h3>
+                    <CategoriesModal categories={categories} />
+                  </div>
+                </div>
               </div>
 
               <form className="flex flex-col gap-1">
