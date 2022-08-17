@@ -5,8 +5,13 @@ import FormInput from "./FormInput";
 import genericIcon from "../images/generic-boardgame-icon.png";
 import CategoryService from "../services/CategoryService";
 import CategoriesModal from "./CategoriesModal";
+import { MdRemoveCircle } from "react-icons/md";
 
 const NewProductForm = () => {
+  const [categories, setCategories] = useState([]);
+
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -16,18 +21,38 @@ const NewProductForm = () => {
     numberOfPlayers: "",
     gameTime: 0,
     rating: 0,
+    categories: [],
   });
+
+  const addCategory = function (category) {
+    if (selectedCategories.includes(category)) {
+      console.log("Category already added");
+    } else {
+      setSelectedCategories((prevSelectedCategories) => [
+        ...prevSelectedCategories,
+        category,
+      ]);
+      setProduct({ ...product, categories: selectedCategories });
+    }
+  };
+
+  const removeCategory = function (category) {
+    if (selectedCategories.includes(category)) {
+      setSelectedCategories(
+        selectedCategories.filter((c) => c.id !== category.id)
+      );
+      setProduct({ ...product, categories: selectedCategories });
+    } else {
+      console.log("Category is not in the list");
+    }
+  };
+  console.log(product);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const [categories, setCategories] = useState([]);
-
-  const [addedCategories, setAddedCategories] = useState([]);
-
   useEffect(() => {
     CategoryService.getAllCategories().then((response) => {
-      console.log(response?.data);
       setCategories(response?.data);
     });
   }, []);
@@ -105,10 +130,31 @@ const NewProductForm = () => {
                   value={product.imageUrl}
                 />
                 <div>
-                  <div className="flex my-3 py-2 justify-between items-center border-b border-primary-dark">
+                  <div className="flex mt-3 py-2 justify-between items-center border-b border-primary-dark">
                     <h3 className="">Categories</h3>
-                    <CategoriesModal categories={categories} />
+                    <CategoriesModal
+                      categories={categories}
+                      alreadyAddedCategories={selectedCategories}
+                      addCategory={addCategory}
+                    />
                   </div>
+                  {selectedCategories.map((category) => (
+                    <div
+                      key={category?.id}
+                      className="border-b border-primary-dark p-2 flex justify-between items-center"
+                    >
+                      <div>
+                        <p className="text-lg">{category.name}</p>
+                        <p className="text-sm">{category.description}</p>
+                      </div>
+                      <div
+                        className="text-2xl text-white hover:text-red-500"
+                        onClick={() => removeCategory(category)}
+                      >
+                        <MdRemoveCircle />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 

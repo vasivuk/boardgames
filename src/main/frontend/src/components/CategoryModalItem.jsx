@@ -1,19 +1,13 @@
 import React from "react";
-import { useState } from "react";
 
-const CategoryModalItem = ({ category }) => {
-  const [selected, setSelected] = useState(false);
+const CategoryModalItem = ({ category, isSelected, handleClick }) => {
+  const selected = isSelected ? "bg-primary-light" : "bg-neutral-700";
 
-  function handleClick() {
-    setSelected((prevSelected) => !prevSelected);
-    console.log(category.id);
-  }
   return (
     <li
-      onClick={handleClick}
+      onClick={() => handleClick(category)}
       className={
-        "border-b p-4 border-neutral-500 hover:bg-primary-light " +
-        (selected ? " bg-primary-light" : " bg-neutral-700")
+        "border-b p-4 border-neutral-500 hover:bg-primary-light " + selected
       }
     >
       <h3 className="text-lg font-semibold">{category.name}</h3>

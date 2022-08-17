@@ -1,12 +1,40 @@
 import React from "react";
+import { useState } from "react";
 import CategoryModalItem from "./CategoryModalItem";
 
-const CategoriesModal = ({ categories }) => {
+const CategoriesModal = ({
+  categories,
+  alreadyAddedCategories,
+  addCategory,
+}) => {
   const [showModal, setShowModal] = React.useState(false);
 
-  const categoriesItems = categories.map((category) => (
-    <CategoryModalItem key={category.id} category={category} />
-  ));
+  const [newCategories, setNewCategories] = useState([]);
+  function toggleSelected(newCategory) {
+    if (newCategories.includes(newCategory)) {
+      setNewCategories(
+        newCategories.filter((category) => category?.id !== newCategory?.id)
+      );
+    } else {
+      setNewCategories((prevCategories) => [...prevCategories, newCategory]);
+    }
+  }
+
+  const categoriesItems = categories
+    .filter((category) => !alreadyAddedCategories.includes(category))
+    .map((category) => (
+      <CategoryModalItem
+        key={category.id}
+        category={category}
+        isSelected={newCategories.includes(category)}
+        handleClick={toggleSelected}
+      />
+    ));
+
+  function handleSaveChanges() {
+    newCategories.map((category) => addCategory(category));
+    setShowModal(false);
+  }
 
   return (
     <>
@@ -46,7 +74,7 @@ const CategoriesModal = ({ categories }) => {
                   <button
                     className="bg-primary-light text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={() => setShowModal(false)}
+                    onClick={() => handleSaveChanges()}
                   >
                     Save Changes
                   </button>

@@ -15,6 +15,7 @@ const HeroSection = () => {
       {/* Right */}
       <div className="text-8xl text-color_text-dark  px-60">
         <GiAbbotMeeple />
+        {/* <img src={logo} alt="" className="w-96" /> */}
       </div>
     </div>
   );
