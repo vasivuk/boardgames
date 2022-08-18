@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 
 const Product = ({ product }) => {
-
   const categoriesElement =
     product.categories &&
     product.categories.map((category) => (
@@ -15,8 +14,16 @@ const Product = ({ product }) => {
 
   return (
     <div className="p-5">
-      <h1 className="p-5 text-2xl font-extrabold border-b">{product.name}</h1>
-      <FiEdit />
+      <div className="flex items-center">
+        <h1 className="p-5 text-2xl font-extrabold tracking-widest border-b text-neutral-800">
+          {product.name}
+        </h1>
+        <Link to={"./edit"}>
+          <div className="text-xl text-neutral-700 hover:text-primary-standard hover:cursor-pointer">
+            <FiEdit />
+          </div>
+        </Link>
+      </div>
       <div className="flex flex-row gap-5 p-5 border">
         <img src={product.imageUrl} alt="" className="w-96 max-h-fit" />
         <table className="table-auto border w-full">
