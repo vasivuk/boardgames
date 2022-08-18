@@ -4,6 +4,7 @@ import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import RegisterPage from "./components/RegisterPage";
 import ProductForm from "./components/ProductPage";
+import EditProductForm from "./components/EditProductForm";
 import ProductsList from "./components/ProductsList";
 import CategoriesList from "./components/CategoriesList";
 import Layout from "./components/Layout";
@@ -24,6 +25,10 @@ function App() {
 
         <Route path="/boardgames" element={<ProductsList />} />
         <Route path="/boardgames/:id/:title" element={<ProductForm />} />
+        <Route
+          path="/boardgames/:id/:title/edit"
+          element={<EditProductForm />}
+        />
         <Route path="/categories" element={<CategoriesList />} />
         <Route path="/categories/create" element={<NewCategoryForm />} />
         <Route element={<RequireAuth />}></Route>

@@ -9,7 +9,6 @@ const CategoriesList = () => {
 
   useEffect(() => {
     CategoryService.getAllCategories().then((response) => {
-      console.log(response?.data);
       setCategories(response?.data);
     });
   }, []);

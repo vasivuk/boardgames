@@ -70,6 +70,7 @@ public class ProductServiceImpl implements ProductService {
         oldProduct.get().setRating(product.getRating());
         oldProduct.get().setImageUrl(product.getImageUrl());
         oldProduct.get().setSlug((product.getSlug()));
+        oldProduct.get().setCategories(product.getCategories());
 
         return repository.save(oldProduct.get());
     }
