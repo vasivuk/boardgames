@@ -47,7 +47,7 @@ public class Product {
     @Min(0) @Max(5)
     private double rating;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "product_categories",
             joinColumns = @JoinColumn(

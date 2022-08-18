@@ -21,7 +21,6 @@ const NewProductForm = () => {
     numberOfPlayers: "",
     gameTime: 0,
     rating: 0,
-    categories: [],
   });
 
   const addCategory = function (category) {
@@ -32,7 +31,6 @@ const NewProductForm = () => {
         ...prevSelectedCategories,
         category,
       ]);
-      setProduct({ ...product, categories: selectedCategories });
     }
   };
 
@@ -41,12 +39,10 @@ const NewProductForm = () => {
       setSelectedCategories(
         selectedCategories.filter((c) => c.id !== category.id)
       );
-      setProduct({ ...product, categories: selectedCategories });
     } else {
       console.log("Category is not in the list");
     }
   };
-  console.log(product);
 
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
@@ -76,8 +72,13 @@ const NewProductForm = () => {
       setErrorMessage("Invalid product data, a field is empty");
       return;
     }
+    const productWithCategories = {
+      ...product,
+      categories: selectedCategories,
+    };
 
-    ProductService.createProduct(product)
+    console.log(productWithCategories);
+    ProductService.createProduct(productWithCategories)
       .then((response) => {
         console.log(response?.data);
         setSuccess(true);
