@@ -25,12 +25,12 @@ const EditProductForm = () => {
   const [product, setProduct] = useState({
     name: "",
     description: "",
-    price: 0,
+    price: "",
     imageUrl: "",
-    complexity: 0,
+    complexity: "",
     numberOfPlayers: "",
-    gameTime: 0,
-    rating: 0,
+    gameTime: "",
+    rating: "",
   });
 
   useEffect(() => {

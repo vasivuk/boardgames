@@ -33,7 +33,7 @@ const CategoriesModal = ({
       <CategoryModalItem
         key={category.id}
         category={category}
-        isSelected={newCategories.includes(category)}
+        isSelected={newCategories.some((ctg) => ctg.id === category.id)}
         handleClick={toggleSelected}
       />
     ));
