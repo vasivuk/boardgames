@@ -7,6 +7,9 @@ class CategoryService {
   createCategory(category) {
     return axios.post("/categories/create", category);
   }
+  findCategories(searchParam) {
+    return axios.get(`/categories/name?search=${searchParam}`);
+  }
 }
 
 export default new CategoryService();

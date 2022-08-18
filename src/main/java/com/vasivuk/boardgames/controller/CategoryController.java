@@ -56,5 +56,4 @@ public class CategoryController {
     public Category createCategory(@RequestBody @Valid Category category) throws EntityAlreadyExistsException {
         return categoryService.createCategory(category);
     }
-
 }

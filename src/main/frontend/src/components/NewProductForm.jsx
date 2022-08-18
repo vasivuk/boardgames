@@ -12,6 +12,14 @@ const NewProductForm = () => {
 
   const [selectedCategories, setSelectedCategories] = useState([]);
 
+  const [searchParam, setSearchParam] = useState("");
+
+  useEffect(() => {
+    CategoryService.findCategories(searchParam)
+      .then((response) => setCategories(response.data))
+      .catch(() => setCategories([]));
+  }, [searchParam]);
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -137,6 +145,8 @@ const NewProductForm = () => {
                       categories={categories}
                       alreadyAddedCategories={selectedCategories}
                       addCategory={addCategory}
+                      searchParam={searchParam}
+                      setSearchParam={setSearchParam}
                     />
                   </div>
                   {selectedCategories.map((category) => (
