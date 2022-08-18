@@ -7,7 +7,7 @@ import Product from "./Product";
 const ProductForm = () => {
   let { id } = useParams();
   const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -15,10 +15,10 @@ const ProductForm = () => {
       try {
         const response = await ProductService.getProductById(id);
         setProduct(response.data);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
-      setLoading(false);
     };
     fetchData();
   }, [id]);
