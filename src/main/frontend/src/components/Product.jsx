@@ -2,10 +2,9 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
-import { AiFillDelete } from "react-icons/ai";
 import DeleteProductModal from "./DeleteProductModal";
 
-const Product = ({ product }) => {
+const Product = ({ product, handleDelete }) => {
   const categoriesElement =
     product.categories &&
     product.categories.map((category) => (
@@ -25,7 +24,7 @@ const Product = ({ product }) => {
             <FiEdit />
           </div>
         </Link>
-        <DeleteProductModal />
+        <DeleteProductModal handleDelete={handleDelete} />
       </div>
       <div className="flex flex-row gap-5 m-5">
         <img src={product.imageUrl} alt="" className="w-96 max-h-fit" />

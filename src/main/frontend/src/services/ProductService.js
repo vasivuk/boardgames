@@ -13,6 +13,9 @@ class ProductService {
   updateProduct(product) {
     return axios.put(`/products/${product.id}`, product);
   }
+  deleteProduct(id) {
+    return axios.delete(`/products/${id}`);
+  }
 }
 
 export default new ProductService();
