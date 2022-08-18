@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import UserService from "../services/UserService";
-import ErrorMessage from "./ErrorMessage";
+import UserService from "../../services/UserService";
+import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const RegisterForm = () => {
   const [user, setUser] = useState({

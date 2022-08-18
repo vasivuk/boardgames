@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import CategoryService from "../services/CategoryService";
-import ErrorMessage from "./ErrorMessage";
+import CategoryService from "../../services/CategoryService";
+import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const NewCategoryForm = () => {
   const [category, setCategory] = useState({
@@ -32,6 +32,7 @@ const NewCategoryForm = () => {
       .then((response) => {
         console.log(response?.data);
         setSuccess(true);
+        setCategory({ name: "", description: "" });
       })
       .catch((error) => {
         console.log(error);

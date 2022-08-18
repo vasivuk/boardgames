@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import AuthContext from "../context/AuthProvider";
+import AuthContext from "../../context/AuthProvider";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import UserService from "../services/UserService";
-import ErrorMessage from "./ErrorMessage";
+import UserService from "../../services/UserService";
+import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const LoginForm = () => {
   const { setAuth } = useContext(AuthContext);

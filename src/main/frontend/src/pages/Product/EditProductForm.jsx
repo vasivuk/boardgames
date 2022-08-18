@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ProductService from "../services/ProductService";
-import ErrorMessage from "./ErrorMessage";
-import FormInput from "./FormInput";
-import genericIcon from "../images/generic-boardgame-icon.png";
-import CategoryService from "../services/CategoryService";
+import ProductService from "../../services/ProductService";
+import ErrorMessage from "../../components/ui/ErrorMessage";
+import FormInput from "../../components/form/FormInput";
+import genericIcon from "../../images/generic-boardgame-icon.png";
+import CategoryService from "../../services/CategoryService";
 import CategoriesModal from "./CategoriesModal";
 import { MdRemoveCircle } from "react-icons/md";
 

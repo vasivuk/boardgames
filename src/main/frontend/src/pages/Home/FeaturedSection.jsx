@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
-import data from "../test-data/BoardgameData";
-import ProductService from "../services/ProductService";
+import ProductCard from "../../components/ProductCard";
+import ProductService from "../../services/ProductService";
 
 const FeaturedSection = () => {
   const [products, setProducts] = useState([]);

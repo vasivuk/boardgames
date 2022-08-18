@@ -1,17 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
-import HomePage from "./components/HomePage";
-import LoginPage from "./components/LoginPage";
-import RegisterPage from "./components/RegisterPage";
-import ProductForm from "./components/ProductPage";
-import EditProductForm from "./components/EditProductForm";
-import ProductsList from "./components/ProductsList";
-import CategoriesList from "./components/CategoriesList";
+import HomePage from "./pages/Home/HomePage";
+import LoginPage from "./pages/Login/LoginPage";
+import RegisterPage from "./pages/Register/RegisterPage";
+import ProductForm from "./pages/Product/ProductPage";
+import EditProductForm from "./pages/Product/EditProductForm";
+import ProductsList from "./pages/Product/ProductsList";
+import CategoriesList from "./pages/Category/CategoriesList";
 import Layout from "./components/Layout";
-import Page404 from "./components/Page404";
+import Page404 from "./pages/Page404";
 import RequireAuth from "./components/RequireAuth";
-import NewProductForm from "./components/NewProductForm";
-import NewCategoryForm from "./components/NewCategoryForm";
+import NewProductForm from "./pages/Product/NewProductForm";
+import NewCategoryForm from "./pages/Category/NewCategoryForm";
 
 function App() {
   return (
