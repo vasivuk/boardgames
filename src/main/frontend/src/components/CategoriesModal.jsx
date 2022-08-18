@@ -21,7 +21,12 @@ const CategoriesModal = ({
   }
 
   const categoriesItems = categories
-    .filter((category) => !alreadyAddedCategories.includes(category))
+    .filter(
+      (category) =>
+        !alreadyAddedCategories.some(
+          (element) => JSON.stringify(category) === JSON.stringify(element)
+        )
+    )
     .map((category) => (
       <CategoryModalItem
         key={category.id}
@@ -49,7 +54,7 @@ const CategoriesModal = ({
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative w-auto my-6 mx-auto max-w-3xl">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-600 outline-none focus:outline-none">
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-200 outline-none focus:outline-none">
                 {/*header*/}
                 <input
                   type="text"
@@ -63,7 +68,7 @@ const CategoriesModal = ({
                   </ul>
                 </div>
                 {/*footer*/}
-                <div className="flex items-center justify-between p-6 border-t border-neutral-500 rounded-b">
+                <div className="flex items-center justify-between p-6 border-t rounded-b">
                   <button
                     className="bg-rose-500 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"

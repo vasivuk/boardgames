@@ -13,6 +13,7 @@ const EditProductForm = () => {
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -30,9 +31,6 @@ const EditProductForm = () => {
       setSelectedCategories(response.data.categories);
     });
   }, [id]);
-
-  const [selectedCategories, setSelectedCategories] = useState([]);
-
   const addCategory = function (category) {
     if (selectedCategories.includes(category)) {
       console.log("Category already added");
