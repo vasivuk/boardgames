@@ -2,9 +2,10 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductService from "../../services/ProductService";
-import ProductCard from "../../components/ProductCard";
+import FilterSection from "./FilterSection";
+import ProductListSection from "./ProductListSection";
 
-const ProductsList = () => {
+const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -30,14 +31,13 @@ const ProductsList = () => {
           Add New Product
         </button>
       </Link>
-      <div className="flex flex-row flex-wrap justify-start p-10 gap-5 mx-14">
-        {!loading &&
-          products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+
+      <div className="flex gap-5">
+        <FilterSection />
+        <ProductListSection products={products} loading={loading} />
       </div>
     </div>
   );
 };
 
-export default ProductsList;
+export default ProductsPage;

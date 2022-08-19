@@ -5,7 +5,7 @@ import LoginPage from "./pages/Login/LoginPage";
 import RegisterPage from "./pages/Register/RegisterPage";
 import ProductForm from "./pages/Product/ProductPage";
 import EditProductForm from "./pages/Product/EditProductForm";
-import ProductsList from "./pages/Product/ProductsList";
+import ProductsPage from "./pages/Product/ProductsPage";
 import CategoriesList from "./pages/Category/CategoriesList";
 import Layout from "./components/Layout";
 import Page404 from "./pages/Page404";
@@ -23,7 +23,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/boardgames/create" element={<NewProductForm />} />
 
-        <Route path="/boardgames" element={<ProductsList />} />
+        <Route path="/boardgames" element={<ProductsPage />} />
         <Route path="/boardgames/:id/:title" element={<ProductForm />} />
         <Route
           path="/boardgames/:id/:title/edit"
