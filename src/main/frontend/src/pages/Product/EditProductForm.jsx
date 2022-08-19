@@ -7,6 +7,7 @@ import genericIcon from "../../images/generic-boardgame-icon.png";
 import CategoryService from "../../services/CategoryService";
 import CategoriesModal from "./CategoriesModal";
 import { MdRemoveCircle } from "react-icons/md";
+import { Rating } from "@mui/material";
 
 const EditProductForm = () => {
   const { id } = useParams();
@@ -30,7 +31,7 @@ const EditProductForm = () => {
     complexity: "",
     numberOfPlayers: "",
     gameTime: "",
-    rating: "",
+    rating: 0,
   });
 
   useEffect(() => {
@@ -200,14 +201,19 @@ const EditProductForm = () => {
                 placeholder="2-4"
                 value={product.numberOfPlayers}
               />
-              <FormInput
-                type="number"
-                name="rating"
-                label={"Rating: "}
-                onChange={handleChange}
-                placeholder="3.5"
-                value={product.rating}
-              />
+
+              <p className="text-sm">Rating:</p>
+              <div className="flex items-center">
+                <Rating
+                  size="large"
+                  precision={0.5}
+                  name="rating"
+                  defaultValue={product.rating}
+                  value={product.rating}
+                  onChange={handleChange}
+                />{" "}
+                <span className="text-sm">({product.rating})</span>
+              </div>
 
               <FormInput
                 type="number"

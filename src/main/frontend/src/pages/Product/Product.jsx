@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
 import DeleteProductModal from "./DeleteProductModal";
+import { FaStar } from "react-icons/fa";
 
 const Product = ({ product, handleDelete }) => {
   const categoriesElement =
@@ -54,7 +55,12 @@ const Product = ({ product, handleDelete }) => {
             </tr>
             <tr className="border-b">
               <td className="px-5">Rating</td>
-              <td>{product.rating}</td>
+              <td>
+                <div className="flex items-center gap-1">
+                  <FaStar className="text-yellow-500 text-xl" />
+                  <span>{product.rating}/5</span>
+                </div>
+              </td>
             </tr>
             <tr className="border-b">
               <td className="px-5">Complexity</td>

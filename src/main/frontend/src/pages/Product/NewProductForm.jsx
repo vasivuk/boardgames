@@ -6,6 +6,7 @@ import genericIcon from "../../images/generic-boardgame-icon.png";
 import CategoryService from "../../services/CategoryService";
 import CategoriesModal from "./CategoriesModal";
 import { MdRemoveCircle } from "react-icons/md";
+import { Rating } from "@mui/material";
 
 const NewProductForm = () => {
   const [categories, setCategories] = useState([]);
@@ -28,7 +29,7 @@ const NewProductForm = () => {
     complexity: "",
     numberOfPlayers: "",
     gameTime: "",
-    rating: "",
+    rating: 0,
   });
 
   const addCategory = function (category) {
@@ -194,7 +195,6 @@ const NewProductForm = () => {
                   placeholder="2.4"
                   value={product.complexity}
                 />
-
                 <FormInput
                   type="text"
                   name="numberOfPlayers"
@@ -203,15 +203,19 @@ const NewProductForm = () => {
                   placeholder="2-4"
                   value={product.numberOfPlayers}
                 />
-                <FormInput
-                  type="number"
-                  name="rating"
-                  label={"Rating: "}
-                  onChange={handleChange}
-                  placeholder="3.5"
-                  value={product.rating}
-                />
 
+                <p className="text-sm">Rating:</p>
+                <div className="flex items-center">
+                  <Rating
+                    size="large"
+                    precision={0.5}
+                    name="rating"
+                    defaultValue={product.rating}
+                    value={product.rating}
+                    onChange={handleChange}
+                  />{" "}
+                  <span className="text-sm">({product.rating})</span>
+                </div>
                 <FormInput
                   type="number"
                   name="gameTime"
@@ -220,7 +224,6 @@ const NewProductForm = () => {
                   placeholder="120"
                   value={product.gameTime}
                 />
-
                 <div className="items-center justify-center w-full">
                   <label
                     htmlFor="description"
