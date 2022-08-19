@@ -23,6 +23,13 @@ class ProductService {
   deleteProduct(id) {
     return axios.delete(`/products/${id}`);
   }
+  fetchProductsByName(name) {
+    return axios.get("/products", {
+      params: {
+        name: name,
+      },
+    });
+  }
 }
 
 export default new ProductService();

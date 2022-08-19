@@ -24,14 +24,10 @@ public class ProductController {
 
     @GetMapping(PRODUCT_COMMON)
     public List<Product> fetchProducts(@RequestParam Optional<String> pmin, @RequestParam Optional<String> pmax,
-                                       @RequestParam Optional<String> tmin, @RequestParam Optional<String> tmax) {
-        System.out.println("Minimum price: " + pmin);
-        System.out.println("Maximum price: " + pmax);
+                                       @RequestParam Optional<String> tmin, @RequestParam Optional<String> tmax,
+                                       @RequestParam Optional<String> name) {
 
-        System.out.println("Minimum time: " + tmin);
-        System.out.println("Maximum time: " + tmax);
-
-        return service.findProducts(pmin, pmax, tmin, tmax);
+        return service.findProducts(pmin, pmax, tmin, tmax, name);
     }
 
 

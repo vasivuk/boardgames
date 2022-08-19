@@ -20,7 +20,6 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
-    private BigDecimal priceMax;
 
     public List<Product> findAllProducts() {
         log.info("Fetching all products");
@@ -87,13 +86,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> findProducts(Optional<String> pmin, Optional<String> pmax, Optional<String> tmin, Optional<String> tmax) {
+    public List<Product> findProducts(Optional<String> pmin, Optional<String> pmax,
+                                      Optional<String> tmin, Optional<String> tmax, Optional<String> name) {
         if (pmin.isPresent() && pmax.isPresent() && tmin.isPresent() && tmax.isPresent()) {
             BigDecimal priceMin = new BigDecimal((pmin.get()));
             BigDecimal priceMax = new BigDecimal((pmax.get()));
             int gameTimeMin = Integer.parseInt(tmin.get());
             int gameTimeMax = Integer.parseInt(tmax.get());
             return repository.findProductsByPriceAndTime(priceMin, priceMax, gameTimeMin, gameTimeMax);
+        } else if(name.isPresent()) {
+            return repository.findAllByNameContainingIgnoreCase(name.get());
         }
         return repository.findAll();
     }

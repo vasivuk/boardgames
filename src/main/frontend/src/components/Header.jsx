@@ -1,10 +1,25 @@
 import React from "react";
+import { createSearchParams, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import { useState } from "react";
 
 const Header = () => {
   const { auth } = useAuth();
+  const [name, setName] = useState("");
+  const navigate = useNavigate();
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    console.log(name);
+    navigate({
+      pathname: "/boardgames",
+      search: createSearchParams({
+        name: name,
+      }).toString(),
+    });
+  }
 
   return (
     <div className="bg-primary-dark flex justify-between px-10 py-6">
@@ -18,17 +33,22 @@ const Header = () => {
         </Link>
       </div>
       {/* Search */}
-      <div className="flex items-center text-color_text-light w-1/2">
+      <form
+        className="flex items-center text-color_text-light w-1/2"
+        onSubmit={handleSubmit}
+      >
         <input
           type="text"
-          name=""
-          id=""
+          name="name"
+          id="name"
           className="text-slate-900 px-2 py-1 rounded-l-lg focus:outline-none focus:bg-slate-100 w-full"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
-        <button className="bg-secondary-dark py-1 px-4 text-color_text-dark  font-semibold rounded-r-lg hover:bg-slate-400">
+        <button className="bg-secondary-dark py-1 px-4 text-color_text-dark  font-semibold rounded-r-lg hover:bg-neutral-300">
           Search
         </button>
-      </div>
+      </form>
       {/* Login Button */}
       <div className="w-1/4 flex justify-end items-center ">
         {auth?.accessToken ? (

@@ -1,6 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import CategoryService from "../../services/CategoryService";
 import ProductService from "../../services/ProductService";
 import FilterSection from "./FilterSection";
@@ -9,6 +9,9 @@ import ProductListSection from "./ProductListSection";
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  let [searchParams, setSearchParams] = useSearchParams();
+  const name = searchParams.get("name");
 
   const [signal, setSignal] = useState(false);
 
@@ -57,12 +60,15 @@ const ProductsPage = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await ProductService.fetchProducts(
-          price[0],
-          price[1],
-          gameTime[0],
-          gameTime[1]
-        );
+        let response;
+        name
+          ? (response = await ProductService.fetchProductsByName(name))
+          : (response = await ProductService.fetchProducts(
+              price[0],
+              price[1],
+              gameTime[0],
+              gameTime[1]
+            ));
         setProducts(response.data);
       } catch (error) {
         console.log(error);
@@ -70,7 +76,7 @@ const ProductsPage = () => {
       setLoading(false);
     };
     fetchData();
-  }, [signal]);
+  }, [signal, name]);
 
   return (
     <div className="flex flex-col items-center">

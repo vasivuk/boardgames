@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Optional<Product> findByNameIgnoreCase(String name);
+    List<Product> findAllByNameContainingIgnoreCase(String name);
 
     @Query( value = "select p from Product p where " +
             "p.price > ?1 and " +

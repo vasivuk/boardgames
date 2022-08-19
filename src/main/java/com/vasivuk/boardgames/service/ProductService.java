@@ -43,5 +43,5 @@ public interface ProductService {
      */
     void deleteProduct(Long id) throws EntityNotFoundException;
 
-    List<Product> findProducts(Optional<String> pmin, Optional<String> pmax, Optional<String> tmin, Optional<String> tmax);
+    List<Product> findProducts(Optional<String> pmin, Optional<String> pmax, Optional<String> tmin, Optional<String> tmax, Optional<String> name);
 }
