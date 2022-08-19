@@ -9,6 +9,8 @@ import com.vasivuk.boardgames.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository repository;
+    private BigDecimal priceMax;
 
     public List<Product> findAllProducts() {
         log.info("Fetching all products");
@@ -81,5 +84,17 @@ public class ProductServiceImpl implements ProductService {
             throw new EntityNotFoundException("Product doesn't exist.");
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<Product> findProducts(Optional<String> pmin, Optional<String> pmax, Optional<String> tmin, Optional<String> tmax) {
+        if (pmin.isPresent() && pmax.isPresent() && tmin.isPresent() && tmax.isPresent()) {
+            BigDecimal priceMin = new BigDecimal((pmin.get()));
+            BigDecimal priceMax = new BigDecimal((pmax.get()));
+            int gameTimeMin = Integer.parseInt(tmin.get());
+            int gameTimeMax = Integer.parseInt(tmax.get());
+            return repository.findProductsByPriceAndTime(priceMin, priceMax, gameTimeMin, gameTimeMax);
+        }
+        return repository.findAll();
     }
 }

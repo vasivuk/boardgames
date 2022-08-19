@@ -1,8 +1,15 @@
 import axios from "../api/axios";
 
 class ProductService {
-  getAllProducts() {
-    return axios.get("/products");
+  fetchProducts(pmin, pmax, tmin, tmax) {
+    return axios.get("/products", {
+      params: {
+        pmin: pmin,
+        pmax: pmax,
+        tmin: tmin,
+        tmax: tmax,
+      },
+    });
   }
   getProductById(id) {
     return axios.get(`products/${id}`);

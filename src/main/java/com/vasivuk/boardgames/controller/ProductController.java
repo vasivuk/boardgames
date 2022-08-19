@@ -2,6 +2,7 @@ package com.vasivuk.boardgames.controller;
 
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.exception.EntityNotFoundException;
+import com.vasivuk.boardgames.model.Category;
 import com.vasivuk.boardgames.model.Product;
 import com.vasivuk.boardgames.model.dto.ProductDTO;
 import com.vasivuk.boardgames.service.impl.ProductServiceImpl;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 import static com.vasivuk.boardgames.configuration.Routes.*;
 
@@ -21,9 +23,17 @@ public class ProductController {
     private final ProductServiceImpl service;
 
     @GetMapping(PRODUCT_COMMON)
-    public List<Product> getAllProducts() {
-        return service.findAllProducts();
+    public List<Product> fetchProducts(@RequestParam Optional<String> pmin, @RequestParam Optional<String> pmax,
+                                       @RequestParam Optional<String> tmin, @RequestParam Optional<String> tmax) {
+        System.out.println("Minimum price: " + pmin);
+        System.out.println("Maximum price: " + pmax);
+
+        System.out.println("Minimum time: " + tmin);
+        System.out.println("Maximum time: " + tmax);
+
+        return service.findProducts(pmin, pmax, tmin, tmax);
     }
+
 
     @GetMapping(PRODUCT_COMMON + ID)
     public Product findProductById(@PathVariable("id") Long productId) throws EntityNotFoundException {

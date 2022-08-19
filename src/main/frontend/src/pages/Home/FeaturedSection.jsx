@@ -10,7 +10,7 @@ const FeaturedSection = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await ProductService.getAllProducts();
+        const response = await ProductService.fetchProducts();
         setProducts(response.data);
       } catch (error) {
         console.log(error);

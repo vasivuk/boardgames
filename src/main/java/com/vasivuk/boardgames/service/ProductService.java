@@ -6,6 +6,7 @@ import com.vasivuk.boardgames.model.Product;
 import com.vasivuk.boardgames.model.dto.ProductDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ProductService {
 
@@ -41,4 +42,6 @@ public interface ProductService {
      * @param id proizvod koji se briše
      */
     void deleteProduct(Long id) throws EntityNotFoundException;
+
+    List<Product> findProducts(Optional<String> pmin, Optional<String> pmax, Optional<String> tmin, Optional<String> tmax);
 }
