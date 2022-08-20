@@ -71,7 +71,7 @@ public class ProductServiceImpl implements ProductService {
         oldProduct.get().setNumberOfPlayers(product.getNumberOfPlayers());
         oldProduct.get().setRating(product.getRating());
         oldProduct.get().setImageUrl(product.getImageUrl());
-        oldProduct.get().setSlug((product.getSlug()));
+        oldProduct.get().setSlug(product.getName().toLowerCase().replace(" ", "-"));
         oldProduct.get().setCategories(product.getCategories());
 
         return repository.save(oldProduct.get());
