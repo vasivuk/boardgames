@@ -5,6 +5,7 @@ import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.dto.AppUserDTO;
 import com.vasivuk.boardgames.repository.UserRepository;
+import com.vasivuk.boardgames.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,19 +23,19 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest
+@SpringBootTest(classes = UserServiceTest.class)
 @Slf4j
 class UserServiceTest {
 
-    @Autowired
     private UserService userService;
 
     @MockBean
     private UserRepository userRepository;
 
-
     @BeforeEach
     void setUp() {
+        userService = new UserServiceImpl(userRepository, new BCryptPasswordEncoder());
+
         AppUser user = AppUser.builder()
                 .email("marko@gmail.com")
                 .firstName("Marko")
