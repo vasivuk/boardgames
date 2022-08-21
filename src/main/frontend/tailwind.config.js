@@ -11,8 +11,8 @@ module.exports = {
         },
 
         secondary: {
-          standard: "#d7ceb4",
-          dark: "#eeebe0",
+          standard: "#D0A88E",
+          dark: "#A6BF82",
         },
 
         color_text: {
