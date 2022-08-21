@@ -5,6 +5,7 @@ import App from "./App";
 import { AuthProvider } from "./context/AuthProvider";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { CookiesProvider } from "react-cookie";
 
 const theme = createTheme({
   palette: {
@@ -21,13 +22,15 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <AuthProvider>
-          <Routes>
-            <Route path="/*" element={<App />} />
-          </Routes>
-        </AuthProvider>
-      </ThemeProvider>
+      <CookiesProvider>
+        <ThemeProvider theme={theme}>
+          <AuthProvider>
+            <Routes>
+              <Route path="/*" element={<App />} />
+            </Routes>
+          </AuthProvider>
+        </ThemeProvider>
+      </CookiesProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
