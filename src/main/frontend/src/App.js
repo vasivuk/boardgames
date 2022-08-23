@@ -19,28 +19,28 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         {/* Public routes */}
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-
-        <Route path="/boardgames" element={<ProductsPage />} />
-        <Route path="/boardgames/:id/:title" element={<ProductForm />} />
-        <Route
-          path="/boardgames/:id/:title/edit"
-          element={<EditProductForm />}
-        />
-        <Route path="/categories" element={<CategoriesList />} />
-
-        {/* Protected routes */}
         <Route element={<PersistLogin />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+
+          <Route path="/boardgames" element={<ProductsPage />} />
+          <Route path="/boardgames/:id/:title" element={<ProductForm />} />
+          <Route
+            path="/boardgames/:id/:title/edit"
+            element={<EditProductForm />}
+          />
+          <Route path="/categories" element={<CategoriesList />} />
+
+          {/* Protected routes */}
           <Route element={<RequireAuth allowedRole={"ADMIN"} />}>
             <Route path="/boardgames/create" element={<NewProductForm />} />
             <Route path="/categories/create" element={<NewCategoryForm />} />
           </Route>
-        </Route>
 
-        {/* Catch all */}
-        <Route path="*" element={<Page404 />} />
+          {/* Catch all */}
+          <Route path="*" element={<Page404 />} />
+        </Route>
       </Route>
     </Routes>
   );

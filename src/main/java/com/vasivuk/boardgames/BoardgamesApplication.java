@@ -43,6 +43,10 @@ public class BoardgamesApplication {
 						.allowedOrigins("http://localhost:3000")
 						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
 						.allowCredentials(true);
+				registry.addMapping("/api/logout")
+						.allowedOrigins("http://localhost:3000")
+						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+						.allowCredentials(true);
 				registry.addMapping(("/api/**")).allowedOrigins(("http://localhost:3000"));
 			}
 		};

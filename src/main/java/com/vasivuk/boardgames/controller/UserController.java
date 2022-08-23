@@ -13,12 +13,14 @@ import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.dto.AppUserDTO;
 import com.vasivuk.boardgames.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -36,6 +38,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @CrossOrigin(origins = "http://localhost:3000/**")
 public class UserController {
 
@@ -62,12 +65,30 @@ public class UserController {
         return service.saveUser(appUser);
     }
 
+    @GetMapping("/api/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response,
+                                         @CookieValue(value = "refreshToken") String refreshToken) {
+        log.info("In logout controller");
+        if (refreshToken.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        Cookie deleteRefreshToken = new Cookie("refreshToken", null);
+        deleteRefreshToken.setMaxAge(0);
+        deleteRefreshToken.setHttpOnly(true);
+        deleteRefreshToken.setSecure(true);
+        deleteRefreshToken.setPath("/");
+
+        response.addCookie(deleteRefreshToken);
+        return ResponseEntity.ok("Successfully logged out");
+    }
+
     @GetMapping("/api/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response,
-                                       @CookieValue(value = "refreshToken") String refreshToken) throws IOException {
+                             @CookieValue(value = "refreshToken") String refreshToken) throws IOException {
         Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET.getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();
         try {
+            log.info("Refreshing token");
             DecodedJWT decodedJWT = verifier.verify(refreshToken);
             String email = decodedJWT.getSubject();
             AppUser user = service.findUserByEmail(email);

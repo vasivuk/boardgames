@@ -4,10 +4,12 @@ import { FaUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
+import useLogout from "../hooks/useLogout";
 
 const Header = () => {
   const { auth } = useAuth();
   const [name, setName] = useState("");
+  const logout = useLogout();
   const navigate = useNavigate();
 
   function handleSubmit(e) {
@@ -52,13 +54,13 @@ const Header = () => {
       {/* Login Button */}
       <div className="w-1/4 flex justify-end items-center ">
         {auth?.accessToken ? (
-          <Link
-            to={"/logout"}
+          <button
+            onClick={logout}
             className="text-color_text-light flex items-center space-x-2 hover:text-yellow-400"
           >
             <FaUser />
             <p>Log Out</p>
-          </Link>
+          </button>
         ) : (
           <Link
             to={"/login"}
