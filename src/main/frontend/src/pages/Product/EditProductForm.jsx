@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import FormInput from "../../components/form/FormInput";
 import genericIcon from "../../images/generic-boardgame-icon.png";
@@ -12,6 +12,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 const EditProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
   const axiosPrivate = useAxiosPrivate();
 
   const [categories, setCategories] = useState([]);
@@ -110,6 +111,7 @@ const EditProductForm = () => {
           setErrorMessage("Product with supplied id doesn't exist");
         } else if (error.response?.status === 403) {
           setErrorMessage("Unauthorized Action");
+          navigate("/login", { state: { from: location }, replace: true });
         } else {
           setErrorMessage("Can't create product");
         }

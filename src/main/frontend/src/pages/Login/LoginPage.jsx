@@ -35,12 +35,14 @@ const LoginForm = () => {
     axios
       .post("/login", params, { withCredentials: true })
       .then((response) => {
-        const accessToken = response?.data?.access_token;
+        console.log(response?.data);
+        const accessToken = response?.data?.accessToken;
         console.log(response);
         //TODO: Get ADMIN role
         const email = user.email;
         const pass = user.password;
-        setAuth({ email, pass, accessToken });
+        const role = response?.data?.authority;
+        setAuth({ email, pass, role, accessToken });
         setUser({ email: "", password: "" });
         navigate(from, { replace: true });
       })

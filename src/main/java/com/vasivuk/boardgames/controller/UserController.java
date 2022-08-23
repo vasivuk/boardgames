@@ -3,6 +3,7 @@ package com.vasivuk.boardgames.controller;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vasivuk.boardgames.configuration.Constants;
@@ -64,10 +65,9 @@ public class UserController {
                                        @CookieValue(value = "refreshToken") String refreshToken) throws IOException {
         Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET.getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();
-        DecodedJWT decodedJWT = verifier.verify(refreshToken);
-
-        String email = decodedJWT.getSubject();
         try {
+            DecodedJWT decodedJWT = verifier.verify(refreshToken);
+            String email = decodedJWT.getSubject();
             AppUser user = service.findUserByEmail(email);
 
             String accessToken = JWT.create()
@@ -80,7 +80,7 @@ public class UserController {
             Map<String, String> tokens = new HashMap<>();
             tokens.put("accessToken", accessToken);
             new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-        } catch (EntityNotFoundException e) {
+        } catch (Exception e) {
             response.setStatus(FORBIDDEN.value());
             Map<String, String> error = new HashMap<>();
             error.put("error_message", e.getMessage());

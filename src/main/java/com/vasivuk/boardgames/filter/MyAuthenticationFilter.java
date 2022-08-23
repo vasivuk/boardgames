@@ -77,9 +77,8 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
 
         Map<String, String> tokens = new HashMap<>();
         tokens.put("accessToken", accessToken);
-
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
+        tokens.put("authority", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()).get(0));
+                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
         refreshTokenCookie.setSecure(true);

@@ -51,10 +51,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         //For TESTING
         //http.authorizeRequests().mvcMatchers("/**").permitAll();
         //Admin only routes
-//        http.authorizeRequests().mvcMatchers(HttpMethod.POST, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
-//        http.authorizeRequests().mvcMatchers(HttpMethod.PUT, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
-//        http.authorizeRequests().mvcMatchers(HttpMethod.DELETE, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
-//        http.authorizeRequests().mvcMatchers(USER_COMMON + ID + ASSIGN_ADMIN).hasAuthority(UserRole.ADMIN);
+        http.authorizeRequests().mvcMatchers(HttpMethod.POST, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
+        http.authorizeRequests().mvcMatchers(HttpMethod.PUT, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
+        http.authorizeRequests().mvcMatchers(HttpMethod.DELETE, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
+        http.authorizeRequests().mvcMatchers(USER_COMMON + ID + ASSIGN_ADMIN).hasAuthority(UserRole.ADMIN);
         //Logged User routes
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilter(myAuthenticationFilter);
