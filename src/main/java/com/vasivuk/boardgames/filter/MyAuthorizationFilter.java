@@ -3,6 +3,7 @@ package com.vasivuk.boardgames.filter;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +35,7 @@ public class MyAuthorizationFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(AUTHORIZATION);
-            if(authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
+            if (authorizationHeader != null && authorizationHeader.startsWith(BEARER)) {
                 String token = authorizationHeader.substring(BEARER.length());
                 Algorithm algorithm = Algorithm.HMAC256(SECRET.getBytes());
                 JWTVerifier verifier = JWT.require(algorithm).build();
@@ -51,13 +52,19 @@ public class MyAuthorizationFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                 } catch (TokenExpiredException ex) {
                     log.error("Error logging in: {}", ex.getMessage());
-                    response.setHeader("error", ex.getMessage());
                     response.setStatus(FORBIDDEN.value());
                     Map<String, String> error = new HashMap<>();
                     error.put("error_message", ex.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);
                     new ObjectMapper().writeValue(response.getOutputStream(), error);
+                } catch (JWTDecodeException exc) {
+                    response.setStatus(FORBIDDEN.value());
+                    Map<String, String> error = new HashMap<>();
+                    error.put("error_message", exc.getMessage());
+                    response.setContentType(APPLICATION_JSON_VALUE);
+                    new ObjectMapper().writeValue(response.getOutputStream(), error);
                 }
+
             } else {
                 filterChain.doFilter(request, response);
             }

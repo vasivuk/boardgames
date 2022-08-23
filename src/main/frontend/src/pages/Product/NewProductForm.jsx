@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import ProductService from "../../services/ProductService";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import FormInput from "../../components/form/FormInput";
 import genericIcon from "../../images/generic-boardgame-icon.png";
-import CategoryService from "../../services/CategoryService";
 import CategoriesModal from "./CategoriesModal";
 import { MdRemoveCircle } from "react-icons/md";
 import { Rating } from "@mui/material";
+import axios from "../../api/axios";
 
 const NewProductForm = () => {
   const [categories, setCategories] = useState([]);
@@ -16,7 +15,8 @@ const NewProductForm = () => {
   const [searchParam, setSearchParam] = useState("");
 
   useEffect(() => {
-    CategoryService.findCategories(searchParam)
+    axios
+      .get(`/categories/name?search=${searchParam}`)
       .then((response) => setCategories(response.data))
       .catch(() => setCategories([]));
   }, [searchParam]);
@@ -57,7 +57,7 @@ const NewProductForm = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
-    CategoryService.getAllCategories().then((response) => {
+    axios.get("/categories").then((response) => {
       setCategories(response?.data);
     });
   }, []);
@@ -87,7 +87,8 @@ const NewProductForm = () => {
     };
 
     console.log(productWithCategories);
-    ProductService.createProduct(productWithCategories)
+    axios
+      .post("/products/create", product)
       .then((response) => {
         console.log(response?.data);
         setSuccess(true);

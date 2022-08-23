@@ -26,11 +26,17 @@ public class BoardgamesApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/api/login").allowedOrigins("http://localhost:3000")
+				registry.addMapping("/api/login")
+						.allowedOrigins("http://localhost:3000")
 						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
 						.allowedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
 						.allowCredentials(true);
-				registry.addMapping("/api/token/refresh").allowedOrigins("http://localhost:3000")
+				registry.addMapping("/api/token/refresh")
+						.allowedOrigins("http://localhost:3000")
+						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+						.allowCredentials(true);
+				registry.addMapping("/api/products/1")
+						.allowedOrigins("http://localhost:3000")
 						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
 						.allowCredentials(true);
 				registry.addMapping(("/api/**")).allowedOrigins(("http://localhost:3000"));

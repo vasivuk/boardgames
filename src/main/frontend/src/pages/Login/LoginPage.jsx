@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import AuthContext from "../../context/AuthProvider";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import UserService from "../../services/UserService";
 import ErrorMessage from "../../components/ui/ErrorMessage";
-import { useCookies } from "react-cookie";
+import axios from "../../api/axios";
 
 const LoginForm = () => {
   const { setAuth } = useContext(AuthContext);
@@ -11,8 +10,6 @@ const LoginForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
-
-  const [cookies, setCookies] = useCookies();
 
   const [user, setUser] = useState({
     email: "",
@@ -32,7 +29,11 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    UserService.login(user)
+    const params = new URLSearchParams();
+    params.append("email", user.email);
+    params.append("password", user.password);
+    axios
+      .post("/login", params, { withCredentials: true })
       .then((response) => {
         const accessToken = response?.data?.access_token;
         console.log(response);
@@ -57,13 +58,6 @@ const LoginForm = () => {
       });
   };
 
-  function handleRefresh(e) {
-    e.preventDefault();
-    UserService.refreshToken()
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-  }
-
   return (
     <div className="w-full h-screen flex justify-center items-start mt-10">
       {/* Login form */}
@@ -71,7 +65,6 @@ const LoginForm = () => {
         <div className="p-8">
           {errorMessage && <ErrorMessage message={errorMessage} />}
           <div className="font-thin text-2xl tracking-wider py-3">
-            {cookies && <p>{cookies?.refreshToken}</p>}
             <h1>Log In</h1>
           </div>
           <form>
@@ -116,12 +109,6 @@ const LoginForm = () => {
               className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 my-5 w-full enabled:hover:bg-secondary-dark disabled:opacity-50"
             >
               Log In
-            </button>
-            <button
-              onClick={handleRefresh}
-              className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 my-5 w-full enabled:hover:bg-secondary-dark disabled:opacity-50"
-            >
-              Refresh Token
             </button>
           </form>
           <p>Don't have an account?</p>

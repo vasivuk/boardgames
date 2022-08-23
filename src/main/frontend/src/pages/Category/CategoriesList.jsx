@@ -2,13 +2,13 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import CategoryService from "../../services/CategoryService";
+import axios from "../../api/axios";
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    CategoryService.getAllCategories().then((response) => {
+    axios.get("/categories").then((response) => {
       setCategories(response?.data);
     });
   }, []);

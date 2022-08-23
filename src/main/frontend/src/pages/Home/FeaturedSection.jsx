@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
+import axios from "../../api/axios";
 import ProductCard from "../../components/ProductCard";
-import ProductService from "../../services/ProductService";
 
 const FeaturedSection = () => {
   const [products, setProducts] = useState([]);
@@ -10,7 +10,7 @@ const FeaturedSection = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await ProductService.fetchProducts();
+        const response = await axios.get("/products");
         setProducts(response.data);
       } catch (error) {
         console.log(error);

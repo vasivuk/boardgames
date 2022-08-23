@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import CategoryService from "../../services/CategoryService";
+import axios from "../../api/axios";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const NewCategoryForm = () => {
@@ -28,7 +28,8 @@ const NewCategoryForm = () => {
       return;
     }
 
-    CategoryService.createCategory(category)
+    axios
+      .post("/categories/create", category)
       .then((response) => {
         console.log(response?.data);
         setSuccess(true);

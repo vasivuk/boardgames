@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import UserService from "../../services/UserService";
+import axios from "../../api/axios";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const RegisterForm = () => {
@@ -35,7 +35,8 @@ const RegisterForm = () => {
       setErrorMessage("Invalid user data, a field is empty");
       return;
     }
-    UserService.saveUser(user)
+    axios
+      .post("/register", user)
       .then((response) => {
         console.log(response.data);
         setSuccess(true);

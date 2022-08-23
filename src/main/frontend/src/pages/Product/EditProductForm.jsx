@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ProductService from "../../services/ProductService";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import FormInput from "../../components/form/FormInput";
 import genericIcon from "../../images/generic-boardgame-icon.png";
-import CategoryService from "../../services/CategoryService";
 import CategoriesModal from "./CategoriesModal";
 import { MdRemoveCircle } from "react-icons/md";
 import { Rating } from "@mui/material";
+import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const EditProductForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [searchParam, setSearchParam] = useState("");
 
   useEffect(() => {
-    CategoryService.findCategories(searchParam)
+    axios
+      .get(`/categories/name?search=${searchParam}`)
       .then((response) => setCategories(response.data))
       .catch(() => setCategories([]));
   }, [searchParam]);
@@ -35,7 +37,7 @@ const EditProductForm = () => {
   });
 
   useEffect(() => {
-    ProductService.getProductById(id).then((response) => {
+    axios.get(`products/${id}`).then((response) => {
       setProduct(response.data);
       setSelectedCategories(response.data.categories);
     });
@@ -64,7 +66,7 @@ const EditProductForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    CategoryService.getAllCategories().then((response) => {
+    axios.get("/categories").then((response) => {
       setCategories(response?.data);
     });
   }, []);
@@ -93,8 +95,8 @@ const EditProductForm = () => {
       categories: selectedCategories,
     };
 
-    console.log(productWithCategories);
-    ProductService.updateProduct(productWithCategories)
+    axiosPrivate
+      .put(`/products/${productWithCategories.id}`, productWithCategories)
       .then((response) => {
         console.log(response?.data);
         setErrorMessage("");

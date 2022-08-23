@@ -1,8 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import CategoryService from "../../services/CategoryService";
-import ProductService from "../../services/ProductService";
+import axios from "../../api/axios";
 import FilterSection from "./FilterSection";
 import ProductListSection from "./ProductListSection";
 
@@ -23,7 +22,8 @@ const ProductsPage = () => {
   const [searchParam, setSearchParam] = useState("");
 
   useEffect(() => {
-    CategoryService.findCategories(searchParam)
+    axios
+      .get(`/categories/name?search=${searchParam}`)
       .then((response) => setCategories(response.data))
       .catch(() => setCategories([]));
   }, [searchParam]);
@@ -62,13 +62,19 @@ const ProductsPage = () => {
       try {
         let response;
         name
-          ? (response = await ProductService.fetchProductsByName(name))
-          : (response = await ProductService.fetchProducts(
-              price[0],
-              price[1],
-              gameTime[0],
-              gameTime[1]
-            ));
+          ? (response = await axios.get("/products", {
+              params: {
+                name: name,
+              },
+            }))
+          : (response = await axios.get("/products", {
+              params: {
+                pmin: price[0],
+                pmax: price[1],
+                tmin: gameTime[0],
+                tmax: gameTime[1],
+              },
+            }));
         setProducts(response.data);
       } catch (error) {
         console.log(error);

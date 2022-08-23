@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import ProductService from "../../services/ProductService";
+import axios from "../../api/axios";
 import Product from "./Product";
 
 const ProductForm = () => {
@@ -14,7 +14,7 @@ const ProductForm = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await ProductService.getProductById(id);
+        const response = await axios.get(`products/${id}`);
         setProduct(response.data);
         setLoading(false);
       } catch (error) {
@@ -25,7 +25,8 @@ const ProductForm = () => {
   }, [id]);
 
   function handleDelete() {
-    ProductService.deleteProduct(id)
+    axios
+      .delete(`/products/${id}`)
       .then((response) => {
         console.log(response);
         navigate("/boardgames");
