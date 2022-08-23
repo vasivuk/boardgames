@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vasivuk.boardgames.configuration.Constants;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -74,12 +76,14 @@ public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter
         String refreshToken = createRefreshToken(user, algorithm);
 
         Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", accessToken);
+        tokens.put("accessToken", accessToken);
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        Cookie refreshTokenCookie = new Cookie("refresh-token", refreshToken);
 
+        Cookie refreshTokenCookie = new Cookie("refreshToken", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setPath("/");
 
         response.addCookie(refreshTokenCookie);
 

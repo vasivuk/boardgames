@@ -28,9 +28,9 @@ public class Routes {
             LOGIN,
             REFRESH_TOKEN,
             REGISTER,
-//            PRODUCT_COMMON,
-//            PRODUCT_COMMON + NAME,
-//            PRODUCT_COMMON + ID,
+            PRODUCT_COMMON,
+            PRODUCT_COMMON + NAME,
+            PRODUCT_COMMON + ID,
             CATEGORY_COMMON,
             CATEGORY_COMMON + NAME,
             CATEGORY_COMMON + ID

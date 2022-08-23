@@ -99,6 +99,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Optional<AppUser> user = userRepository.findByEmail(email);
+        log.info(email);
         Collection<SimpleGrantedAuthority> authorities;
         if (user.isEmpty()) {
             log.error("User not found in database");

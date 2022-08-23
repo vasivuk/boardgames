@@ -8,7 +8,10 @@ class UserService {
     const params = new URLSearchParams();
     params.append("email", user.email);
     params.append("password", user.password);
-    return axios.post("/login", params);
+    return axios.post("/login", params, { withCredentials: true });
+  }
+  refreshToken() {
+    return axios.get("/token/refresh", { withCredentials: true });
   }
 }
 

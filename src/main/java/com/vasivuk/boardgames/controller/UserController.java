@@ -13,6 +13,7 @@ import com.vasivuk.boardgames.model.dto.AppUserDTO;
 import com.vasivuk.boardgames.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import java.util.Map;
 import static com.vasivuk.boardgames.configuration.Routes.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
 @RequiredArgsConstructor
@@ -59,40 +61,32 @@ public class UserController {
 
     @GetMapping("/api/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response,
-                             @CookieValue("refresh-token") String refreshToken) throws IOException {
-        System.out.println(refreshToken);
-//        String authorizationHeader = request.getHeader(AUTHORIZATION);
-//        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-//            try {
-//
-//                String refresh_token = authorizationHeader.substring("Bearer ".length());
-//
-//                Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET.getBytes());
-//                JWTVerifier verifier = JWT.require(algorithm).build();
-//                DecodedJWT decodedJWT = verifier.verify(refresh_token);
-//                String username = decodedJWT.getSubject();
-//                AppUser user = service.findUserByEmail(username);
-//                String access_token = JWT.create()
-//                        .withSubject(user.getEmail())
-//                        .withExpiresAt(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_EXPIRATION))
-//                        .withClaim("authority", user.getUserRole())
-//                        .sign(algorithm);
-//
-//                Map<String, String> tokens = new HashMap<>();
-//                tokens.put("access_token", access_token);
-//                response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-//                new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-//            } catch (Exception exception) {
-//                response.setHeader("error", exception.getMessage());
-//                response.setStatus(FORBIDDEN.value());
-//                Map<String, String> error = new HashMap<>();
-//                error.put("error_message", exception.getMessage());
-//                response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
-//                new ObjectMapper().writeValue(response.getOutputStream(), error);
-//            }
-//        } else {
-//            throw new RuntimeException("Refresh token is missing");
-//        }
+                                       @CookieValue(value = "refreshToken") String refreshToken) throws IOException {
+        Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET.getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(refreshToken);
+
+        String email = decodedJWT.getSubject();
+        try {
+            AppUser user = service.findUserByEmail(email);
+
+            String accessToken = JWT.create()
+                    .withSubject(user.getEmail())
+                    .withExpiresAt(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_EXPIRATION))
+                    .withClaim("authority", user.getUserRole())
+                    .sign(algorithm);
+            response.setContentType(APPLICATION_JSON_VALUE);
+
+            Map<String, String> tokens = new HashMap<>();
+            tokens.put("accessToken", accessToken);
+            new ObjectMapper().writeValue(response.getOutputStream(), tokens);
+        } catch (EntityNotFoundException e) {
+            response.setStatus(FORBIDDEN.value());
+            Map<String, String> error = new HashMap<>();
+            error.put("error_message", e.getMessage());
+            response.setContentType(MimeTypeUtils.APPLICATION_JSON_VALUE);
+            new ObjectMapper().writeValue(response.getOutputStream(), error);
+        }
     }
 
     @GetMapping(USER_COMMON + ID + ASSIGN_ADMIN)

@@ -5,8 +5,11 @@ import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.Category;
 import com.vasivuk.boardgames.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -27,8 +30,11 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping(CATEGORY_COMMON)
-    public List<Category> fetchCategories() {
-        return categoryService.findAllCategories();
+    public ResponseEntity<List<Category>> fetchCategories(HttpServletResponse response) {
+
+        response.addCookie(new Cookie("my", "cookie"));
+
+        return ResponseEntity.ok(categoryService.findAllCategories());
     }
 
     @GetMapping(CATEGORY_COMMON + NAME)
