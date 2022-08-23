@@ -15,6 +15,7 @@ import com.vasivuk.boardgames.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static com.vasivuk.boardgames.configuration.Routes.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -79,6 +81,8 @@ public class UserController {
 
             Map<String, String> tokens = new HashMap<>();
             tokens.put("accessToken", accessToken);
+            tokens.put("authority", user.getUserRole());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), tokens);
         } catch (Exception e) {
             response.setStatus(FORBIDDEN.value());

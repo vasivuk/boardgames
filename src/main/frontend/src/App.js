@@ -12,6 +12,7 @@ import Page404 from "./pages/Page404";
 import RequireAuth from "./components/RequireAuth";
 import NewProductForm from "./pages/Product/NewProductForm";
 import NewCategoryForm from "./pages/Category/NewCategoryForm";
+import PersistLogin from "./components/PersistLogin";
 
 function App() {
   return (
@@ -21,7 +22,6 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/boardgames/create" element={<NewProductForm />} />
 
         <Route path="/boardgames" element={<ProductsPage />} />
         <Route path="/boardgames/:id/:title" element={<ProductForm />} />
@@ -30,10 +30,14 @@ function App() {
           element={<EditProductForm />}
         />
         <Route path="/categories" element={<CategoriesList />} />
-        <Route path="/categories/create" element={<NewCategoryForm />} />
-        <Route element={<RequireAuth />}></Route>
 
         {/* Protected routes */}
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth allowedRole={"ADMIN"} />}>
+            <Route path="/boardgames/create" element={<NewProductForm />} />
+            <Route path="/categories/create" element={<NewCategoryForm />} />
+          </Route>
+        </Route>
 
         {/* Catch all */}
         <Route path="*" element={<Page404 />} />
