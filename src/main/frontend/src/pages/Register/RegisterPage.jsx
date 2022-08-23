@@ -144,7 +144,7 @@ const RegisterForm = () => {
                   user.password === ""
                 }
                 onClick={handleSubmit}
-                className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-6 enabled:hover:bg-secondary-dark disabled:opacity-50"
+                className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-6 enabled:hover:bg-secondary-standard disabled:opacity-50"
               >
                 Create Account
               </button>

@@ -3,7 +3,7 @@ import { GiAbbotMeeple } from "react-icons/gi";
 
 const HeroSection = () => {
   return (
-    <div className="h-96 flex bg-secondary-dark items-center justify-between z-0">
+    <div className="h-96 flex bg-secondary-standard items-center justify-between z-0">
       {/* Left */}
       <div className="flex flex-col justify-center p-20 text-color_text-dark space-y-6">
         <h1 className="text-5xl font-extrabold">New arrivals!</h1>

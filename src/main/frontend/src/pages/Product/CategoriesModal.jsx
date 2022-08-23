@@ -50,7 +50,7 @@ const CategoriesModal = ({
   return (
     <>
       <button
-        className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-5 enabled:hover:bg-secondary-dark disabled:opacity-50"
+        className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-5 enabled:hover:bg-secondary-standard disabled:opacity-50"
         onClick={() => setShowModal(true)}
       >
         Add Categories

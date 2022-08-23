@@ -88,12 +88,12 @@ const ProductsPage = () => {
     <div className="flex flex-col items-center">
       <h1 className="text-center text-xl py-5">Boardgames</h1>
       <Link to={"./create"}>
-        <button className="px-6 py-2 bg-primary-standard text-secondary-standard rounded-md">
+        <button className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md">
           Add New Product
         </button>
       </Link>
 
-      <div className="grid grid-cols-5 gap-4 w-screen">
+      <div className="grid grid-cols-5 gap-4 overflow-hidden">
         <FilterSection
           price={price}
           categories={categories}

@@ -26,9 +26,11 @@ const FeaturedSection = () => {
       </h1>
       <div className="flex flex-row justify-center space-x-4 p-5">
         {!loading &&
-          products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          products
+            .filter((product) => product.id <= 4)
+            .map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
       </div>
     </div>
   );

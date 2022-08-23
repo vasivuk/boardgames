@@ -16,12 +16,6 @@ const Navbar = () => {
       >
         Categories
       </Link>
-      <Link
-        to="/users"
-        className="font-semibold tracking-wider py-3 px-6 hover:bg-primary-light"
-      >
-        Users
-      </Link>
     </div>
   );
 };

@@ -47,7 +47,7 @@ const Header = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <button className="bg-secondary-dark py-1 px-4 text-color_text-dark  font-semibold rounded-r-lg hover:bg-neutral-300">
+        <button className="bg-secondary-standard py-1 px-4 text-color_text-dark  font-semibold rounded-r-lg hover:bg-secondary-light">
           Search
         </button>
       </form>
