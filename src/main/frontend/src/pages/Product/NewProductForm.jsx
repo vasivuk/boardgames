@@ -6,8 +6,11 @@ import CategoriesModal from "./CategoriesModal";
 import { MdRemoveCircle } from "react-icons/md";
 import { Rating } from "@mui/material";
 import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const NewProductForm = () => {
+  const axiosPrivate = useAxiosPrivate();
+
   const [categories, setCategories] = useState([]);
 
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -87,7 +90,7 @@ const NewProductForm = () => {
     };
 
     console.log(productWithCategories);
-    axios
+    axiosPrivate
       .post("/products/create", product)
       .then((response) => {
         console.log(response?.data);

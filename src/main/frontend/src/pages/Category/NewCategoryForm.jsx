@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import axios from "../../api/axios";
 import ErrorMessage from "../../components/ui/ErrorMessage";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const NewCategoryForm = () => {
+  const axiosPrivate = useAxiosPrivate();
   const [category, setCategory] = useState({
     name: "",
     description: "",
@@ -28,7 +29,7 @@ const NewCategoryForm = () => {
       return;
     }
 
-    axios
+    axiosPrivate
       .post("/categories/create", category)
       .then((response) => {
         console.log(response?.data);

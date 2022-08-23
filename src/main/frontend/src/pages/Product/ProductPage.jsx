@@ -2,9 +2,11 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import Product from "./Product";
 
 const ProductForm = () => {
+  const axiosPrivate = useAxiosPrivate();
   let { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
@@ -25,7 +27,7 @@ const ProductForm = () => {
   }, [id]);
 
   function handleDelete() {
-    axios
+    axiosPrivate
       .delete(`/products/${id}`)
       .then((response) => {
         console.log(response);
