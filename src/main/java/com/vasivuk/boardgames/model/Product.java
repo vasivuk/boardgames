@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -46,6 +47,8 @@ public class Product {
     private double complexity;
     @Min(0) @Max(5)
     private double rating;
+    @Min(0)
+    private int stockQuantity;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(

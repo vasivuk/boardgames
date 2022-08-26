@@ -9,9 +9,9 @@ spring:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/boardgames_v2
+    url: jdbc:mysql://localhost:3306/boardgames
     username: root
-    password: vakula
+    password:
   jpa:
     hibernate:
       ddl-auto: update

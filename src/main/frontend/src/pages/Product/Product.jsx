@@ -33,7 +33,7 @@ const Product = ({ product, handleDelete }) => {
           <thead className="p-10 text-xl bg-primary-standard">
             <tr>
               <td
-                className="text-center text-secondary-standard p-2 uppercase font-semibold"
+                className="text-center text-color_text-light p-2 uppercase font-semibold"
                 colSpan={2}
               >
                 Basic info

@@ -33,6 +33,8 @@ public class ProductDTO {
     private double complexity;
     @Min(0) @Max(5)
     private double rating;
+    @Min(0)
+    private int stockQuantity;
 
     Set<Category> categories;
 }

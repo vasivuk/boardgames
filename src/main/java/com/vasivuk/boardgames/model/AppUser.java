@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(
@@ -31,10 +32,11 @@ public class AppUser {
             strategy = GenerationType.SEQUENCE,
             generator = "user_sequence"
     )
-    private Long userId;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
     private String password;
     private String userRole;
+
 }
