@@ -1,12 +1,12 @@
 import React from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
+import { FaUser, FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import useLogout from "../hooks/useLogout";
 
-const Header = () => {
+const Header = ({ cart }) => {
   const { auth } = useAuth();
   const [name, setName] = useState("");
   const logout = useLogout();
@@ -52,7 +52,15 @@ const Header = () => {
         </button>
       </form>
       {/* Login Button */}
-      <div className="w-1/4 flex justify-end items-center ">
+      <div className="w-1/4 flex justify-end items-center gap-5 ">
+        <Link to={"/cart"}>
+          <div className="flex items-center gap-1 hover:bg-primary-light p-2 rounded-xl hover:cursor-pointer">
+            <FaShoppingCart className="text-white" />
+            <span className="bg-white text-color_text-dark rounded-md px-1">
+              {cart.length}
+            </span>
+          </div>
+        </Link>
         {auth?.accessToken ? (
           <button
             onClick={logout}

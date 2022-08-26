@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Footer from "./Footer";
 import Header from "./Header";
 import Navbar from "./Navbar";
 
 const Layout = () => {
+  const [cart, setCart] = useState([]);
+
   return (
     <div className="App">
-      <Header />
+      <Header cart={cart} />
       <Navbar />
-      <Outlet />
+      <Outlet context={[cart, setCart]} />
       <Footer />
     </div>
   );

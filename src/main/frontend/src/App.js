@@ -13,13 +13,16 @@ import RequireAuth from "./components/RequireAuth";
 import NewProductForm from "./pages/Product/NewProductForm";
 import NewCategoryForm from "./pages/Category/NewCategoryForm";
 import PersistLogin from "./components/PersistLogin";
+import Cart from "./pages/Cart/Cart";
+import ProfilePage from "./pages/Profile/ProfilePage";
+import CheckoutPage from "./pages/Checkout/CheckoutPage";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        {/* Public routes */}
-        <Route element={<PersistLogin />}>
+      <Route element={<PersistLogin />}>
+        <Route path="/" element={<Layout />}>
+          {/* Public routes */}
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
@@ -31,6 +34,10 @@ function App() {
             element={<EditProductForm />}
           />
           <Route path="/categories" element={<CategoriesList />} />
+
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
 
           {/* Protected routes */}
           <Route element={<RequireAuth allowedRole={"ADMIN"} />}>

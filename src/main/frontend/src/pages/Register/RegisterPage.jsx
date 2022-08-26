@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../api/axios";
+import FormInput from "../../components/form/FormInput";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const RegisterForm = () => {
@@ -10,6 +11,9 @@ const RegisterForm = () => {
     lastName: "",
     email: "",
     password: "",
+    country: "",
+    city: "",
+    address: "",
   });
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -20,6 +24,7 @@ const RegisterForm = () => {
   }, [user.email, user.firstName, user.lastName, user.password]);
 
   const handleChange = (e) => {
+    console.log(user);
     const value = e.target.value;
     setUser({ ...user, [e.target.name]: value });
   };
@@ -56,84 +61,82 @@ const RegisterForm = () => {
   return (
     <div className="w-full h-screen flex justify-center items-start mt-10">
       {/* Register form */}
-      <div className="flex max-w-2xl shadow border-b mx-auto bg-primary-standard text-color_text-light rounded-md p-8">
+      <div className="flex max-w-2xl w-1/2 shadow border-b mx-auto bg-primary-standard text-color_text-light rounded-md p-8 lg:w-1/3">
         {success ? (
-          <div>
+          <div className="w-full">
             <h1 className="font-semibold">Account successfully created!</h1>
             <Link to={"../login"}>
               <p className="underline hover:text-yellow-400">To Login Page</p>
             </Link>
           </div>
         ) : (
-          <div>
+          <div className="w-full">
             {errorMessage && <ErrorMessage message={errorMessage} />}
             <div className="font-thin text-2xl tracking-wider mt-3">
               <h1>Register</h1>
             </div>
 
-            <div className="h-14 w-full my-4">
-              <label
-                htmlFor="firstName"
-                className="block text-color_text-light text-sm font-normal"
-              >
-                First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                id="firstName"
-                onChange={(e) => handleChange(e)}
-                className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
-              ></input>
-            </div>
+            <FormInput
+              label="First Name"
+              name="firstName"
+              onChange={handleChange}
+              placeholder="John"
+              type="text"
+              value={user.firstName}
+            />
 
-            <div className="h-14 w-full my-4">
-              <label
-                htmlFor="lastName"
-                className="block text-color_text-light text-sm font-normal"
-              >
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                id="lastName"
-                onChange={(e) => handleChange(e)}
-                className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
-              ></input>
-            </div>
+            <FormInput
+              label="Last Name"
+              name="lastName"
+              onChange={handleChange}
+              placeholder="Smith"
+              type="text"
+              value={user.lastName}
+            />
 
-            <div className="h-14 w-full my-4">
-              <label
-                htmlFor="email"
-                className="block text-color_text-light text-sm font-normal"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                id="email"
-                onChange={(e) => handleChange(e)}
-                className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
-              ></input>
-            </div>
+            <FormInput
+              label="Email"
+              name="email"
+              onChange={handleChange}
+              placeholder="example@email.com"
+              type="email"
+              value={user.email}
+            />
 
-            <div className="h-14 w-full my-4">
-              <label
-                htmlFor="password"
-                className="block text-color_text-light text-sm font-normal"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                onChange={(e) => handleChange(e)}
-                className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
-              ></input>
-            </div>
+            <FormInput
+              label="Password"
+              name="password"
+              onChange={handleChange}
+              type="password"
+              value={user.password}
+            />
+
+            <FormInput
+              label="Country"
+              name="country"
+              onChange={handleChange}
+              placeholder="Serbia"
+              type="text"
+              value={user.country}
+            />
+
+            <FormInput
+              label="City"
+              name="city"
+              onChange={handleChange}
+              placeholder="Belgrade"
+              type="text"
+              value={user.city}
+            />
+
+            <FormInput
+              label="Address"
+              name="address"
+              onChange={handleChange}
+              placeholder="Majke Jevrosime 12"
+              type="text"
+              value={user.address}
+            />
 
             <div className="h-14 w-full my-4 pt-4 space-x-4">
               <button

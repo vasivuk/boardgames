@@ -11,7 +11,7 @@ const PersistLogin = () => {
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
-        //Gets the cookie from api/refresh/token
+        //Uzima cookie sa token/refresh endpointa
         await refresh();
       } catch (error) {
         console.log(error);

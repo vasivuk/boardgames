@@ -11,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,7 +45,7 @@ class UserServiceTest {
 
         AppUser userInDatabase = AppUser.builder()
                 .email("filip@gmail.com")
-                .userId(1L)
+                .id(1L)
                 .firstName("Filip")
                 .lastName("Filipovic")
                 .password("1234")

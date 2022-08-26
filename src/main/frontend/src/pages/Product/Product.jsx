@@ -13,7 +13,6 @@ const Product = ({ product, handleDelete }) => {
         <Link to={"/categories"}>{category.name}</Link>
       </li>
     ));
-
   return (
     <div className="p-5">
       <div className="flex items-center border-b">
@@ -27,8 +26,10 @@ const Product = ({ product, handleDelete }) => {
         </Link>
         <DeleteProductModal handleDelete={handleDelete} />
       </div>
+
       <div className="flex flex-row gap-5 m-5">
         <img src={product.imageUrl} alt="" className="w-96 max-h-fit" />
+
         <table className="table-auto border w-full">
           <thead className="p-10 text-xl bg-primary-standard">
             <tr>
@@ -68,6 +69,7 @@ const Product = ({ product, handleDelete }) => {
             </tr>
           </tbody>
         </table>
+
         <div className="border w-full">
           <h3 className="text-white bg-primary-standard uppercase font-semibold py-2 px-5 text-xl">
             Categories
@@ -75,6 +77,7 @@ const Product = ({ product, handleDelete }) => {
           <ul className="p-2 flex flex-col gap-4">{categoriesElement}</ul>
         </div>
       </div>
+
       <div className="border max-w-screen-md m-5">
         <h3 className="text-white bg-primary-standard uppercase font-semibold py-2 px-5 text-xl">
           Description
