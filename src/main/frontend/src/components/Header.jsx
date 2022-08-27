@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import useLogout from "../hooks/useLogout";
+import { ReactComponent as ReactLogo } from "../images/logo.svg";
 
 const Header = ({ cart }) => {
   const { auth } = useAuth();
@@ -26,7 +27,8 @@ const Header = ({ cart }) => {
   return (
     <div className="bg-primary-dark flex justify-between px-10 py-6">
       {/* Logo */}
-      <div className="flex items-center w-1/4">
+      <div className="flex items-center w-1/4 gap-5">
+        <ReactLogo className="h-10" />
         <Link
           to={"/"}
           className="text-color_text-light font-bold text-2xl tracking-wider hover:cursor-pointer"

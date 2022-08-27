@@ -45,7 +45,6 @@ const ProductForm = () => {
       .catch((error) => console.log(error));
   }
 
-  console.log(cart);
   function handleIncrement() {
     setCount((prevCount) => prevCount + 1);
   }
