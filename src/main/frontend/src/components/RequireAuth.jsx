@@ -5,7 +5,8 @@ import useAuth from "../hooks/useAuth";
 const RequireAuth = ({ allowedRole }) => {
   const { auth } = useAuth();
   const location = useLocation();
-  return auth?.role === allowedRole ? (
+  return (allowedRole && auth?.role === allowedRole) ||
+    (!allowedRole && auth?.accessToken) ? (
     <Outlet />
   ) : auth?.accessToken ? (
     <Navigate to="/unauthorized" state={{ from: location }} replace />

@@ -1,16 +1,15 @@
 import React from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { FaUser, FaShoppingCart } from "react-icons/fa";
+import { FiLogIn } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
-import useLogout from "../hooks/useLogout";
 import { ReactComponent as ReactLogo } from "../images/logo.svg";
 
 const Header = ({ cart }) => {
   const { auth } = useAuth();
   const [name, setName] = useState("");
-  const logout = useLogout();
   const navigate = useNavigate();
 
   function handleSubmit(e) {
@@ -64,19 +63,19 @@ const Header = ({ cart }) => {
           </div>
         </Link>
         {auth?.accessToken ? (
-          <button
-            onClick={logout}
+          <Link
+            to={"/profile"}
             className="text-color_text-light flex items-center space-x-2 hover:text-yellow-400"
           >
             <FaUser />
-            <p>Log Out</p>
-          </button>
+            <p>Profile</p>
+          </Link>
         ) : (
           <Link
             to={"/login"}
             className="text-color_text-light flex items-center space-x-2 hover:text-yellow-400"
           >
-            <FaUser />
+            <FiLogIn />
             <p>Log In</p>
           </Link>
         )}

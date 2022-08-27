@@ -61,7 +61,7 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center items-start mt-10">
+    <div className="w-full min-h-screen flex justify-center items-start mt-10">
       {/* Login form */}
       <div className="flex max-w-2xl border-b mx-auto bg-primary-standard text-color_text-light rounded-md">
         <div className="p-8">

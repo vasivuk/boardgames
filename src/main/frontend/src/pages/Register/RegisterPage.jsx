@@ -59,7 +59,7 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="w-full h-screen flex justify-center items-start mt-10">
+    <div className="w-full min-h-screen flex justify-center items-start mt-10">
       {/* Register form */}
       <div className="flex max-w-2xl w-1/2 shadow border-b mx-auto bg-primary-standard text-color_text-light rounded-md p-8 lg:w-1/3">
         {success ? (
@@ -83,6 +83,7 @@ const RegisterForm = () => {
               placeholder="John"
               type="text"
               value={user.firstName}
+              required={true}
             />
 
             <FormInput

@@ -16,6 +16,18 @@ const Navbar = () => {
       >
         Categories
       </Link>
+      <Link
+        to="/cart"
+        className="font-semibold tracking-wider py-3 px-6 hover:bg-primary-light"
+      >
+        Cart
+      </Link>
+      <Link
+        to="/checkout"
+        className="font-semibold tracking-wider py-3 px-6 hover:bg-primary-light"
+      >
+        Checkout
+      </Link>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const CategoriesList = () => {
   }, []);
 
   return (
-    <div className="p-10">
+    <div className="p-10 min-h-screen">
       <Link to={"./create"}>
         <button className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md">
           Add New Category

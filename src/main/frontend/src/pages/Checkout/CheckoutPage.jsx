@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import FormInput from "../../components/form/FormInput";
 
 const CheckoutPage = () => {
   const [cart, setCart] = useOutletContext();
+  const [total, setTotal] = useState(0);
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -13,6 +14,12 @@ const CheckoutPage = () => {
     city: "",
     address: "",
   });
+
+  useEffect(() => {
+    setTotal(
+      cart.reduce((prevValue, cartItem) => prevValue + cartItem?.subTotal, 0)
+    );
+  }, [cart]);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -47,6 +54,7 @@ const CheckoutPage = () => {
                 placeholder="John"
                 type="text"
                 value={user.firstName}
+                required={true}
               />
               <FormInput
                 label="Last name"
@@ -57,6 +65,7 @@ const CheckoutPage = () => {
                 placeholder="Smith"
                 type="text"
                 value={user.lastName}
+                required={true}
               />
             </div>
             <FormInput
@@ -68,6 +77,7 @@ const CheckoutPage = () => {
               placeholder="Serbia"
               type="text"
               value={user.country}
+              required={true}
             />{" "}
             <FormInput
               label="City"
@@ -78,6 +88,7 @@ const CheckoutPage = () => {
               placeholder="Beograd"
               type="text"
               value={user.city}
+              required={true}
             />
             <FormInput
               label="Street address"
@@ -88,6 +99,7 @@ const CheckoutPage = () => {
               placeholder="Majke Jevrosime 12"
               type="text"
               value={user.address}
+              required={true}
             />
             <FormInput
               label="Email address"
@@ -98,6 +110,7 @@ const CheckoutPage = () => {
               placeholder="example@email.com"
               type="email"
               value={user.email}
+              required={true}
             />
           </div>
           <div className="p-4 border-2">
@@ -107,8 +120,22 @@ const CheckoutPage = () => {
               <p>Subtotal</p>
             </div>
             {orderItems}
+            <h3 className="text-lg font-semibold py-3">
+              Total: <span className="text-green-700">{total} EUR</span>
+            </h3>
             <div className="my-3">
-              <button className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl">
+              <button
+                disabled={
+                  total <= 0 ||
+                  user.firstName === "" ||
+                  user.lastName === "" ||
+                  user.email === "" ||
+                  user.country === "" ||
+                  user.city === "" ||
+                  user.address === ""
+                }
+                className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl disabled:opacity-50"
+              >
                 Place Order
               </button>
             </div>

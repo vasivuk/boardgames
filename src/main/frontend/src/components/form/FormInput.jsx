@@ -9,6 +9,8 @@ const FormInput = ({
   label,
   lblClassName,
   inputClassName,
+  required,
+  readOnly,
 }) => {
   return (
     <div className="w-full">
@@ -19,7 +21,7 @@ const FormInput = ({
           (lblClassName ? lblClassName : "text-color_text-light")
         }
       >
-        {label}
+        {label} {required && <span className="text-red-600">*</span>}
       </label>
       <input
         type={type}
@@ -32,6 +34,7 @@ const FormInput = ({
         }
         onChange={onChange}
         value={value}
+        readOnly={readOnly}
       />
     </div>
   );

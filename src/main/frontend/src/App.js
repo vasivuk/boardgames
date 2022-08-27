@@ -37,12 +37,14 @@ function App() {
 
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/profile" element={<ProfilePage />} />
 
           {/* Protected routes */}
           <Route element={<RequireAuth allowedRole={"ADMIN"} />}>
             <Route path="/boardgames/create" element={<NewProductForm />} />
             <Route path="/categories/create" element={<NewCategoryForm />} />
+          </Route>
+          <Route element={<RequireAuth />}>
+            <Route path="/profile" element={<ProfilePage />} />
           </Route>
 
           {/* Catch all */}

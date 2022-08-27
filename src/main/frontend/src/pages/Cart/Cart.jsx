@@ -58,7 +58,10 @@ const Cart = () => {
           <p className="text-xl text-green-600 font-bold">{total} EUR</p>
         </div>
         <Link to="/checkout">
-          <button className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl">
+          <button
+            disabled={total <= 0}
+            className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl disabled:opacity-50"
+          >
             Proceed to Checkout
           </button>
         </Link>

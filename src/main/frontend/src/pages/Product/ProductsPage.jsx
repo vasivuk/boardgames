@@ -85,7 +85,7 @@ const ProductsPage = () => {
   }, [signal, name]);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center min-h-screen">
       <h1 className="text-center text-xl py-5">Boardgames</h1>
       <Link to={"./create"}>
         <button className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md">

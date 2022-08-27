@@ -39,7 +39,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000/**")
+@CrossOrigin(origins = "http://localhost:3000/**", allowCredentials = "true")
 public class UserController {
 
     /*
@@ -53,6 +53,11 @@ public class UserController {
     @GetMapping("/api/users")
     public List<AppUser> getUsers() {
         return service.getUsers();
+    }
+
+    @GetMapping("/api/users/user")
+    public AppUser fetchUserByEmail(@RequestParam("email") String email) throws EntityNotFoundException {
+        return service.findUserByEmail(email);
     }
 
     @GetMapping(USER_COMMON + ID)
@@ -103,6 +108,7 @@ public class UserController {
             Map<String, String> tokens = new HashMap<>();
             tokens.put("accessToken", accessToken);
             tokens.put("authority", user.getUserRole());
+            tokens.put("email", user.getEmail());
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             new ObjectMapper().writeValue(response.getOutputStream(), tokens);
         } catch (Exception e) {

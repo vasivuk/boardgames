@@ -11,12 +11,10 @@ const Layout = () => {
 
   useEffect(() => {
     setCart(JSON.parse(window.localStorage.getItem("cart")));
-    console.log("Cart supplied from storage");
   }, []);
 
   useEffect(() => {
     window.localStorage.setItem("cart", JSON.stringify(cart));
-    console.log("Cart set in storage");
   }, [cart]);
 
   return (
