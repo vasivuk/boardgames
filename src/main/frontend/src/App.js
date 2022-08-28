@@ -16,6 +16,7 @@ import PersistLogin from "./components/PersistLogin";
 import Cart from "./pages/Cart/Cart";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import CheckoutPage from "./pages/Checkout/CheckoutPage";
+import CategoryPage from "./pages/Category/CategoryPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/boardgames" element={<ProductsPage />} />
           <Route path="/boardgames/:id/:title" element={<ProductForm />} />
           <Route path="/categories" element={<CategoriesList />} />
+          <Route path="/categories/:id/:title" element={<CategoryPage />} />
 
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<CheckoutPage />} />

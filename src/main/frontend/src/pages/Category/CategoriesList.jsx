@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
 import DeleteModal from "../../components/ui/DeleteModal";
 import useAuth from "../../hooks/useAuth";
@@ -11,6 +11,8 @@ const CategoriesList = () => {
 
   const { auth } = useAuth();
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     axios.get("/categories").then((response) => {
       setCategories(response?.data);
@@ -19,6 +21,10 @@ const CategoriesList = () => {
 
   function handleDelete(category) {
     console.log(category);
+  }
+
+  function handleCategoryClick(category) {
+    navigate(`./${category.id}/${category.name}`);
   }
 
   return (
@@ -51,7 +57,8 @@ const CategoriesList = () => {
             {categories.map((category) => (
               <tr
                 key={category.id}
-                className="bg-white border-b hover:bg-neutral-100"
+                className="bg-white border-b hover:bg-neutral-200 hover: cursor-pointer"
+                onClick={() => handleCategoryClick(category)}
               >
                 <th
                   scope="row"

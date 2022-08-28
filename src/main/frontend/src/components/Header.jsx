@@ -32,7 +32,7 @@ const Header = ({ cart }) => {
           to={"/"}
           className="text-color_text-light font-bold text-2xl tracking-wider hover:cursor-pointer"
         >
-          Boardgames Shop
+          Pingu Games
         </Link>
       </div>
       {/* Search */}
