@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "../../api/axios";
-import ProductCard from "../../components/ProductCard";
+import ProductCard from "../../components/ui/ProductCard";
 
 const FeaturedSection = () => {
   const [products, setProducts] = useState([]);
@@ -20,7 +20,7 @@ const FeaturedSection = () => {
     fetchData();
   }, []);
   return (
-    <div className="w-full">
+    <div className="w-full p-10">
       <h1 className="text-center text-3xl font-bold text-color_text-dark p-5">
         Featured Games
       </h1>

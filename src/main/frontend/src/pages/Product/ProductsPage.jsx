@@ -4,10 +4,13 @@ import { Link, useSearchParams } from "react-router-dom";
 import axios from "../../api/axios";
 import FilterSection from "./FilterSection";
 import ProductListSection from "./ProductListSection";
+import useAuth from "../../hooks/useAuth";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const { auth } = useAuth();
 
   let [searchParams, setSearchParams] = useSearchParams();
   const name = searchParams.get("name");
@@ -85,14 +88,17 @@ const ProductsPage = () => {
   }, [signal, name]);
 
   return (
-    <div className="flex flex-col items-center min-h-screen">
-      <h1 className="text-center text-xl py-5">Boardgames</h1>
-      <Link to={"./create"}>
-        <button className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md">
-          Add New Product
-        </button>
-      </Link>
-
+    <div className="flex flex-col items-center min-h-screen p-10">
+      <h1 className="text-3xl text-neutral-600 font-bold uppercase p-4">
+        Boardgames
+      </h1>
+      {auth?.role === "ADMIN" && (
+        <Link to={"./create"}>
+          <button className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md">
+            Add New Product
+          </button>
+        </Link>
+      )}
       <div className="grid grid-cols-5 gap-4 overflow-hidden">
         <FilterSection
           price={price}

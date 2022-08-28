@@ -1,16 +1,21 @@
 import React from "react";
-import { AiFillDelete } from "react-icons/ai";
+import { FaTrash } from "react-icons/fa";
 
-const DeleteProductModal = ({ handleDelete }) => {
+const DeleteModal = ({ handleDelete, message }) => {
   const [showModal, setShowModal] = React.useState(false);
+
+  function handleModal() {
+    setShowModal(false);
+    handleDelete();
+  }
 
   return (
     <>
       <button
-        className="text-xl text-neutral-700 hover:text-red-700 hover:cursor-pointer mx-2"
+        className="text-xl opacity-25 hover:text-red-700 transition-opacity hover:opacity-100"
         onClick={() => setShowModal(true)}
       >
-        <AiFillDelete />
+        <FaTrash />
       </button>
       {showModal ? (
         <>
@@ -19,7 +24,7 @@ const DeleteProductModal = ({ handleDelete }) => {
               {/*content*/}
               <div className="rounded-lg shadow-lg flex flex-col bg-secondary-standard">
                 <h1 className="text-2xl font-bold p-5 text-color_text-dark">
-                  Are you sure you want to delete this product?
+                  {message}
                 </h1>
                 {/*footer*/}
                 <div className="flex items-center justify-between p-6 rounded-b">
@@ -31,9 +36,9 @@ const DeleteProductModal = ({ handleDelete }) => {
                     Cancel
                   </button>
                   <button
-                    className="bg-rose-500 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    className="bg-red-500 text-white font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                     type="button"
-                    onClick={handleDelete}
+                    onClick={handleModal}
                   >
                     Delete
                   </button>
@@ -48,4 +53,4 @@ const DeleteProductModal = ({ handleDelete }) => {
   );
 };
 
-export default DeleteProductModal;
+export default DeleteModal;

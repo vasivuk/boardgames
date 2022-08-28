@@ -4,8 +4,12 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vasivuk.boardgames.configuration.Constants;
+import com.vasivuk.boardgames.exception.EntityNotFoundException;
+import com.vasivuk.boardgames.model.AppUser;
+import com.vasivuk.boardgames.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
@@ -38,6 +42,7 @@ import static com.vasivuk.boardgames.configuration.Constants.REFRESH_TOKEN_EXPIR
 @CrossOrigin(origins = "http://localhost:3000")
 public class MyAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+    private UserService userService;
     private final AuthenticationManager authenticationManager;
 
     /**

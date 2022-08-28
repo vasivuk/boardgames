@@ -2,8 +2,9 @@ import React from "react";
 
 import { Link } from "react-router-dom";
 import { FiEdit } from "react-icons/fi";
-import DeleteProductModal from "./DeleteProductModal";
+import DeleteModal from "../../components/ui/DeleteModal";
 import { FaStar } from "react-icons/fa";
+import useAuth from "../../hooks/useAuth";
 
 const Product = ({ product, handleDelete }) => {
   const categoriesElement =
@@ -13,18 +14,28 @@ const Product = ({ product, handleDelete }) => {
         <Link to={"/categories"}>{category.name}</Link>
       </li>
     ));
+
+  const { auth } = useAuth();
+
   return (
     <div className="p-5">
       <div className="flex items-center border-b">
         <h1 className="m-5 px-5 text-3xl font-extrabold tracking-widest text-neutral-700">
           {product.name}
         </h1>
-        <Link to={"./edit"}>
-          <div className="text-xl text-neutral-700 hover:text-primary-standard hover:cursor-pointer mx-2">
-            <FiEdit />
+        {auth?.role === "ADMIN" && (
+          <div className="flex gap-2">
+            <Link to={"./edit"}>
+              <div className="text-xl opacity-50 text-neutral-700 hover:text-primary-standard hover:cursor-pointer hover:opacity-100 mx-2">
+                <FiEdit />
+              </div>
+            </Link>
+            <DeleteModal
+              handleDelete={handleDelete}
+              message="Are you sure you want to delete this product?"
+            />
           </div>
-        </Link>
-        <DeleteProductModal handleDelete={handleDelete} />
+        )}
       </div>
 
       <div className="flex flex-row gap-5 m-5">

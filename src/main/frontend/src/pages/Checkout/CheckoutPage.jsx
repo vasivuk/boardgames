@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import FormInput from "../../components/form/FormInput";
+import useAuth from "../../hooks/useAuth";
 
 const CheckoutPage = () => {
   const [cart, setCart] = useOutletContext();
+  const auth = useAuth();
   const [total, setTotal] = useState(0);
   const [user, setUser] = useState({
     firstName: "",
@@ -37,7 +39,7 @@ const CheckoutPage = () => {
 
   return (
     <div className="flex justify-center bg-neutral-100">
-      <div className="flex flex-col items-center w-2/3 min-h-screen bg-white p-10">
+      <div className="flex flex-col items-center w-3/4 min-h-screen shadow-xl bg-white p-10">
         <h1 className="text-3xl text-neutral-600 font-bold py-4 my-10 w-full border-b-2 border-primary-dark uppercase">
           Checkout
         </h1>

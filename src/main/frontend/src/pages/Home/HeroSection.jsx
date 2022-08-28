@@ -1,21 +1,14 @@
 import React from "react";
-import { GiAbbotMeeple } from "react-icons/gi";
 
 const HeroSection = () => {
   return (
-    <div className="h-96 flex bg-secondary-standard items-center justify-between z-0">
+    <div className="flex items-center bg-[url('../public/images/hero-section.jpg')] bg-cover bg-no-repeat bg-center justify-between">
       {/* Left */}
-      <div className="flex flex-col justify-center p-20 text-color_text-dark space-y-6">
-        <h1 className="text-5xl font-extrabold">New arrivals!</h1>
-        <p className="text-xl font-semibold max-w-md text-color_text-dark  ">
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Optio dolore
-          eaque mollitia est explicabo recusandae cumque.
+      <div className="flex flex-col justify-center p-40 text-neutral-700 shadow space-y-6">
+        <h1 className="text-5xl font-extrabold">New Arrivals!</h1>
+        <p className="text-xl font-semibold max-w-md text-neutral-600">
+          Check out the new arrivals in the featured section!
         </p>
-      </div>
-      {/* Right */}
-      <div className="text-8xl text-color_text-dark  px-60">
-        <GiAbbotMeeple />
-        {/* <img src={logo} alt="" className="w-96" /> */}
       </div>
     </div>
   );

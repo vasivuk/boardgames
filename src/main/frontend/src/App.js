@@ -29,10 +29,6 @@ function App() {
 
           <Route path="/boardgames" element={<ProductsPage />} />
           <Route path="/boardgames/:id/:title" element={<ProductForm />} />
-          <Route
-            path="/boardgames/:id/:title/edit"
-            element={<EditProductForm />}
-          />
           <Route path="/categories" element={<CategoriesList />} />
 
           <Route path="/cart" element={<Cart />} />
@@ -42,6 +38,10 @@ function App() {
           <Route element={<RequireAuth allowedRole={"ADMIN"} />}>
             <Route path="/boardgames/create" element={<NewProductForm />} />
             <Route path="/categories/create" element={<NewCategoryForm />} />
+            <Route
+              path="/boardgames/:id/:title/edit"
+              element={<EditProductForm />}
+            />
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="/profile" element={<ProfilePage />} />

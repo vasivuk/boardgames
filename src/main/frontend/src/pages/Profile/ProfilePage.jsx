@@ -67,6 +67,7 @@ const ProfilePage = () => {
           <FormInput
             label="Country"
             name="country"
+            readOnly
             type="text"
             value={user.country}
           />
