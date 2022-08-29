@@ -15,7 +15,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const ProductForm = () => {
   const [cart, setCart] = useOutletContext();
-  const [count, setCount] = useState(1);
+  const [quantity, setQuantity] = useState(1);
   const [subTotal, setSubTotal] = useState();
 
   const [success, setSuccess] = useState(false);
@@ -24,7 +24,6 @@ const ProductForm = () => {
   let { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
-  const [loading, setLoading] = useState(true);
 
   const categoriesElement =
     product.categories &&
@@ -44,10 +43,10 @@ const ProductForm = () => {
       .catch((error) => console.log(error));
   }, []);
 
-  //Change subtotal whenever count updates
+  //Change subtotal whenever quantity updates
   useEffect(() => {
-    setSubTotal(product?.price * count);
-  }, [product, count]);
+    setSubTotal(product?.price * quantity);
+  }, [product, quantity]);
 
   function handleDelete() {
     axiosPrivate
@@ -60,31 +59,31 @@ const ProductForm = () => {
   }
 
   function handleIncrement() {
-    setCount((prevCount) => prevCount + 1);
+    setQuantity((prevQuantity) => prevQuantity + 1);
   }
 
   function handleDecrement() {
-    count > 1 && setCount((prevCount) => prevCount - 1);
+    quantity > 1 && setQuantity((prevQuantity) => prevQuantity - 1);
   }
 
   function handleAddToCart(e) {
     e.preventDefault();
     const cartItem = {
       product,
-      count,
+      quantity,
       subTotal,
     };
     //If the product is already in the cart
     if (
       cart.some((productInCart) => productInCart?.product?.id === product.id)
     ) {
-      //Increment the count of that product
+      //Increment the quantity of that product
       setCart((prevCart) =>
         prevCart.map((prevItem) => {
           if (prevItem?.product?.id === product?.id) {
             return {
               ...prevItem,
-              count: prevItem?.count + count,
+              quantity: prevItem?.quantity + quantity,
               subTotal: prevItem?.subTotal + subTotal,
             };
           }
@@ -155,7 +154,7 @@ const ProductForm = () => {
                   <input
                     type="text"
                     className="border border-gray-400 w-10 h-10 text-center rounded-r mr-3"
-                    value={count}
+                    value={quantity}
                     readOnly
                   />
                   <button

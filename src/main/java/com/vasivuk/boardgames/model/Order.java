@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -29,9 +30,12 @@ public class Order {
     private Date dateSubmitted;
     private BigDecimal totalPrice;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.EAGER)
     private AppUser user;
 
     @OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;
+
+    @Embedded
+    private OrderUserDetails userDetails;
 }

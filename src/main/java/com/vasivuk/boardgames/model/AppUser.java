@@ -1,5 +1,6 @@
 package com.vasivuk.boardgames.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,5 +45,9 @@ public class AppUser {
     private String address;
 
     private String userRole;
+
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> orders;
 
 }

@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import axios from "../../api/axios";
 import FormInput from "../../components/form/FormInput";
 import useAuth from "../../hooks/useAuth";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const CheckoutPage = () => {
   const [cart, setCart] = useOutletContext();
-  const auth = useAuth();
+  const { auth } = useAuth();
   const [total, setTotal] = useState(0);
-  const [user, setUser] = useState({
+  const [user, setUser] = useState({});
+  const [userDetails, setUserDetails] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    password: "",
     country: "",
     city: "",
     address: "",
   });
+
+  const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
     setTotal(
@@ -23,19 +27,41 @@ const CheckoutPage = () => {
     );
   }, [cart]);
 
+  //Get logged in user data
+  useEffect(() => {
+    axiosPrivate
+      .get(`/users/user?email=${auth?.email}`)
+      .then((response) => setUser(response.data))
+      .catch((error) => console.log(error));
+  }, []);
+
   const handleChange = (e) => {
     const value = e.target.value;
-    setUser({ ...user, [e.target.name]: value });
+    setUserDetails({ ...userDetails, [e.target.name]: value });
   };
 
   const orderItems = cart.map((item) => (
-    <div className="flex justify-between gap-10 py-5 border-b">
+    <div
+      key={item.product.id}
+      className="flex justify-between gap-10 py-5 border-b"
+    >
       <p>
-        {item?.product?.name} x {item?.count}
+        {item?.product?.name} x {item?.quantity}
       </p>
       <p>{item?.subTotal} EUR</p>
     </div>
   ));
+
+  function handleOrderSubmit() {
+    console.log("User email: " + auth?.email);
+    console.log(user);
+    console.log({ orderItems: cart, total, userDetails, user });
+    const order = { orderItems: cart, total, userDetails, user };
+    axiosPrivate
+      .post("/orders", order)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  }
 
   return (
     <div className="flex justify-center bg-neutral-100">
@@ -55,7 +81,7 @@ const CheckoutPage = () => {
                 onChange={handleChange}
                 placeholder="John"
                 type="text"
-                value={user.firstName}
+                value={userDetails.firstName}
                 required={true}
               />
               <FormInput
@@ -66,7 +92,7 @@ const CheckoutPage = () => {
                 onChange={handleChange}
                 placeholder="Smith"
                 type="text"
-                value={user.lastName}
+                value={userDetails.lastName}
                 required={true}
               />
             </div>
@@ -78,7 +104,7 @@ const CheckoutPage = () => {
               onChange={handleChange}
               placeholder="Serbia"
               type="text"
-              value={user.country}
+              value={userDetails.country}
               required={true}
             />{" "}
             <FormInput
@@ -89,7 +115,7 @@ const CheckoutPage = () => {
               onChange={handleChange}
               placeholder="Beograd"
               type="text"
-              value={user.city}
+              value={userDetails.city}
               required={true}
             />
             <FormInput
@@ -100,7 +126,7 @@ const CheckoutPage = () => {
               onChange={handleChange}
               placeholder="Majke Jevrosime 12"
               type="text"
-              value={user.address}
+              value={userDetails.address}
               required={true}
             />
             <FormInput
@@ -111,7 +137,7 @@ const CheckoutPage = () => {
               onChange={handleChange}
               placeholder="example@email.com"
               type="email"
-              value={user.email}
+              value={userDetails.email}
               required={true}
             />
           </div>
@@ -129,13 +155,14 @@ const CheckoutPage = () => {
               <button
                 disabled={
                   total <= 0 ||
-                  user.firstName === "" ||
-                  user.lastName === "" ||
-                  user.email === "" ||
-                  user.country === "" ||
-                  user.city === "" ||
-                  user.address === ""
+                  userDetails.firstName === "" ||
+                  userDetails.lastName === "" ||
+                  userDetails.email === "" ||
+                  userDetails.country === "" ||
+                  userDetails.city === "" ||
+                  userDetails.address === ""
                 }
+                onClick={handleOrderSubmit}
                 className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl disabled:opacity-50"
               >
                 Place Order

@@ -30,7 +30,7 @@ const CartItem = ({ item, handleDelete }) => {
         <div className="font-medium text-gray-800">{item?.product?.name}</div>
       </td>
       <td className="p-2">
-        <div className="text-left">{item?.count}</div>
+        <div className="text-left">{item?.quantity}</div>
       </td>
       <td className="p-2">
         <div className="text-left font-medium text-green-500">

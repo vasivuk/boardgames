@@ -49,7 +49,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().mvcMatchers("/images/**").permitAll();
 
         //For TESTING
-        //http.authorizeRequests().mvcMatchers("/**").permitAll();
+//        http.authorizeRequests().mvcMatchers("/**").permitAll();
         //Admin only routes
         http.authorizeRequests().mvcMatchers(HttpMethod.POST, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);
         http.authorizeRequests().mvcMatchers(HttpMethod.PUT, ADMIN_POST_PUT_DELETE_ROUTES).hasAuthority(UserRole.ADMIN);

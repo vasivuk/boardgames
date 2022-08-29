@@ -40,4 +40,10 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage message = new ErrorMessage(HttpStatus.CONFLICT, "Entity already exists", exception.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
     }
+
+    @ExceptionHandler(ForbiddenResourceException.class)
+    public ResponseEntity<ErrorMessage> forbiddenResourceException(ForbiddenResourceException exception, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.FORBIDDEN, "Forbidden resource", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+    }
 }
