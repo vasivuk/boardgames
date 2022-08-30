@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaCheck, FaInfoCircle } from "react-icons/fa";
 
 const FormInput = ({
   type,
@@ -11,7 +12,11 @@ const FormInput = ({
   inputClassName,
   required,
   readOnly,
+  valid,
+  validMsg,
 }) => {
+  const [focus, setFocus] = useState(false);
+
   return (
     <div className="w-full">
       <label
@@ -22,6 +27,7 @@ const FormInput = ({
         }
       >
         {label} {required && <span className="text-red-600">*</span>}
+        {valid && <FaCheck className="inline" />}
       </label>
       <input
         type={type}
@@ -35,7 +41,18 @@ const FormInput = ({
         onChange={onChange}
         value={value}
         readOnly={readOnly}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
       />
+      <p
+        className={
+          focus && value && !valid && validMsg
+            ? "flex bg-neutral-800 items-center p-2 gap-2 text-white rounded font-light max-w-fit "
+            : "hidden"
+        }
+      >
+        <FaInfoCircle /> {validMsg}
+      </p>
     </div>
   );
 };

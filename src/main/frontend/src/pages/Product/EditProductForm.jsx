@@ -10,21 +10,11 @@ import axios from "../../api/axios";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const EditProductForm = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const axiosPrivate = useAxiosPrivate();
-
-  const [categories, setCategories] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [searchParam, setSearchParam] = useState("");
-
-  useEffect(() => {
-    axios
-      .get(`/categories/name?search=${searchParam}`)
-      .then((response) => setCategories(response.data))
-      .catch(() => setCategories([]));
-  }, [searchParam]);
+  const NAME_REGEX = /^\w.{0,23}/;
+  const PRICE_REGEX = /^[1-9][0-9]*$/;
+  const COMPLEXITY_REGEX = /^[0-4]$|([0-4]\.[0-9]{1,2}$)/;
+  const PLAYERS_REGEX = /^\d-\d{1,2}$|^\d{1,2}$/;
+  const TIME_REGEX = /^[1-9][0-9]*$/;
 
   const [product, setProduct] = useState({
     name: "",
@@ -36,6 +26,48 @@ const EditProductForm = () => {
     gameTime: "",
     rating: 0,
   });
+
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const axiosPrivate = useAxiosPrivate();
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [searchParam, setSearchParam] = useState("");
+
+  const [validName, setValidName] = useState(false);
+  const [validPrice, setValidPrice] = useState(false);
+  const [validComplexity, setValidComplexity] = useState(false);
+  const [validNumOfPlayers, setValidNumOfPlayers] = useState(false);
+  const [validGameTime, setValidGameTime] = useState(false);
+
+  useEffect(() => {
+    setValidName(NAME_REGEX.test(product.name));
+  }, [product.name]);
+
+  useEffect(() => {
+    setValidPrice(PRICE_REGEX.test(product.price));
+  }, [product.price]);
+
+  useEffect(() => {
+    setValidComplexity(COMPLEXITY_REGEX.test(product.complexity));
+  }, [product.complexity]);
+
+  useEffect(() => {
+    setValidNumOfPlayers(PLAYERS_REGEX.test(product.numberOfPlayers));
+  }, [product.numberOfPlayers]);
+
+  useEffect(() => {
+    setValidGameTime(TIME_REGEX.test(product.gameTime));
+  }, [product.gameTime]);
+
+  useEffect(() => {
+    axios
+      .get(`/categories/name?search=${searchParam}`)
+      .then((response) => setCategories(response.data))
+      .catch(() => setCategories([]));
+  }, [searchParam]);
 
   useEffect(() => {
     axios.get(`products/${id}`).then((response) => {
@@ -127,11 +159,14 @@ const EditProductForm = () => {
         <div>
           <div className="flex flex-row gap-5">
             <div className="w-96 justify-self-center rounded-xl">
-              <img
-                src={product.imageUrl || genericIcon}
-                alt=""
-                className="max-h-96 rounded-lg border-primary-dark border"
-              />
+              {/* Image */}
+              <div className="h-96">
+                <img
+                  src={product.imageUrl || genericIcon}
+                  alt=""
+                  className="max-h-96 rounded-lg border-primary-dark border"
+                />
+              </div>
               <FormInput
                 type="text"
                 name="imageUrl"
@@ -140,6 +175,7 @@ const EditProductForm = () => {
                 placeholder="https://randomImage.jpg"
                 value={product.imageUrl}
               />
+              {/* Categories */}
               <div>
                 <div className="flex mt-3 py-2 justify-between items-center border-b border-primary-dark">
                   <h3 className="">Categories</h3>
@@ -172,6 +208,7 @@ const EditProductForm = () => {
             </div>
 
             <form className="flex flex-col gap-1">
+              {/* Name */}
               <FormInput
                 type="text"
                 name="name"
@@ -179,24 +216,37 @@ const EditProductForm = () => {
                 onChange={handleChange}
                 placeholder="New Product"
                 value={product.name}
+                valid={validName}
+                validMsg="Name must be an not empty string"
+                required
               />
+
+              {/* Price */}
               <FormInput
-                type="number"
+                type="text"
                 name="price"
-                label={"Price: "}
+                label={"Price (In Euros): "}
                 onChange={handleChange}
                 placeholder="50"
                 value={product.price}
+                valid={validPrice}
+                validMsg="Price must be a positive number."
+                required
               />
+
+              {/* Complexity */}
               <FormInput
-                type="number"
+                type="text"
                 name="complexity"
                 label={"Complexity: "}
                 onChange={handleChange}
                 placeholder="2.4"
                 value={product.complexity}
+                valid={validComplexity}
+                validMsg="Complexity must be a number between 0 and 4.99 with maximum two decimal spots"
               />
 
+              {/* Number of Players */}
               <FormInput
                 type="text"
                 name="numberOfPlayers"
@@ -204,8 +254,13 @@ const EditProductForm = () => {
                 onChange={handleChange}
                 placeholder="2-4"
                 value={product.numberOfPlayers}
+                valid={validNumOfPlayers}
+                validMsg={
+                  "Number of players must be a number or a range (eg. 2-5)"
+                }
               />
 
+              {/* Rating */}
               <p className="text-sm">Rating:</p>
               <div className="flex items-center">
                 <Rating
@@ -218,22 +273,24 @@ const EditProductForm = () => {
                 />{" "}
                 <span className="text-sm">({product.rating})</span>
               </div>
-
               <FormInput
-                type="number"
+                type="text"
                 name="gameTime"
                 label={"Game Time: "}
                 onChange={handleChange}
                 placeholder="120"
                 value={product.gameTime}
+                valid={validGameTime}
+                validMsg="Game time must be a positive number, represents minutes"
               />
 
-              <div className="items-center justify-center w-full ">
+              {/* Description */}
+              <div className="items-center justify-center w-full">
                 <label
                   htmlFor="description"
                   className="block text-color_text-light text-sm font-normal"
                 >
-                  Description:
+                  Description: <span className="text-red-600">*</span>
                 </label>
                 <textarea
                   id="description"
@@ -248,9 +305,12 @@ const EditProductForm = () => {
           </div>
           <button
             disabled={
-              product.name === "" ||
-              product.price === 0 ||
-              product.description === ""
+              !validName ||
+              !validPrice ||
+              product.description === "" ||
+              !validComplexity ||
+              !validNumOfPlayers ||
+              !validGameTime
             }
             onClick={handleSubmit}
             className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 w-full enabled:hover:bg-secondary-standard disabled:opacity-50"

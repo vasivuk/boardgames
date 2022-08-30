@@ -30,9 +30,9 @@ public class Product {
     )
     private Long id;
     @NotBlank(message = "Name is mandatory")
-    @Size(max = 40)
+    @Size(max = 23)
     private String name;
-    @Size(max = 40)
+    @Size(max = 23)
     private String slug;
     private String imageUrl;
     @Positive

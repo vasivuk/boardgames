@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { axiosPrivate } from "../../api/axios";
-import FormInput from "../../components/form/FormInput";
 import useAuth from "../../hooks/useAuth";
 import { FiLogOut } from "react-icons/fi";
 import useLogout from "../../hooks/useLogout";
