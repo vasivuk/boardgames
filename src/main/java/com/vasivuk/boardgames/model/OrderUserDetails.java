@@ -8,6 +8,12 @@ import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.validation.constraints.NotBlank;
+
+/**
+ * Klasa predstavlja korisničke podatke koji su vezani za porudžbinu, ne moraju nužno biti podaci koji se nalaze u bazi.
+ * @author Vale
+ */
 
 @Embeddable
 @NoArgsConstructor
@@ -40,10 +46,34 @@ import javax.persistence.Embeddable;
         )
 })
 public class OrderUserDetails {
+    /**
+     * Ime kupca kao String
+     */
+    @NotBlank(message = "First name is mandatory")
     private String firstName;
+    /**
+     * Prezime kupca kao String
+     */
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
+    /**
+     * Email kupca kao String
+     */
+    @NotBlank(message = "Email is mandatory")
     private String email;
+    /**
+     * Drzava kupca kao String
+     */
+    @NotBlank(message = "Country is mandatory")
     private String country;
+    /**
+     * Grad kupca kao String
+     */
+    @NotBlank(message = "City is mandatory")
     private String city;
+    /**
+     * Adresa kupca kao String
+     */
+    @NotBlank(message = "Address is mandatory")
     private String address;
 }

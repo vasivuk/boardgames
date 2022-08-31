@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import { ReactComponent as ReactLogo } from "../images/logo.svg";
+import pingu from "../images/pingu.png";
+import pinguILogo from "../images/pinguILogo.png";
 
 const Header = ({ cart }) => {
   const { auth } = useAuth();
@@ -26,13 +28,13 @@ const Header = ({ cart }) => {
   return (
     <div className="bg-primary-dark flex justify-between px-10 py-6">
       {/* Logo */}
-      <div className="flex items-center w-1/4 gap-5">
-        <ReactLogo className="h-10" />
-        <Link
-          to={"/"}
-          className="text-color_text-light font-bold text-2xl tracking-wider hover:cursor-pointer"
-        >
-          Pingu Games
+      <div className="w-1/4 flex justify-start">
+        <Link to={"/"} className="flex items-end gap-1 rounded-xl">
+          <ReactLogo className="h-11" />
+          <div className="h-10">
+            <img src={pingu} alt="Pingu Games" className="max-h-full" />
+          </div>
+          {/* <img src={pinguILogo} alt="" className="h-12" /> */}
         </Link>
       </div>
       {/* Search */}

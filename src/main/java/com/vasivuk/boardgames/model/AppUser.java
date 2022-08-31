@@ -9,6 +9,11 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * Klasa predstavlja korisnika sistema.
+ * @author Vale
+ */
+
 @Entity
 @Table(
         name = "users",
@@ -23,6 +28,9 @@ import java.util.List;
 @Builder
 public class AppUser {
 
+    /**
+     * Identifikacioni broj korisnika, generisana vrednost
+     */
     @Id
     @SequenceGenerator(
             name = "user_sequence",
@@ -35,17 +43,44 @@ public class AppUser {
     )
     private Long id;
 
+    /**
+     * Ime korisnika kao String
+     */
     private String firstName;
+    /**
+     * Prezime korisnika kao String
+     */
     private String lastName;
+    /**
+     * Email adresa korisnika kao String
+     */
     private String email;
+    /**
+     * Sifra korisnika kao String
+     */
     private String password;
 
+    /**
+     * Drzava korisnika kao String
+     */
     private String country;
+    /**
+     * Mesto prebivalista korisnika kao String
+     */
     private String city;
+    /**
+     * Adresa korisnika kao String
+     */
     private String address;
 
+    /**
+     * Uloga korisnika u sistemu kao String
+     */
     private String userRole;
 
+    /**
+     * Sve porudzbine korisnika
+     */
     @JsonBackReference
     @OneToMany(fetch = FetchType.LAZY)
     private List<Order> orders;

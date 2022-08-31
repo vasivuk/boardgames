@@ -5,10 +5,12 @@ import com.vasivuk.boardgames.filter.MyAuthenticationFilter;
 import com.vasivuk.boardgames.filter.MyAuthorizationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,13 +30,9 @@ import static com.vasivuk.boardgames.configuration.Routes.*;
 @Slf4j
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    @Autowired
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -61,9 +59,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(new MyAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    protected void configure(AuthenticationManagerBuilder auth)  {
+        auth.authenticationProvider(getProvider());
+    }
+
+    @Bean
+    public DaoAuthenticationProvider getProvider(){
+        DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(bCryptPasswordEncoder);
+        return  provider;
     }
 }

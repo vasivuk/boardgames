@@ -8,6 +8,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+
+/**
+ * Klasa predstavlja kategoriju proizvoda
+ * @author Vale
+ */
+
 @Entity
 @Table(name = "categories")
 @NoArgsConstructor
@@ -15,6 +21,9 @@ import javax.validation.constraints.Size;
 @Data
 public class Category {
 
+    /**
+     *  Identifikacioni broj kategorije, generisana vrednost
+     */
     @Id
     @SequenceGenerator(
             name = "category_sequence",
@@ -27,11 +36,17 @@ public class Category {
     )
     private Long id;
 
+    /**
+     * Ime katgorije kao String
+     */
     @NotBlank(message = "Name is mandatory")
     @Size(max = 30)
     @Column(unique = true)
     private String name;
 
+    /**
+     * Opis kategorije kao String
+     */
     @Size(max = 1000)
     private String description;
 
