@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
-import axios from "../../api/axios";
 import FormInput from "../../components/form/FormInput";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -59,7 +58,10 @@ const CheckoutPage = () => {
     const order = { orderItems: cart, total, userDetails, user };
     axiosPrivate
       .post("/orders", order)
-      .then((response) => console.log(response))
+      .then((response) => {
+        console.log(response);
+        alert("Order submitted!");
+      })
       .catch((error) => console.log(error));
   }
 
@@ -163,7 +165,7 @@ const CheckoutPage = () => {
                   userDetails.address === ""
                 }
                 onClick={handleOrderSubmit}
-                className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl disabled:opacity-50"
+                className="p-3 bg-primary-dark text-white font-semibold text-lg rounded-xl hover:bg-primary-light disabled:opacity-50"
               >
                 Place Order
               </button>

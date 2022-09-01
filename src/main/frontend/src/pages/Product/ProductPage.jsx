@@ -29,7 +29,9 @@ const ProductForm = () => {
     product.categories &&
     product.categories.map((category) => (
       <li key={category.id} className="text-green-600 hover:text-yellow-500">
-        <Link to={"/categories"}>{category.name}</Link>
+        <Link to={`/categories/${category.id}/${category.name}`}>
+          {category.name}
+        </Link>
       </li>
     ));
 

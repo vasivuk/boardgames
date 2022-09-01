@@ -98,6 +98,7 @@ const NewProductForm = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
 
+  //Get all categories when page loads
   useEffect(() => {
     axios.get("/categories").then((response) => {
       setCategories(response?.data);
@@ -113,6 +114,7 @@ const NewProductForm = () => {
     setProduct({ ...product, [e.target.name]: value });
   };
 
+  // On submit
   function handleSubmit(e) {
     e.preventDefault();
     if (
@@ -139,6 +141,18 @@ const NewProductForm = () => {
       .then((response) => {
         console.log(response?.data);
         setSuccess(true);
+        setProduct({
+          name: "",
+          description: "",
+          price: "",
+          imageUrl: "",
+          complexity: "",
+          numberOfPlayers: "",
+          gameTime: "",
+          rating: 0,
+          stockQuantity: "",
+        });
+        setSelectedCategories([]);
       })
       .catch((error) => {
         console.log(error);
@@ -187,7 +201,7 @@ const NewProductForm = () => {
                   name="imageUrl"
                   label={"Image source: "}
                   onChange={handleChange}
-                  placeholder="https://randomImage.jpg"
+                  placeholder="https://localhost:8080/[somegame.jpg]"
                   value={product.imageUrl}
                 />
                 {/* Categories */}

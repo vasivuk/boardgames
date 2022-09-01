@@ -5,7 +5,7 @@ import { MdRemoveCircle } from "react-icons/md";
 
 const FilterSection = (props) => {
   return (
-    <div className="col-span-1 p-5 border-r flex flex-col gap-3 mr-auto">
+    <div className="p-5 min-w-fit border-r flex flex-col gap-3 mr-auto">
       <h2 className="text-xl uppercase font-bold p-2 border-b mb-2">Filter</h2>
       <div className="border p-4">
         <h3 className="text-lg">Price</h3>
@@ -40,7 +40,7 @@ const FilterSection = (props) => {
         </div>
       </div>
 
-      <div className="border p-4">
+      {/* <div className="border p-4">
         <h3 className="text-lg">Categories</h3>
         <CategoriesModal
           categories={props.categories}
@@ -65,7 +65,7 @@ const FilterSection = (props) => {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div className="border p-4">
         <h3 className="text-lg">Game Time</h3>

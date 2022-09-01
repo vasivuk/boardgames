@@ -6,12 +6,14 @@ import com.vasivuk.boardgames.exception.InvalidOrderException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.Order;
 import com.vasivuk.boardgames.model.OrderItem;
+import com.vasivuk.boardgames.repository.CategoryRepository;
 import com.vasivuk.boardgames.repository.OrderRepository;
 import com.vasivuk.boardgames.repository.UserRepository;
 import com.vasivuk.boardgames.service.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -22,13 +24,16 @@ import java.util.Optional;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor
-@AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
 
-    private UserRepository userRepository;
+    @Autowired
+    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository) {
+        this.orderRepository = orderRepository;
+        this.userRepository = userRepository;
+    }
 
     @Override
     public List<Order> fetchOrdersByUserId(Long userId) {

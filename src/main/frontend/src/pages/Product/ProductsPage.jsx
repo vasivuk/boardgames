@@ -99,7 +99,7 @@ const ProductsPage = () => {
           </button>
         </Link>
       )}
-      <div className="grid grid-cols-5 gap-4 overflow-hidden">
+      <div className="flex self-start py-10 gap-10 overflow-hidden">
         <FilterSection
           price={price}
           categories={categories}
@@ -112,7 +112,7 @@ const ProductsPage = () => {
           searchParam={searchParam}
           setSearchParam={setSearchParam}
           sendSignal={() =>
-            setSignal((prevSignal) => (prevSignal = !prevSignal))
+            setSignal((prevSignal) => !prevSignal)
           }
         />
         <ProductListSection products={products} loading={loading} />

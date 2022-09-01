@@ -24,7 +24,6 @@ const RegisterForm = () => {
   }, [user.email, user.firstName, user.lastName, user.password]);
 
   const handleChange = (e) => {
-    console.log(user);
     const value = e.target.value;
     setUser({ ...user, [e.target.name]: value });
   };

@@ -61,6 +61,9 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> fetchCategoriesByName(String categoryName) throws EntityNotFoundException {
+        if(categoryName.isBlank()) {
+            return repository.findAll();
+        }
         List<Category> categories = repository.findAllByNameContainingIgnoreCase(categoryName);
         if (categories.isEmpty()) {
             throw new EntityNotFoundException("No categories containing: " + categoryName);

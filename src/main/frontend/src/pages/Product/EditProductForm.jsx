@@ -184,7 +184,7 @@ const EditProductForm = () => {
                 name="imageUrl"
                 label={"Image source: "}
                 onChange={handleChange}
-                placeholder="https://randomImage.jpg"
+                placeholder="https://localhost:8080/[somegame.jpg]"
                 value={product.imageUrl}
               />
               {/* Categories */}

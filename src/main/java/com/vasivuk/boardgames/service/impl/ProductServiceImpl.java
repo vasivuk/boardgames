@@ -49,6 +49,7 @@ public class ProductServiceImpl implements ProductService {
                 .rating(newProduct.getRating())
                 .price(newProduct.getPrice())
                 .categories(newProduct.getCategories())
+                .stockQuantity(newProduct.getStockQuantity())
                 .build();
         productToSave.setSlug(newProduct.getName().toLowerCase().replace(" ", "-"));
         return repository.save(productToSave);
@@ -73,6 +74,7 @@ public class ProductServiceImpl implements ProductService {
         oldProduct.get().setImageUrl(product.getImageUrl());
         oldProduct.get().setSlug(product.getName().toLowerCase().replace(" ", "-"));
         oldProduct.get().setCategories(product.getCategories());
+        oldProduct.get().setStockQuantity(product.getStockQuantity());
 
         return repository.save(oldProduct.get());
     }
