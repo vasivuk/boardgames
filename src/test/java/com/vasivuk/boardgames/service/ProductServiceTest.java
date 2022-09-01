@@ -169,6 +169,38 @@ class ProductServiceTest {
     }
 
     @Test
-    void findProducts() {
+    void Find_products_price_and_time() {
+        String pmin = "10";
+        String pmax = "100";
+        String tmin = "10";
+        String tmax = "100";
+
+        productService.findProducts(Optional.of(pmin), Optional.of(pmax),
+                Optional.of(tmin), Optional.of(tmax), Optional.empty());
+
+        verify(productRepository).findProductsByPriceAndTime(BigDecimal.valueOf(Integer.parseInt(pmin)),
+                BigDecimal.valueOf(Integer.parseInt(pmax)),
+                Integer.parseInt(tmin),
+                Integer.parseInt(tmax));
+    }
+
+    @Test
+    void Find_products_by_name() {
+        String name = "name";
+
+        productService.findProducts(Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.of(name));
+
+        verify(productRepository).findAllByNameContainingIgnoreCase(name);
+    }
+
+    @Test
+    void Find_all_products() {
+        String name = "name";
+
+        productService.findProducts(Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(), Optional.empty());
+
+        verify(productRepository).findAll();
     }
 }

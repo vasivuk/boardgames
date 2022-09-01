@@ -2,11 +2,13 @@ package com.vasivuk.boardgames.controller;
 
 import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.exception.ForbiddenResourceException;
+import com.vasivuk.boardgames.exception.InvalidOrderException;
 import com.vasivuk.boardgames.model.Order;
 import com.vasivuk.boardgames.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.vasivuk.boardgames.configuration.Routes.ID;
@@ -52,9 +54,10 @@ public class OrderController {
      * Metoda unosi u sistem novu porudzbinu
      * @param order nova porudzbina koju treba uneti u sistem
      * @return kreirana porudzbina
+     * @throws InvalidOrderException u slucaju da neki deo porudzbine nije ispravan
      */
     @PostMapping("/api/orders")
-    public Order createOrder(@RequestBody Order order) {
+    public Order createOrder(@Valid @RequestBody Order order) throws InvalidOrderException {
         return orderService.createOrder(order);
     }
 }

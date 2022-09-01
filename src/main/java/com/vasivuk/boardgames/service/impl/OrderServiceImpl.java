@@ -2,6 +2,7 @@ package com.vasivuk.boardgames.service.impl;
 
 import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.exception.ForbiddenResourceException;
+import com.vasivuk.boardgames.exception.InvalidOrderException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.Order;
 import com.vasivuk.boardgames.model.OrderItem;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,10 +27,8 @@ import java.util.Optional;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
     private OrderRepository orderRepository;
 
-    @Autowired
     private UserRepository userRepository;
 
     @Override
@@ -36,25 +36,30 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findOrdersByUserId(userId);
     }
 
-    /**
-     *
-     * @param order
-     * @return
-     */
     @Override
-    public Order createOrder(Order order) {
+    public Order createOrder(Order order) throws InvalidOrderException {
 
-        if(order.getUser() == null) {
-            log.info("User not present");
+        //Check if user exists in database
+        Optional<AppUser> orderUser = userRepository.findByEmail(order.getUser().getEmail());
+        if(orderUser.isEmpty()) {
+            throw new InvalidOrderException("User that requested an order is not registered.");
         }
-        BigDecimal total = new BigDecimal(0);
+
         order.setDateSubmitted(new Date());
+        BigDecimal total = new BigDecimal(0);
+        //Save order without items, so we get order ID to attach on our items
         Order savedOrder = orderRepository.save(order);
         for(OrderItem item: order.getOrderItems()) {
             item.setSubTotal(item.getProduct().getPrice().multiply(new BigDecimal(item.getQuantity())));
+            if(item.getSubTotal().compareTo(new BigDecimal(0)) <= 0) {
+                throw new InvalidOrderException("Item price must be more than zero");
+            }
             item.setProductName(item.getProduct().getName());
             total = total.add(item.getSubTotal());
             item.setOrder(savedOrder);
+        }
+        if(total.compareTo(new BigDecimal(0)) <= 0) {
+            throw new InvalidOrderException("Total price must be more than zero");
         }
         order.setTotalPrice(total);
         return orderRepository.save(order);
@@ -70,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
         AppUser userThatRequestedOrder = userRepository.getById(userId);
 
         // If the user is not ADMIN and userId on the order is different from user fetching it...
-        if (!userThatRequestedOrder.getUserRole().equals("ADMIN") && order.getUser().getId() != userId) {
+        if ( !userThatRequestedOrder.getUserRole().equals("ADMIN") && !Objects.equals(order.getUser().getId(), userId)) {
             throw new ForbiddenResourceException("The order is not made by user that requested it.");
         }
         return order;

@@ -26,4 +26,7 @@ public class AppUserDTO {
     @Size(min = 5)
     private String password;
 
+    private String country;
+    private String city;
+    private String address;
 }

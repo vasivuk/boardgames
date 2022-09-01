@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
@@ -42,9 +43,8 @@ public class OrderItem {
     /**
      * Broj kupljenih proizvoda ovog tipa
      */
+    @Positive
     private int quantity;
-
-
     /**
      * Ime proizvoda sa kojim je vezana stavka prikazano kao String
      */
@@ -52,15 +52,13 @@ public class OrderItem {
     /**
      * Ukupna cena stavke, zbog perzistencije ubacena, kao BigDecimal
      */
-    @NotBlank(message = "Order item must have a price")
-    @Positive
     private BigDecimal subTotal;
 
     /**
      * Proizvod koji je vezan za stavku porudzbine
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @NotBlank(message = "Order Item has to have a product attached to it.")
+    @NotNull(message = "Order Item has to have a product attached to it.")
     private Product product;
 
     /**

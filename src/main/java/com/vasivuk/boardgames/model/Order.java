@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
@@ -50,13 +52,14 @@ public class Order {
      * Korisnik koji je napravio porudzbinu
      */
     @ManyToOne(fetch = FetchType.EAGER)
-    @NotBlank(message = "AppUser is mandatory")
+    @NotNull(message = "AppUser is mandatory")
     private AppUser user;
 
     /**
      * Stavke porudzbine kao lista
      */
     @OneToMany(mappedBy = "order", orphanRemoval = true, cascade = CascadeType.ALL)
+    @NotEmpty(message = "Can't have order without order items")
     private List<OrderItem> orderItems;
 
     /**

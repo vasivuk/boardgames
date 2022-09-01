@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Positive;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -19,6 +16,8 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class ProductDTO {
+    @NotNull(message = "Name cannot be null")
+    @NotEmpty(message = "Name cannot be empty")
     @Size(max = 40)
     private String name;
     private String imageUrl;
@@ -36,5 +35,5 @@ public class ProductDTO {
     @Min(0)
     private int stockQuantity;
 
-    Set<Category> categories;
+    private Set<Category> categories;
 }

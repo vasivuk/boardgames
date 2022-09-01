@@ -37,7 +37,7 @@ public class Category {
     private Long id;
 
     /**
-     * Ime katgorije kao String
+     * Ime kategorije kao String
      */
     @NotBlank(message = "Name is mandatory")
     @Size(max = 30)
