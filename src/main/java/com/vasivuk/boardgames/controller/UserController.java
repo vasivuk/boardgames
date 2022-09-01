@@ -32,44 +32,72 @@ import static com.vasivuk.boardgames.configuration.Routes.*;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * UserController kontroler obradjuje zahteve vezane za korisnike sistema
+ */
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 @CrossOrigin(origins = "http://localhost:3000/**", allowCredentials = "true")
 public class UserController {
 
-    /*
-    -CreateUser(User)
-    -Login(User)
-    -Logout(User)
-    -EditUserData(User)
+    /**
+     * Servis u kome se nalazi poslovna logika vezana za korisnike
      */
     private final UserService service;
 
+    /**
+     * Metoda koja poziva servis da vrati sve korisnike
+     * @return svi korisnici sistema
+     */
     @GetMapping("/api/users")
     public List<AppUser> getUsers() {
         return service.getUsers();
     }
 
+    /**
+     * Metoda vraca korisnika na osnovu prosledjene email adrese
+     * @param email email adresa korisnika
+     * @return korisnika
+     * @throws EntityNotFoundException u slucaju da korisnik nije pronadjen
+     */
     @GetMapping("/api/users/user")
     public AppUser fetchUserByEmail(@RequestParam("email") String email) throws EntityNotFoundException {
         return service.findUserByEmail(email);
     }
 
+    /**
+     * Metoda vraca korisnika na osnovu njegovog identifikacionog broja u sistemu
+     * @param id identifikacioni broj korisnika sistema
+     * @return korisnik sistema
+     * @throws EntityNotFoundException u slucaju da korisnik nije pronadjen
+     */
     @GetMapping(USER_COMMON + ID)
     public AppUser findUserById(@PathVariable("id") Long id) throws EntityNotFoundException {
         return service.findUserById(id);
     }
 
+    /**
+     * Metoda salje zahtev za registraciju korisnika
+     * @param appUser novi korisnik
+     * @return novi kreirani korisnik
+     * @throws EntityAlreadyExistsException u slucaju da korisnik sa prosledjenim emailom vec postoji u bazi
+     */
     @PostMapping("/api/register")
     public AppUser createUser(@RequestBody @Valid AppUserDTO appUser) throws EntityAlreadyExistsException {
         return service.saveUser(appUser);
     }
 
+    /**
+     * Metoda odjavljuje korisnika iz sistema
+     * @param request serverski zahtev
+     * @param response serverski odgovor
+     * @param refreshToken token za obnavljanje tokena za autorizaciju
+     * @return poruka o uspesnosti
+     */
     @GetMapping("/api/logout")
     public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response,
                                          @CookieValue(value = "refreshToken") String refreshToken) {
-        log.info("In logout controller");
         if (refreshToken.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -83,6 +111,13 @@ public class UserController {
         return ResponseEntity.ok("Successfully logged out");
     }
 
+    /**
+     * Metoda koja se poziva kada treba da se obnovi token za autorizaciju
+     * @param request serverski zahtev
+     * @param response serverski odgovor
+     * @param refreshToken token za obnavljanje tokena za autorizaciju
+     * @throws IOException u slucaju da dodje do greske pri unosu
+     */
     @GetMapping("/api/token/refresh")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response,
                              @CookieValue(value = "refreshToken") String refreshToken) throws IOException {
@@ -116,6 +151,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Metoda dodaje ulogu admina nekom korisniku
+     * @param id identifikacioni broj korisnika
+     * @throws EntityNotFoundException u slucaju da korisnik sa id-om nije pronadjen
+     */
     @GetMapping(USER_COMMON + ID + ASSIGN_ADMIN)
     public void assignAdminRole(@PathVariable Long id) throws EntityNotFoundException {
         service.assignAdminRoleToUser(id);
