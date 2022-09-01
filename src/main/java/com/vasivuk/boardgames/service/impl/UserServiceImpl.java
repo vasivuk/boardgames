@@ -50,6 +50,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         userToSave.setEmail(appUser.getEmail());
         userToSave.setPassword(passwordEncoder.encode(appUser.getPassword()));
         userToSave.setUserRole(UserRole.USER);
+        userToSave.setCountry(appUser.getCountry());
+        userToSave.setCity(appUser.getCity());
+        userToSave.setAddress(appUser.getAddress());
         log.info("Saving user {} ", userToSave.getEmail());
 
         return userRepository.save(userToSave);

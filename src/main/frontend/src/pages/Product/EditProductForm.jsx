@@ -15,6 +15,7 @@ const EditProductForm = () => {
   const COMPLEXITY_REGEX = /^[0-4]$|([0-4]\.[0-9]{1,2}$)/;
   const PLAYERS_REGEX = /^\d-\d{1,2}$|^\d{1,2}$/;
   const TIME_REGEX = /^[1-9][0-9]*$/;
+  const STOCK_REGEX = /^[1-9][0-9]*$/;
 
   const [product, setProduct] = useState({
     name: "",
@@ -25,6 +26,7 @@ const EditProductForm = () => {
     numberOfPlayers: "",
     gameTime: "",
     rating: 0,
+    stockQuantity: "",
   });
 
   const { id } = useParams();
@@ -41,6 +43,7 @@ const EditProductForm = () => {
   const [validComplexity, setValidComplexity] = useState(false);
   const [validNumOfPlayers, setValidNumOfPlayers] = useState(false);
   const [validGameTime, setValidGameTime] = useState(false);
+  const [validStockQuantity, setValidStockQuantity] = useState(false);
 
   useEffect(() => {
     setValidName(NAME_REGEX.test(product.name));
@@ -61,6 +64,10 @@ const EditProductForm = () => {
   useEffect(() => {
     setValidGameTime(TIME_REGEX.test(product.gameTime));
   }, [product.gameTime]);
+
+  useEffect(() => {
+    setValidStockQuantity(STOCK_REGEX.test(product.stockQuantity));
+  }, [product.stockQuantity]);
 
   useEffect(() => {
     axios
@@ -116,11 +123,16 @@ const EditProductForm = () => {
   function handleSubmit(e) {
     e.preventDefault();
     if (
-      product.name === "" ||
+      !validName ||
       product.description === "" ||
-      product.price <= 0
+      !validPrice ||
+      !validComplexity ||
+      !validNumOfPlayers ||
+      !validGameTime ||
+      !validPrice ||
+      !validStockQuantity
     ) {
-      setErrorMessage("Invalid product data, a field is empty");
+      setErrorMessage("Invalid product data, a field is invalid");
       return;
     }
     const productWithCategories = {
@@ -260,6 +272,18 @@ const EditProductForm = () => {
                 }
               />
 
+              {/* Quantity in stock */}
+              <FormInput
+                type="text"
+                name="stockQuantity"
+                label={"Stock quantity: "}
+                onChange={handleChange}
+                placeholder="10"
+                value={product.stockQuantity}
+                valid={validStockQuantity}
+                validMsg={"Field must be a valid number"}
+              />
+
               {/* Rating */}
               <p className="text-sm">Rating:</p>
               <div className="flex items-center">
@@ -310,7 +334,8 @@ const EditProductForm = () => {
               product.description === "" ||
               !validComplexity ||
               !validNumOfPlayers ||
-              !validGameTime
+              !validGameTime ||
+              !validStockQuantity
             }
             onClick={handleSubmit}
             className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 w-full enabled:hover:bg-secondary-standard disabled:opacity-50"
