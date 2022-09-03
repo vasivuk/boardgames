@@ -1,12 +1,8 @@
 package com.vasivuk.boardgames.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -15,6 +11,7 @@ import java.util.List;
 
 /**
  * Klasa predstavlja korisnikovu porudžbinu.
+ *
  * @author Vale
  */
 
@@ -24,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Order {
     /**
      * Identifikacioni broj porudzbine, generisana vrednost
@@ -38,6 +36,7 @@ public class Order {
             strategy = GenerationType.SEQUENCE,
             generator = "order_sequence"
     )
+    @EqualsAndHashCode.Include
     private Long id;
     /**
      * Datum prihvatanja porudzbine

@@ -1,8 +1,6 @@
 package com.vasivuk.boardgames.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -19,6 +17,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Category {
 
     /**
@@ -48,6 +47,7 @@ public class Category {
      * Opis kategorije kao String
      */
     @Size(max = 1000)
+    @EqualsAndHashCode.Exclude
     private String description;
 
 }

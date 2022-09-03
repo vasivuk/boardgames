@@ -1,9 +1,6 @@
 package com.vasivuk.boardgames.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -21,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Product {
 
     /**
@@ -36,12 +34,14 @@ public class Product {
             strategy = GenerationType.SEQUENCE,
             generator = "product_sequence"
     )
+    @EqualsAndHashCode.Include
     private Long id;
-    @NotBlank(message = "Name is mandatory")
-    @Size(max = 23)
     /**
      * Ime drustvene igre kao String
      */
+    @NotBlank(message = "Name is mandatory")
+    @Size(max = 23)
+    @EqualsAndHashCode.Include
     private String name;
     /**
      * URL Friendly ime drustvene igre

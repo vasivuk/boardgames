@@ -1,10 +1,7 @@
 package com.vasivuk.boardgames.model.dto;
 
 import com.vasivuk.boardgames.model.Category;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
@@ -15,10 +12,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class ProductDTO {
-    @NotNull(message = "Name cannot be null")
-    @NotEmpty(message = "Name cannot be empty")
+    @NotBlank(message = "Name cannot be blank")
     @Size(max = 40)
+    @EqualsAndHashCode.Include
     private String name;
     private String imageUrl;
     @Positive
