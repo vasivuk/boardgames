@@ -6,6 +6,8 @@ import FormInput from "../../components/form/FormInput";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const RegisterForm = () => {
+  const [countries, setCountries] = useState([]);
+
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -18,6 +20,26 @@ const RegisterForm = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://restcountries.com/v3.1/region/europe
+    `
+      )
+      .then((response) => {
+        setCountries(
+          response?.data.map((dataEntry) => dataEntry?.name?.common)
+        );
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const countriesElements = countries.map((country) => (
+    <option className="w-full text-black" key={country} value={country}>
+      {country}
+    </option>
+  ));
 
   useEffect(() => {
     setErrorMessage("");
@@ -82,7 +104,7 @@ const RegisterForm = () => {
               placeholder="John"
               type="text"
               value={user.firstName}
-              required={true}
+              required
             />
 
             <FormInput
@@ -92,6 +114,7 @@ const RegisterForm = () => {
               placeholder="Smith"
               type="text"
               value={user.lastName}
+              required
             />
 
             <FormInput
@@ -101,6 +124,7 @@ const RegisterForm = () => {
               placeholder="example@email.com"
               type="email"
               value={user.email}
+              required
             />
 
             <FormInput
@@ -109,16 +133,21 @@ const RegisterForm = () => {
               onChange={handleChange}
               type="password"
               value={user.password}
+              required
             />
 
-            <FormInput
-              label="Country"
-              name="country"
-              onChange={handleChange}
-              placeholder="Serbia"
-              type="text"
+            <label htmlFor="country" className="block text-sm font-normal">
+              Country
+            </label>
+            <select
+              id="country"
+              className="h-9 w-full my-1 px-2 py-2 text-color_text-dark rounded"
               value={user.country}
-            />
+              onChange={handleChange}
+              name="country"
+            >
+              {countriesElements}
+            </select>
 
             <FormInput
               label="City"
