@@ -55,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
         return repository.save(productToSave);
     }
 
-    public Product updateProduct(Long id, Product product) throws EntityNotFoundException, EntityAlreadyExistsException {
+    public Product updateProduct(Long id, ProductDTO product) throws EntityNotFoundException, EntityAlreadyExistsException {
         Optional<Product> oldProduct = repository.findById(id);
         if (oldProduct.isEmpty()) {
             throw new EntityNotFoundException("Product doesn't exist.");

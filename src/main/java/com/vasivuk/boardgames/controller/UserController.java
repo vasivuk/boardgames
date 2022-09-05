@@ -90,13 +90,12 @@ public class UserController {
 
     /**
      * Metoda odjavljuje korisnika iz sistema
-     * @param request serverski zahtev
      * @param response serverski odgovor
      * @param refreshToken token za obnavljanje tokena za autorizaciju
      * @return poruka o uspesnosti
      */
     @GetMapping("/api/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response,
+    public ResponseEntity<String> logout(HttpServletResponse response,
                                          @CookieValue(value = "refreshToken") String refreshToken) {
         if (refreshToken.isEmpty()) {
             return ResponseEntity.noContent().build();
@@ -113,13 +112,12 @@ public class UserController {
 
     /**
      * Metoda koja se poziva kada treba da se obnovi token za autorizaciju
-     * @param request serverski zahtev
      * @param response serverski odgovor
      * @param refreshToken token za obnavljanje tokena za autorizaciju
      * @throws IOException u slucaju da dodje do greske pri unosu
      */
     @GetMapping("/api/token/refresh")
-    public void refreshToken(HttpServletRequest request, HttpServletResponse response,
+    public void refreshToken(HttpServletResponse response,
                              @CookieValue(value = "refreshToken") String refreshToken) throws IOException {
         Algorithm algorithm = Algorithm.HMAC256(Constants.SECRET.getBytes());
         JWTVerifier verifier = JWT.require(algorithm).build();

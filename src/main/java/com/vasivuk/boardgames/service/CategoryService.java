@@ -3,7 +3,6 @@ package com.vasivuk.boardgames.service;
 import com.vasivuk.boardgames.exception.EntityAlreadyExistsException;
 import com.vasivuk.boardgames.exception.EntityNotFoundException;
 import com.vasivuk.boardgames.model.Category;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.List;
 

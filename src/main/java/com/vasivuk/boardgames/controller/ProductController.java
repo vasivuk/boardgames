@@ -77,7 +77,7 @@ public class ProductController {
      * @throws EntityAlreadyExistsException u slucaju da novo ime vec postoji u bazi
      */
     @PutMapping(PRODUCT_COMMON + ID)
-    public Product updateProduct(@PathVariable("id") Long id, @Valid  @RequestBody Product product) throws EntityNotFoundException, EntityAlreadyExistsException {
+    public Product updateProduct(@PathVariable("id") Long id, @Valid  @RequestBody ProductDTO product) throws EntityNotFoundException, EntityAlreadyExistsException {
         return service.updateProduct(id, product);
     }
 

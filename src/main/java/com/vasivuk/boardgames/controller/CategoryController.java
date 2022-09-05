@@ -29,11 +29,10 @@ public class CategoryController {
 
     /**
      * Metoda vraca sve kategorije iz baze
-     * @param response serverski odgovor
      * @return Serverski odgovor 200 ako su pronadjene kategorije
      */
     @GetMapping(CATEGORY_COMMON)
-    public ResponseEntity<List<Category>> fetchCategories(HttpServletResponse response) {
+    public ResponseEntity<List<Category>> fetchCategories() {
         return ResponseEntity.ok(categoryService.findAllCategories());
     }
 

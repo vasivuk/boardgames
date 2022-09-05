@@ -115,7 +115,7 @@ class ProductServiceTest {
         given(productRepository.findByNameIgnoreCase(product.getName())).willReturn(Optional.empty());
         given(productRepository.save(product)).willReturn(product);
 
-        Product updatedProduct = productService.updateProduct(product.getId(), product);
+        Product updatedProduct = productService.updateProduct(product.getId(), productDTO);
 
         assertThat(updatedProduct).isNotNull();
     }
@@ -125,7 +125,7 @@ class ProductServiceTest {
         given(productRepository.findById(product.getId())).willReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class,
-                () -> productService.updateProduct(product.getId(), product));
+                () -> productService.updateProduct(product.getId(), productDTO));
 
         verify(productRepository, never()).save(product);
 
@@ -146,7 +146,7 @@ class ProductServiceTest {
 
         //when
         assertThrows(EntityAlreadyExistsException.class,
-                () -> productService.updateProduct(product.getId(), product));
+                () -> productService.updateProduct(product.getId(), productDTO));
 
         //then
         verify(productRepository, never()).save(product);

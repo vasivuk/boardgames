@@ -35,7 +35,7 @@ public interface ProductService {
      * @param product proizvod sa ažuriranim podacima
      * @return ažurirani proizvod
      */
-    Product updateProduct(Long id, Product product) throws EntityNotFoundException, EntityAlreadyExistsException;
+    Product updateProduct(Long id, ProductDTO product) throws EntityNotFoundException, EntityAlreadyExistsException;
 
     /**
      * Briše proizvod iz sistema
