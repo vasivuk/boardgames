@@ -2,11 +2,14 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 import CartItem from "./CartItem";
 
 const Cart = () => {
   const [cart, setCart] = useOutletContext();
   const [total, setTotal] = useState(0);
+
+  const { auth } = useAuth();
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -60,14 +63,23 @@ const Cart = () => {
             <h2 className="text-xl text-neutral-600 font-semibold">Total:</h2>
             <p className="text-xl text-green-600 font-bold">{total} EUR</p>
           </div>
-          <Link to="/checkout">
-            <button
-              disabled={total <= 0}
-              className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl disabled:opacity-50"
+          {auth?.accessToken ? (
+            <Link to="/checkout">
+              <button
+                disabled={total <= 0}
+                className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl disabled:opacity-50"
+              >
+                Proceed to Checkout
+              </button>
+            </Link>
+          ) : (
+            <Link
+              to={"/login"}
+              className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl hover:bg-primary-light"
             >
-              Proceed to Checkout
-            </button>
-          </Link>
+              Login to Proceed to Checkout
+            </Link>
+          )}
         </div>
       </div>
     </div>

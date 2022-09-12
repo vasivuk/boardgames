@@ -15,7 +15,7 @@ const EditProductForm = () => {
   const COMPLEXITY_REGEX = /^[0-4]$|([0-4]\.[0-9]{1,2}$)/;
   const PLAYERS_REGEX = /^\d-\d{1,2}$|^\d{1,2}$/;
   const TIME_REGEX = /^[1-9][0-9]*$/;
-  const STOCK_REGEX = /^[1-9][0-9]*$/;
+  const STOCK_REGEX = /^0$|^[1-9][0-9]*$/;
 
   const [product, setProduct] = useState({
     name: "",

@@ -61,7 +61,8 @@ const ProductForm = () => {
   }
 
   function handleIncrement() {
-    setQuantity((prevQuantity) => prevQuantity + 1);
+    quantity < product.stockQuantity &&
+      setQuantity((prevQuantity) => prevQuantity + 1);
   }
 
   function handleDecrement() {
@@ -160,13 +161,15 @@ const ProductForm = () => {
                     readOnly
                   />
                   <button
+                    disabled={product.stockQuantity <= 0}
                     onClick={handleAddToCart}
-                    className="rounded text-white font-semibold bg-primary-dark py-2 px-5 hover:bg-primary-light"
+                    className="rounded text-white font-semibold bg-primary-dark py-2 px-5 hover:bg-primary-light disabled:opacity-50 disabled:hover:bg-primary-dark"
                   >
                     Add to Cart
                   </button>
                 </div>
               </div>
+
               {success && (
                 <div className="relative bg-neutral-200 border border-neutral-400 p-2 transform transition-all duration-100 ease-in">
                   <h1 className="text-neutral-700">Product added to cart.</h1>
@@ -178,41 +181,50 @@ const ProductForm = () => {
                   </button>
                 </div>
               )}
-              <table className="table-auto border w-full">
-                <thead className="p-5 text-lg bg-primary-standard">
-                  <tr>
-                    <td
-                      className="text-center text-color_text-light p-2 uppercase font-semibold"
-                      colSpan={2}
-                    >
-                      Basic info
-                    </td>
-                  </tr>
-                </thead>
-                <tbody className="">
-                  <tr className="border-b">
-                    <td className="py-2 px-5">Game time</td>
-                    <td>{product.gameTime}min</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 px-5">Number of players</td>
-                    <td>{product.numberOfPlayers}</td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 px-5">Rating</td>
-                    <td className="py-2">
-                      <div className="flex items-center gap-1">
-                        <span>{product.rating}/5</span>
-                        <FaStar className="text-yellow-500 text-xl" />
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="border-b">
-                    <td className="py-2 px-5">Complexity</td>
-                    <td>{product.complexity}</td>
-                  </tr>
-                </tbody>
-              </table>
+              <div>
+                {product.stockQuantity > 0 ? (
+                  <p className="py-3 font-bold text-green-500">
+                    In stock: {product.stockQuantity}
+                  </p>
+                ) : (
+                  <p className="py-3 text-red-600 font-bold">Out of stock</p>
+                )}
+                <table className="table-auto border w-full">
+                  <thead className="p-5 text-lg bg-primary-standard">
+                    <tr>
+                      <td
+                        className="text-center text-color_text-light p-2 uppercase font-semibold"
+                        colSpan={2}
+                      >
+                        Basic info
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody className="">
+                    <tr className="border-b">
+                      <td className="py-2 px-5">Game time</td>
+                      <td>{product.gameTime}min</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-5">Number of players</td>
+                      <td>{product.numberOfPlayers}</td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-5">Rating</td>
+                      <td className="py-2">
+                        <div className="flex items-center gap-1">
+                          <span>{product.rating}/5</span>
+                          <FaStar className="text-yellow-500 text-xl" />
+                        </div>
+                      </td>
+                    </tr>
+                    <tr className="border-b">
+                      <td className="py-2 px-5">Complexity</td>
+                      <td>{product.complexity}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import axios from "../../api/axios";
 import FormInput from "../../components/form/FormInput";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -18,6 +19,8 @@ const CheckoutPage = () => {
     address: "",
   });
 
+  const [countries, setCountries] = useState([]);
+
   const axiosPrivate = useAxiosPrivate();
 
   useEffect(() => {
@@ -25,6 +28,26 @@ const CheckoutPage = () => {
       cart.reduce((prevValue, cartItem) => prevValue + cartItem?.subTotal, 0)
     );
   }, [cart]);
+
+  useEffect(() => {
+    axios
+      .get(
+        `https://restcountries.com/v3.1/region/europe
+    `
+      )
+      .then((response) => {
+        setCountries(
+          response?.data.map((dataEntry) => dataEntry?.name?.common)
+        );
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const countriesElements = countries.map((country) => (
+    <option className="w-full text-black" key={country} value={country}>
+      {country}
+    </option>
+  ));
 
   //Get logged in user data
   useEffect(() => {
@@ -98,17 +121,23 @@ const CheckoutPage = () => {
                 required={true}
               />
             </div>
-            <FormInput
-              label="Country"
-              lblClassName="text-neutral-700"
-              inputClassName="border-neutral-400 border"
-              name="country"
-              onChange={handleChange}
-              placeholder="Serbia"
-              type="text"
+
+            {/* Country */}
+            <label
+              htmlFor="country"
+              className="block text-sm text-neutral-700 font-normal"
+            >
+              Country
+            </label>
+            <select
+              id="country"
+              className="h-9 w-full my-1 px-2 text-color_text-dark border border-neutral-400 rounded"
               value={userDetails.country}
-              required={true}
-            />{" "}
+              onChange={handleChange}
+              name="country"
+            >
+              {countriesElements}
+            </select>
             <FormInput
               label="City"
               lblClassName="text-neutral-700"

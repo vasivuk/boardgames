@@ -8,6 +8,7 @@ import com.vasivuk.boardgames.model.Order;
 import com.vasivuk.boardgames.model.OrderItem;
 import com.vasivuk.boardgames.model.Product;
 import com.vasivuk.boardgames.repository.OrderRepository;
+import com.vasivuk.boardgames.repository.ProductRepository;
 import com.vasivuk.boardgames.repository.UserRepository;
 import com.vasivuk.boardgames.service.impl.OrderServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,9 +40,12 @@ class OrderServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @Mock
+    private ProductRepository productRepository;
+
     @BeforeEach
     void setUp() {
-        orderService = new OrderServiceImpl(orderRepository, userRepository);
+        orderService = new OrderServiceImpl(orderRepository, userRepository, productRepository);
         OrderItem item1;
         OrderItem item2;
         user = AppUser.builder().id(1L).email("marko@gmail.com").userRole("USER").build();

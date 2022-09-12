@@ -6,8 +6,10 @@ import com.vasivuk.boardgames.exception.InvalidOrderException;
 import com.vasivuk.boardgames.model.AppUser;
 import com.vasivuk.boardgames.model.Order;
 import com.vasivuk.boardgames.model.OrderItem;
+import com.vasivuk.boardgames.model.Product;
 import com.vasivuk.boardgames.repository.CategoryRepository;
 import com.vasivuk.boardgames.repository.OrderRepository;
+import com.vasivuk.boardgames.repository.ProductRepository;
 import com.vasivuk.boardgames.repository.UserRepository;
 import com.vasivuk.boardgames.service.OrderService;
 import lombok.AllArgsConstructor;
@@ -28,11 +30,13 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository) {
+    public OrderServiceImpl(OrderRepository orderRepository, UserRepository userRepository, ProductRepository productRepository) {
         this.orderRepository = orderRepository;
         this.userRepository = userRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -58,6 +62,16 @@ public class OrderServiceImpl implements OrderService {
             if(item.getSubTotal().compareTo(new BigDecimal(0)) <= 0) {
                 throw new InvalidOrderException("Item price must be more than zero");
             }
+            Optional<Product> productFromDb = productRepository.findById(item.getProduct().getId());
+            if(productFromDb.isEmpty()) {
+                throw new InvalidOrderException("Product doesn't exist in system.");
+            }
+            if(productFromDb.get().getStockQuantity() < item.getQuantity()) {
+                throw new InvalidOrderException("Product is not in stock");
+            }
+            productFromDb.get().setStockQuantity(productFromDb.get().getStockQuantity() - item.getQuantity());
+            productRepository.save(productFromDb.get());
+
             item.setProductName(item.getProduct().getName());
             total = total.add(item.getSubTotal());
             item.setOrder(savedOrder);

@@ -27,6 +27,7 @@ public interface ProductService {
      * Čuva novi proizvod u bazi podataka
      * @param product novi proizvod
      * @return sačuvani proizvod
+     * @throws EntityNotFoundException
      */
     Product saveProduct(ProductDTO product) throws EntityAlreadyExistsException;
 

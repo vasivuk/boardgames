@@ -141,7 +141,7 @@ const RegisterForm = () => {
             </label>
             <select
               id="country"
-              className="h-9 w-full my-1 px-2 py-2 text-color_text-dark rounded"
+              className="h-9 w-full my-1 px-2 text-color_text-dark rounded"
               value={user.country}
               onChange={handleChange}
               name="country"
