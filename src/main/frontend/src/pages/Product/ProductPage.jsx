@@ -9,6 +9,7 @@ import {
   Link,
 } from "react-router-dom";
 import axios from "../../api/axios";
+import Button from "../../components/ui/Button";
 import DeleteModal from "../../components/ui/DeleteModal";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
@@ -142,13 +143,13 @@ const ProductForm = () => {
                 <div className="p-5 flex justify-center items-center ">
                   <div className="flex flex-col">
                     <button
-                      className="w-7 h-5 bg-primary-dark rounded-tl border-b text-white justify-center hover:bg-primary-light"
+                      className="w-7 h-5 bg-primary-dark rounded-tl border-b text-white flex items-center justify-center hover:bg-primary-light"
                       onClick={handleIncrement}
                     >
                       +
                     </button>
                     <button
-                      className="w-7 h-5 bg-primary-dark rounded-bl text-white justify-center hover:bg-primary-light"
+                      className="w-7 h-5 bg-primary-dark rounded-bl text-white flex items-center justify-center hover:bg-primary-light"
                       onClick={handleDecrement}
                     >
                       -
@@ -160,13 +161,11 @@ const ProductForm = () => {
                     value={quantity}
                     readOnly
                   />
-                  <button
+                  <Button
                     disabled={product.stockQuantity <= 0}
                     onClick={handleAddToCart}
-                    className="rounded text-white font-semibold bg-primary-dark py-2 px-5 hover:bg-primary-light disabled:opacity-50 disabled:hover:bg-primary-dark"
-                  >
-                    Add to Cart
-                  </button>
+                    text="Add to Cart"
+                  />
                 </div>
               </div>
 

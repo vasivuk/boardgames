@@ -3,6 +3,7 @@ import { axiosPrivate } from "../../api/axios";
 import useAuth from "../../hooks/useAuth";
 import { FiLogOut } from "react-icons/fi";
 import useLogout from "../../hooks/useLogout";
+import Button from "../../components/ui/Button";
 
 const ProfilePage = () => {
   const logout = useLogout();
@@ -53,13 +54,16 @@ const ProfilePage = () => {
             <h1 className="font-bold text-2xl tracking-wider mt-3">
               User Account
             </h1>
-            <button
+            <Button
               onClick={() => logout()}
               className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md flex gap-2 items-center"
-            >
-              <FiLogOut />
-              <p>Logout</p>
-            </button>
+              text={
+                <div className="flex items-center gap-2">
+                  <FiLogOut />
+                  Log Out
+                </div>
+              }
+            />
           </div>
           <h3 className="py-2 border-b ">
             First Name: <span>{user.firstName}</span>

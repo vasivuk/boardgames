@@ -8,6 +8,7 @@ import { MdRemoveCircle } from "react-icons/md";
 import { Rating } from "@mui/material";
 import axios from "../../api/axios";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Button from "../../components/ui/Button";
 
 const EditProductForm = () => {
   const NAME_REGEX = /^\w.{0,23}/;
@@ -219,7 +220,7 @@ const EditProductForm = () => {
               </div>
             </div>
 
-            <form className="flex flex-col gap-1">
+            <form className="flex flex-col gap-1 h-full w-96">
               {/* Name */}
               <FormInput
                 type="text"
@@ -309,7 +310,7 @@ const EditProductForm = () => {
               />
 
               {/* Description */}
-              <div className="items-center justify-center w-full">
+              <div className="items-center justify-center w-full h-96">
                 <label
                   htmlFor="description"
                   className="block text-color_text-light text-sm font-normal"
@@ -319,7 +320,7 @@ const EditProductForm = () => {
                 <textarea
                   id="description"
                   name="description"
-                  className="w-96 rounded-md my-2 px-2 py-2 text-color_text-dark"
+                  className="w-full h-full rounded-md my-2 px-2 py-2 text-color_text-dark"
                   placeholder="Cool description..."
                   value={product.description}
                   onChange={handleChange}
@@ -327,21 +328,23 @@ const EditProductForm = () => {
               </div>
             </form>
           </div>
-          <button
-            disabled={
-              !validName ||
-              !validPrice ||
-              product.description === "" ||
-              !validComplexity ||
-              !validNumOfPlayers ||
-              !validGameTime ||
-              !validStockQuantity
-            }
-            onClick={handleSubmit}
-            className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 w-full enabled:hover:bg-secondary-standard disabled:opacity-50"
-          >
-            Update
-          </button>
+          <div className="py-2">
+            <Button
+              disabled={
+                !validName ||
+                !validPrice ||
+                product.description === "" ||
+                !validComplexity ||
+                !validNumOfPlayers ||
+                !validGameTime ||
+                !validStockQuantity
+              }
+              onClick={handleSubmit}
+              text="Update"
+              dark
+              stretch
+            />
+          </div>
         </div>
       </div>
     </div>

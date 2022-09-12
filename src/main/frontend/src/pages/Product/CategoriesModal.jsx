@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Button from "../../components/ui/Button";
 import CategoryModalItem from "./CategoryModalItem";
 
 const CategoriesModal = ({
@@ -49,25 +50,20 @@ const CategoriesModal = ({
 
   return (
     <>
-      <button
-        className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-5 enabled:hover:bg-secondary-standard disabled:opacity-50"
-        onClick={() => setShowModal(true)}
-      >
-        Add Categories
-      </button>
+      <Button onClick={() => setShowModal(true)} text="Add Categories" dark />
       {showModal ? (
         <>
           <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
             <div className="relative my-6 mx-auto w-1/2">
               {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-200 outline-none focus:outline-none">
+              <div className="rounded-lg shadow-lg relative flex flex-col w-full bg-neutral-200 outline-none focus:outline-none">
                 {/*header*/}
                 <input
                   type="text"
                   placeholder="Search Categories..."
                   onChange={handleChange}
                   value={searchParam}
-                  className="flex items-start justify-between p-4 border-b border-solid text-color_text-dark border-slate-200 rounded-t focus:outline-none"
+                  className="flex items-start justify-between p-4 border-b border-solid text-color_text-dark border-neutral-300 rounded-t focus:outline-none"
                 ></input>
                 {/*body*/}
                 <div className="relative flex-auto min-w-2">

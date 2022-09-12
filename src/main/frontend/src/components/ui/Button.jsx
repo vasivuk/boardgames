@@ -1,10 +1,17 @@
 import React from "react";
 
-const Button = ({ text, operation }) => {
+const Button = ({ text, onClick, disabled, dark, stretch }) => {
   return (
     <button
-      onClick={operation}
-      className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-6 hover:bg-secondary-standard"
+      disabled={disabled}
+      onClick={onClick}
+      className={
+        "rounded-lg text-white py-2 px-6 disabled:opacity-50 " +
+        (dark
+          ? "bg-green-800 enabled:hover:bg-green-900 "
+          : "bg-primary-dark enabled:hover:bg-primary-light ") +
+        (stretch && "w-full")
+      }
     >
       {text}
     </button>

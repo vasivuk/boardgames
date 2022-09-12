@@ -5,6 +5,7 @@ import axios from "../../api/axios";
 import FilterSection from "./FilterSection";
 import ProductListSection from "./ProductListSection";
 import useAuth from "../../hooks/useAuth";
+import Button from "../../components/ui/Button";
 
 const ProductsPage = () => {
   const [products, setProducts] = useState([]);
@@ -94,9 +95,7 @@ const ProductsPage = () => {
       </h1>
       {auth?.role === "ADMIN" && (
         <Link to={"./create"}>
-          <button className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md">
-            Add New Product
-          </button>
+          <Button text="Add a New Product" />
         </Link>
       )}
       <div className="flex self-start py-10 gap-10 overflow-hidden">
@@ -111,9 +110,7 @@ const ProductsPage = () => {
           handleGameTimeChange={handleGameTimeChange}
           searchParam={searchParam}
           setSearchParam={setSearchParam}
-          sendSignal={() =>
-            setSignal((prevSignal) => !prevSignal)
-          }
+          sendSignal={() => setSignal((prevSignal) => !prevSignal)}
         />
         <ProductListSection products={products} loading={loading} />
       </div>

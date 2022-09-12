@@ -7,6 +7,7 @@ import { MdRemoveCircle } from "react-icons/md";
 import { Rating } from "@mui/material";
 import axios from "../../api/axios";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
+import Button from "../../components/ui/Button";
 
 const NewProductForm = () => {
   const NAME_REGEX = /^\w.{0,23}/;
@@ -344,21 +345,23 @@ const NewProductForm = () => {
                 </div>
               </form>
             </div>
-            <button
-              disabled={
-                !validName ||
-                !validPrice ||
-                product.description === "" ||
-                !validComplexity ||
-                !validNumOfPlayers ||
-                !validGameTime ||
-                !validStockQuantity
-              }
-              onClick={handleSubmit}
-              className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 w-full enabled:hover:bg-secondary-standard disabled:opacity-50"
-            >
-              Create
-            </button>
+            <div className="py-2">
+              <Button
+                disabled={
+                  !validName ||
+                  !validPrice ||
+                  product.description === "" ||
+                  !validComplexity ||
+                  !validNumOfPlayers ||
+                  !validGameTime ||
+                  !validStockQuantity
+                }
+                onClick={handleSubmit}
+                text="Create"
+                dark
+                stretch
+              />
+            </div>
           </div>
         )}
       </div>

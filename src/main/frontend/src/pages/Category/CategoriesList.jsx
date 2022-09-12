@@ -1,9 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "../../api/axios";
-import DeleteModal from "../../components/ui/DeleteModal";
+import Button from "../../components/ui/Button";
 import useAuth from "../../hooks/useAuth";
 
 const CategoriesList = () => {
@@ -19,10 +19,6 @@ const CategoriesList = () => {
     });
   }, []);
 
-  function handleDelete(category) {
-    console.log(category);
-  }
-
   function handleCategoryClick(category) {
     navigate(`./${category.id}/${category.name}`);
   }
@@ -35,9 +31,7 @@ const CategoriesList = () => {
         </h1>
         {auth?.role === "ADMIN" && (
           <Link to={"./create"}>
-            <button className="px-6 py-2 bg-primary-standard text-color_text-light rounded-md">
-              Add New Category
-            </button>
+            <Button text="Add a New Category" />
           </Link>
         )}
         <br />
@@ -67,12 +61,6 @@ const CategoriesList = () => {
                   {category.name}
                 </th>
                 <td className="py-4 px-6">{category.description}</td>
-                <td className="py-4 px-6">
-                  <DeleteModal
-                    handleDelete={() => handleDelete(category)}
-                    message="Are you sure you want to delete this category?"
-                  />
-                </td>
               </tr>
             ))}
           </tbody>

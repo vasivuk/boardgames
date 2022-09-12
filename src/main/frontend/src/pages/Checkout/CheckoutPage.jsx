@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import axios from "../../api/axios";
 import FormInput from "../../components/form/FormInput";
+import Button from "../../components/ui/Button";
 import useAuth from "../../hooks/useAuth";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
@@ -183,7 +184,7 @@ const CheckoutPage = () => {
               Total: <span className="text-green-700">{total} EUR</span>
             </h3>
             <div className="my-3">
-              <button
+              <Button
                 disabled={
                   total <= 0 ||
                   userDetails.firstName === "" ||
@@ -194,10 +195,8 @@ const CheckoutPage = () => {
                   userDetails.address === ""
                 }
                 onClick={handleOrderSubmit}
-                className="p-3 bg-primary-dark text-white font-semibold text-lg rounded-xl hover:bg-primary-light disabled:opacity-50"
-              >
-                Place Order
-              </button>
+                text="Place Order"
+              />
             </div>
           </div>
         </div>

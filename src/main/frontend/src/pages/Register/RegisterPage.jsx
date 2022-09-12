@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../../api/axios";
 import FormInput from "../../components/form/FormInput";
+import Button from "../../components/ui/Button";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const RegisterForm = () => {
@@ -167,8 +168,8 @@ const RegisterForm = () => {
               value={user.address}
             />
 
-            <div className="h-14 w-full my-4 pt-4 space-x-4">
-              <button
+            <div className="pt-5">
+              <Button
                 disabled={
                   user.firstName === "" ||
                   user.lastName === "" ||
@@ -176,10 +177,10 @@ const RegisterForm = () => {
                   user.password === ""
                 }
                 onClick={handleSubmit}
-                className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 px-6 enabled:hover:bg-secondary-standard disabled:opacity-50"
-              >
-                Create Account
-              </button>
+                text="Create Account"
+                stretch
+                dark
+              />
             </div>
           </div>
         )}

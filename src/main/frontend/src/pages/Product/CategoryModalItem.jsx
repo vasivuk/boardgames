@@ -2,14 +2,14 @@ import React from "react";
 
 const CategoryModalItem = ({ category, isSelected, handleClick }) => {
   const selected = isSelected
-    ? "bg-primary-light text-color_text-light"
-    : "bg-secondary-standard";
+    ? "bg-primary-light text-white"
+    : "bg-neutral-200 text-neutral-700";
 
   return (
     <li
       onClick={() => handleClick(category)}
       className={
-        "border-b p-4 text-color_text-dark hover:bg-primary-light hover:text-color_text-light " +
+        "border-b border-neutral-300 p-4 hover:bg-primary-light hover:text-white " +
         selected
       }
     >

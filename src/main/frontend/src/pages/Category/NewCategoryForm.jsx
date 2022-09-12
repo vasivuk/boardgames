@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import Button from "../../components/ui/Button";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
@@ -99,13 +100,15 @@ const NewCategoryForm = () => {
                 onChange={handleChange}
               />
             </div>
-            <button
-              disabled={category.name === "" || category.description === ""}
-              onClick={handleSubmit}
-              className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 my-5 w-full enabled:hover:bg-secondary-standard disabled:opacity-50"
-            >
-              Create
-            </button>
+            <div className="pt-5">
+              <Button
+                disabled={category.name === "" || category.description === ""}
+                onClick={handleSubmit}
+                text="Create"
+                dark
+                stretch
+              />
+            </div>
           </form>
         )}
       </div>

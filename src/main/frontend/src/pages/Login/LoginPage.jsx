@@ -3,6 +3,8 @@ import AuthContext from "../../context/AuthProvider";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import axios from "../../api/axios";
+import Button from "../../components/ui/Button";
+import FormInput from "../../components/form/FormInput";
 
 const LoginForm = () => {
   const { setAuth } = useContext(AuthContext);
@@ -63,55 +65,41 @@ const LoginForm = () => {
   return (
     <div className="w-full min-h-screen flex justify-center items-start mt-10">
       {/* Login form */}
-      <div className="flex max-w-2xl border-b mx-auto bg-primary-standard text-color_text-light rounded-md">
-        <div className="p-8">
+      <div className="flex max-w-2xl border-b mx-auto bg-primary-standard text-color_text-light rounded-md w-96">
+        <div className="p-8 w-full">
           {errorMessage && <ErrorMessage message={errorMessage} />}
           <div className="font-thin text-2xl tracking-wider py-3">
             <h1>Log In</h1>
           </div>
-          <form>
-            <div className="items-center justify-center h-14 w-full my-4">
-              <label
-                htmlFor=""
-                className="block text-color_text-light text-sm font-normal"
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                name="email"
-                onChange={(e) => handleChange(e)}
-                autoComplete="off"
-                className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
-                value={user.email}
-                required
-              ></input>
-            </div>
+          <form className="w-full">
+            <FormInput
+              label="Email"
+              name="email"
+              onChange={handleChange}
+              placeholder="example@email.com"
+              type="email"
+              value={user.email}
+              required
+            />
 
-            <div className="h-14 w-full my-4">
-              <label
-                htmlFor=""
-                className="block text-color_text-light text-sm font-normal"
-              >
-                Password
-              </label>
-              <input
-                className="h-10 w-96 border mt-2 px-2 py-2 text-color_text-dark"
-                type="password"
-                name="password"
-                onChange={(e) => handleChange(e)}
-                value={user.password}
-                required
-              ></input>
-            </div>
+            <FormInput
+              label="Password"
+              name="password"
+              onChange={handleChange}
+              type="password"
+              value={user.password}
+              required
+            />
 
-            <button
-              disabled={user.email === "" || user.password === ""}
-              onClick={handleSubmit}
-              className="rounded text-color_text-dark font-semibold bg-secondary-standard py-2 my-5 w-full enabled:hover:bg-secondary-standard disabled:opacity-50"
-            >
-              Log In
-            </button>
+            <div className="py-5">
+              <Button
+                disabled={user.email === "" || user.password === ""}
+                onClick={handleSubmit}
+                text="Log In"
+                dark
+                stretch
+              />
+            </div>
           </form>
           <p>Don't have an account?</p>
           <Link

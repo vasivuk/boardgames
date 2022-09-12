@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useOutletContext } from "react-router-dom";
+import Button from "../../components/ui/Button";
 import useAuth from "../../hooks/useAuth";
 import CartItem from "./CartItem";
 
@@ -65,12 +66,7 @@ const Cart = () => {
           </div>
           {auth?.accessToken ? (
             <Link to="/checkout">
-              <button
-                disabled={total <= 0}
-                className="p-3 bg-primary-standard text-white font-semibold text-lg rounded-xl disabled:opacity-50"
-              >
-                Proceed to Checkout
-              </button>
+              <Button disabled={total <= 0} text="Proceed to Checkout" />
             </Link>
           ) : (
             <Link
