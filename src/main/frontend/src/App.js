@@ -34,7 +34,6 @@ function App() {
           <Route path="/categories/:id/:title" element={<CategoryPage />} />
 
           <Route path="/cart" element={<Cart />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
 
           {/* Protected routes */}
           <Route element={<RequireAuth allowedRole={"ADMIN"} />}>
@@ -47,6 +46,7 @@ function App() {
           </Route>
           <Route element={<RequireAuth />}>
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Route>
 
           {/* Catch all */}

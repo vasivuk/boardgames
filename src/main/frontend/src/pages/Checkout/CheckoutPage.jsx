@@ -30,6 +30,7 @@ const CheckoutPage = () => {
     );
   }, [cart]);
 
+  //Get countries
   useEffect(() => {
     axios
       .get(
@@ -54,9 +55,23 @@ const CheckoutPage = () => {
   useEffect(() => {
     axiosPrivate
       .get(`/users/user?email=${auth?.email}`)
-      .then((response) => setUser(response.data))
+      .then((response) => {
+        setUser(response.data);
+      })
       .catch((error) => console.log(error));
   }, []);
+
+  useEffect(() => {
+    setUserDetails((prev) => ({
+      ...prev,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      city: user.city,
+      country: user.country,
+      address: user.address,
+    }));
+  }, [user]);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -76,15 +91,13 @@ const CheckoutPage = () => {
   ));
 
   function handleOrderSubmit() {
-    console.log("User email: " + auth?.email);
-    console.log(user);
-    console.log({ orderItems: cart, total, userDetails, user });
     const order = { orderItems: cart, total, userDetails, user };
     axiosPrivate
       .post("/orders", order)
       .then((response) => {
         console.log(response);
         alert("Order submitted!");
+        setCart([]);
       })
       .catch((error) => console.log(error));
   }
@@ -128,7 +141,7 @@ const CheckoutPage = () => {
               htmlFor="country"
               className="block text-sm text-neutral-700 font-normal"
             >
-              Country
+              Country<span className="text-red-500"> *</span>
             </label>
             <select
               id="country"
