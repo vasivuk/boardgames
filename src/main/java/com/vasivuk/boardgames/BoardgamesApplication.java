@@ -1,7 +1,9 @@
 package com.vasivuk.boardgames;
 
+import com.vasivuk.boardgames.configuration.FileStorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,6 +17,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import java.util.Arrays;
 
 @SpringBootApplication
+@EnableConfigurationProperties({
+		FileStorageProperties.class
+})
 public class BoardgamesApplication {
 
 	public static void main(String[] args) {
@@ -48,6 +53,10 @@ public class BoardgamesApplication {
 						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
 						.allowCredentials(true);
 				registry.addMapping("/api/orders")
+						.allowedOrigins("http://localhost:3000")
+						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
+						.allowCredentials(true);
+				registry.addMapping("/api/images/*")
 						.allowedOrigins("http://localhost:3000")
 						.exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")
 						.allowCredentials(true);

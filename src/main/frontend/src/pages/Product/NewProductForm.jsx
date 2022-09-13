@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import FormInput from "../../components/form/FormInput";
@@ -24,6 +25,9 @@ const NewProductForm = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
 
   const [searchParam, setSearchParam] = useState("");
+
+  const [image, setImage] = useState({});
+  const [imagePreview, setImagePreview] = useState();
 
   useEffect(() => {
     axios
@@ -115,6 +119,12 @@ const NewProductForm = () => {
     setProduct({ ...product, [e.target.name]: value });
   };
 
+  function handleImageUpload(e) {
+    setImagePreview(URL.createObjectURL(e.target.files[0]));
+    console.log(e.target.files[0]);
+    setImage(e.target.files[0]);
+  }
+
   // On submit
   function handleSubmit(e) {
     e.preventDefault();
@@ -137,36 +147,51 @@ const NewProductForm = () => {
     };
 
     console.log(productWithCategories);
+    const imageData = new FormData();
+    imageData.append("image", image);
+    console.log(imageData);
+    console.log(image);
+
     axiosPrivate
-      .post("/products/create", product)
-      .then((response) => {
-        console.log(response?.data);
-        setSuccess(true);
-        setProduct({
-          name: "",
-          description: "",
-          price: "",
-          imageUrl: "",
-          complexity: "",
-          numberOfPlayers: "",
-          gameTime: "",
-          rating: 0,
-          stockQuantity: "",
-        });
-        setSelectedCategories([]);
-      })
-      .catch((error) => {
-        console.log(error);
-        if (!error?.response.status) {
-          setErrorMessage("No Server Response");
-        } else if (error.response?.status === 409) {
-          setErrorMessage("Product with supplied name already exists");
-        } else if (error.response?.status === 403) {
-          setErrorMessage("Unauthorized Action");
-        } else {
-          setErrorMessage("Can't create product");
-        }
-      });
+      .post("/images/save", imageData)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+
+    // axiosPrivate
+    //   .post("/products/create", productWithCategories, {
+    //     params: { imageData },
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   })
+    //   .then((response) => {
+    //     console.log(response?.data);
+    //     setSuccess(true);
+    //     setProduct({
+    //       name: "",
+    //       description: "",
+    //       price: "",
+    //       imageUrl: "",
+    //       complexity: "",
+    //       numberOfPlayers: "",
+    //       gameTime: "",
+    //       rating: 0,
+    //       stockQuantity: "",
+    //     });
+    //     setSelectedCategories([]);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     if (!error?.response.status) {
+    //       setErrorMessage("No Server Response");
+    //     } else if (error.response?.status === 409) {
+    //       setErrorMessage("Product with supplied name already exists");
+    //     } else if (error.response?.status === 403) {
+    //       setErrorMessage("Unauthorized Action");
+    //     } else {
+    //       setErrorMessage("Can't create product");
+    //     }
+    //   });
   }
   return (
     <div className="w-full flex justify-center mx-auto items-start my-10">
@@ -192,18 +217,24 @@ const NewProductForm = () => {
                 {/* Image */}
                 <div className="h-96">
                   <img
-                    src={product.imageUrl || genericIcon}
+                    src={imagePreview || genericIcon}
                     alt=""
                     className="max-h-96 rounded-lg border-primary-dark border"
                   />
                 </div>
-                <FormInput
+                {/* <FormInput
                   type="text"
                   name="imageUrl"
                   label={"Image source: "}
                   onChange={handleChange}
                   placeholder="https://localhost:8080/[somegame.jpg]"
                   value={product.imageUrl}
+                /> */}
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleImageUpload}
                 />
                 {/* Categories */}
                 <div>

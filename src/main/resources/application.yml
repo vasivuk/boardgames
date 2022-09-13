@@ -35,3 +35,9 @@ spring:
   config:
     activate:
       on-profile: prod
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+file:
+  upload-dir: "/Vale/boardgames-images"

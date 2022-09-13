@@ -46,4 +46,22 @@ public class ResponseExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorMessage message = new ErrorMessage(HttpStatus.FORBIDDEN, "Forbidden resource", exception.getMessage());
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
     }
+
+    @ExceptionHandler(InvalidOrderException.class)
+    public ResponseEntity<ErrorMessage> invalidOrderException(InvalidOrderException exception, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.FORBIDDEN, "Invalid order: ", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+    }
+
+    @ExceptionHandler(ImageStorageException.class)
+    public ResponseEntity<ErrorMessage> imageStorageException(ImageStorageException exception, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.FORBIDDEN, "Invalid image: ", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+    }
+
+    @ExceptionHandler(MyFileNotFoundException.class)
+    public ResponseEntity<ErrorMessage> myFileNotFoundException(MyFileNotFoundException exception, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.FORBIDDEN, "File not found: ", exception.getMessage());
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(message);
+    }
 }
