@@ -141,57 +141,49 @@ const NewProductForm = () => {
       setErrorMessage("Invalid product data, a field is invalid");
       return;
     }
-    const productWithCategories = {
-      ...product,
-      categories: selectedCategories,
-    };
-
-    console.log(productWithCategories);
     const imageData = new FormData();
     imageData.append("image", image);
-    console.log(imageData);
-    console.log(image);
 
     axiosPrivate
       .post("/images/save", imageData)
-      .then((response) => console.log(response))
+      .then((response) => {
+        const productWithCategories = {
+          ...product,
+          imageUrl: response?.data,
+          categories: selectedCategories,
+        };
+        axiosPrivate
+          .post("/products/create", productWithCategories)
+          .then((response) => {
+            console.log(response?.data);
+            setSuccess(true);
+            setProduct({
+              name: "",
+              description: "",
+              price: "",
+              imageUrl: "",
+              complexity: "",
+              numberOfPlayers: "",
+              gameTime: "",
+              rating: 0,
+              stockQuantity: "",
+            });
+            setSelectedCategories([]);
+          })
+          .catch((error) => {
+            console.log(error);
+            if (!error?.response.status) {
+              setErrorMessage("No Server Response");
+            } else if (error.response?.status === 409) {
+              setErrorMessage("Product with supplied name already exists");
+            } else if (error.response?.status === 403) {
+              setErrorMessage("Unauthorized Action");
+            } else {
+              setErrorMessage("Can't create product");
+            }
+          });
+      })
       .catch((error) => console.log(error));
-
-    // axiosPrivate
-    //   .post("/products/create", productWithCategories, {
-    //     params: { imageData },
-    //     headers: {
-    //       "Content-Type": "multipart/form-data",
-    //     },
-    //   })
-    //   .then((response) => {
-    //     console.log(response?.data);
-    //     setSuccess(true);
-    //     setProduct({
-    //       name: "",
-    //       description: "",
-    //       price: "",
-    //       imageUrl: "",
-    //       complexity: "",
-    //       numberOfPlayers: "",
-    //       gameTime: "",
-    //       rating: 0,
-    //       stockQuantity: "",
-    //     });
-    //     setSelectedCategories([]);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     if (!error?.response.status) {
-    //       setErrorMessage("No Server Response");
-    //     } else if (error.response?.status === 409) {
-    //       setErrorMessage("Product with supplied name already exists");
-    //     } else if (error.response?.status === 403) {
-    //       setErrorMessage("Unauthorized Action");
-    //     } else {
-    //       setErrorMessage("Can't create product");
-    //     }
-    //   });
   }
   return (
     <div className="w-full flex justify-center mx-auto items-start my-10">

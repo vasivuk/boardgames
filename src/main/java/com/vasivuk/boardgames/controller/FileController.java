@@ -35,12 +35,13 @@ public class FileController {
     }
 
     @PostMapping("api/images/save")
-    public void saveProductImage(@RequestBody MultipartFile image) throws ImageStorageException {
+    public ResponseEntity<String> saveProductImage(@RequestBody MultipartFile image) throws ImageStorageException {
         String fileName = fileService.storeImage(image);
         String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/images/")
                 .path(fileName)
                 .toUriString();
         System.out.println(fileDownloadUri);
+        return ResponseEntity.ok().body(fileDownloadUri);
     }
 }
