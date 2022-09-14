@@ -17,6 +17,7 @@ import Cart from "./pages/Cart/Cart";
 import ProfilePage from "./pages/Profile/ProfilePage";
 import CheckoutPage from "./pages/Checkout/CheckoutPage";
 import CategoryPage from "./pages/Category/CategoryPage";
+import EditCategoryPage from "./pages/Category/EditCategoryPage";
 
 function App() {
   return (
@@ -42,6 +43,10 @@ function App() {
             <Route
               path="/boardgames/:id/:title/edit"
               element={<EditProductForm />}
+            />
+            <Route
+              path="/categories/:id/:title/edit"
+              element={<EditCategoryPage />}
             />
           </Route>
           <Route element={<RequireAuth />}>

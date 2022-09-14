@@ -52,7 +52,6 @@ const EditProductForm = () => {
     }
     //If there has been a change in image
     if (image instanceof File) {
-      console.log("If grana");
       const imageData = new FormData();
       imageData.append("image", image);
 

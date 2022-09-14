@@ -135,12 +135,16 @@ const ProductForm = ({
               className="max-h-96 rounded-lg border-primary-dark border"
             />
           </div>
+          <label htmlFor="image" className="text-sm">
+            Product image:{" "}
+          </label>
           <input
+            id="image"
             type="file"
             name="image"
             accept="image/*"
             onChange={handleImageUpload}
-            className="p-2"
+            className="py-2"
           />
           {/* Categories */}
           <div>

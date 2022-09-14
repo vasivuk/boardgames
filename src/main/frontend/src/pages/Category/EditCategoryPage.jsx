@@ -1,22 +1,35 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "../../api/axios";
 import CategoryForm from "../../components/form/CategoryForm";
 import ErrorMessage from "../../components/ui/ErrorMessage";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
-const NewCategoryForm = () => {
+const EditCategoryPage = () => {
+  const { id } = useParams();
+
   const axiosPrivate = useAxiosPrivate();
   const [category, setCategory] = useState({
     name: "",
     description: "",
   });
 
+  const navigate = useNavigate();
+
   const [errorMessage, setErrorMessage] = useState("");
-  const [success, setSuccess] = useState(false);
 
   useEffect(() => {
     setErrorMessage("");
   }, [category.name, category.description]);
+
+  //Get the category when form loads
+  useEffect(() => {
+    axios.get(`categories/${id}`).then((response) => {
+      setCategory(response.data);
+    });
+  }, []);
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -31,11 +44,11 @@ const NewCategoryForm = () => {
     }
 
     axiosPrivate
-      .post("/categories/create", category)
+      .put(`/categories/${category.id}`, category)
       .then((response) => {
         console.log(response?.data);
-        setSuccess(true);
         setCategory({ name: "", description: "" });
+        navigate("/categories");
       })
       .catch((error) => {
         console.log(error);
@@ -54,28 +67,18 @@ const NewCategoryForm = () => {
     <div className="w-full h-screen flex justify-center items-start mt-10">
       <div className="max-w-2xl shadow border-b mx-auto bg-primary-standard text-color_text-light rounded-md p-8">
         {errorMessage && <ErrorMessage message={errorMessage} />}
-        <h1 className="font-thin text-2xl tracking-wider py-3">New Category</h1>
-        {success ? (
-          <div>
-            <h1 className="font-semibold">Category successfully created!</h1>
-            <button
-              className="underline hover:text-yellow-400"
-              onClick={() => setSuccess(false)}
-            >
-              Create more categories
-            </button>
-          </div>
-        ) : (
-          <CategoryForm
-            category={category}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            btnText="Create"
-          />
-        )}
+        <h1 className="font-thin text-2xl tracking-wider py-3">
+          Edit Category
+        </h1>
+        <CategoryForm
+          category={category}
+          handleChange={handleChange}
+          handleSubmit={handleSubmit}
+          btnText="Update"
+        />
       </div>
     </div>
   );
 };
 
-export default NewCategoryForm;
+export default EditCategoryPage;
