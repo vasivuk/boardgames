@@ -4,6 +4,7 @@ import useAuth from "../../hooks/useAuth";
 import { FiLogOut } from "react-icons/fi";
 import useLogout from "../../hooks/useLogout";
 import Button from "../../components/ui/Button";
+import OrderModal from "./OrderModal";
 
 const ProfilePage = () => {
   const logout = useLogout();
@@ -19,15 +20,7 @@ const ProfilePage = () => {
 
   const [orders, setOrders] = useState([]);
 
-  const ordersElement = orders.map((order) => (
-    <tr
-      key={order?.id}
-      className="bg-neutral-300 text-color_text-dark border-b py-3 px-6"
-    >
-      <td className="py-3 px-6">{order?.id}</td>
-      <td className="py-3 px-6">{order?.totalPrice}</td>
-    </tr>
-  ));
+  const ordersElement = orders.map((order) => <OrderModal order={order} />);
 
   const { auth } = useAuth();
 
@@ -90,7 +83,8 @@ const ProfilePage = () => {
             <thead className="text-xs text-white uppercase bg-primary-standard">
               <tr>
                 <th className="py-3 px-6 ">Order No.</th>
-                <th className="py-3 px-6 ">Total price</th>
+                <th className="py-3 px-6 ">Date Submitted</th>
+                <th className="py-3 px-6 ">Total Price</th>
               </tr>
             </thead>
             <tbody>{ordersElement}</tbody>

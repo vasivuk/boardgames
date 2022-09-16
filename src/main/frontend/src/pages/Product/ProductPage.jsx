@@ -54,8 +54,8 @@ const ProductForm = () => {
   function handleDelete() {
     axiosPrivate
       .delete(`/products/${id}`)
-      .then((response) => {
-        console.log(response);
+      .then(() => {
+        alert("Product successfully deleted.");
         navigate("/boardgames");
       })
       .catch((error) => console.log(error));

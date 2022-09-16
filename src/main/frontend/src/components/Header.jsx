@@ -7,7 +7,6 @@ import useAuth from "../hooks/useAuth";
 import { useState } from "react";
 import { ReactComponent as ReactLogo } from "../images/logo.svg";
 import pingu from "../images/pingu.png";
-import pinguILogo from "../images/pinguILogo.png";
 
 const Header = ({ cart }) => {
   const { auth } = useAuth();

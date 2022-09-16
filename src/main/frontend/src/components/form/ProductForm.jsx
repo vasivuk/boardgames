@@ -165,7 +165,9 @@ const ProductForm = ({
               >
                 <div>
                   <p className="text-lg">{category.name}</p>
-                  <p className="text-sm">{category.description}</p>
+                  <p className="text-sm">
+                    {category.description.substring(0, 100)}...
+                  </p>
                 </div>
                 <div
                   className="text-2xl text-white hover:text-red-500"
